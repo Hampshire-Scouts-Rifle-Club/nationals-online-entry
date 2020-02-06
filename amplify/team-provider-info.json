@@ -1,0 +1,22 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-nationals-backend-prod-113230-authRole",
+            "UnauthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationals-backend-prod-113230-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationals-backend-prod-113230-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-nationals-backend-prod-113230-deployment",
+            "UnauthRoleName": "amplify-nationals-backend-prod-113230-unauthRole",
+            "StackName": "amplify-nationals-backend-prod-113230",
+            "StackId": "arn:aws:cloudformation:eu-west-1:274672405337:stack/amplify-nationals-backend-prod-113230/5cfa5e00-48d4-11ea-bb58-0ace5b4cd800",
+            "AmplifyAppId": "d2d1geoaz2t1ye"
+        },
+        "categories": {
+            "auth": {
+                "nationalsbackend647fca59": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            }
+        }
+    }
+}

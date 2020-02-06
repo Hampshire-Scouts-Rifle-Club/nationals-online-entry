@@ -1,0 +1,20 @@
+{
+    "appName": "scoutnationals",
+    "roleName": "pinpointLambdaRole12eaaa3f",
+    "cloudWatchPolicyName": "cloudWatchPolicy12eaaa3f",
+    "pinpointPolicyName": "pinpointPolicy12eaaa3f",
+    "authPolicyName": "pinpoint_amplify_12eaaa3f",
+    "unauthPolicyName": "pinpoint_amplify_12eaaa3f",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

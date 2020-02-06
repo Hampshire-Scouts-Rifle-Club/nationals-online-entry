@@ -1,0 +1,38 @@
+{
+	"auth": {
+		"nationalsbackend647fca59": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"api": {
+		"scoutnationalsentry": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authnationalsbackend647fca59"
+						}
+					}
+				}
+			}
+		}
+	},
+	"analytics": {
+		"scoutnationals": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"storage": {
+		"uploadedimages": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
