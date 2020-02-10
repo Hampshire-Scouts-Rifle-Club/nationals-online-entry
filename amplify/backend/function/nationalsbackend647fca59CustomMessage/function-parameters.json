@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "verification-link"
+    ],
+    "parentResource": "nationalsbackend647fca59",
+    "functionName": "nationalsbackend647fca59CustomMessage",
+    "parentStack": "auth",
+    "triggerEnvs": "[{\"key\":\"RESOURCENAME\",\"value\":\"resourceName\"}]",
+    "triggerTemplate": "CustomMessage.json.ejs",
+    "roleName": "nationalsbackend647fca59CustomMessage",
+    "skipEdit": true,
+    "resourceName": "nationalsbackend647fca59CustomMessage"
+}

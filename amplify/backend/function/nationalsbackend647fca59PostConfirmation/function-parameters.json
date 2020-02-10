@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "nationalsbackend647fca59",
+    "functionName": "nationalsbackend647fca59PostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "nationalsbackend647fca59PostConfirmation",
+    "skipEdit": true,
+    "resourceName": "nationalsbackend647fca59PostConfirmation"
+}

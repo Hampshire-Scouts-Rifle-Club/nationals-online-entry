@@ -14,7 +14,19 @@
         "categories": {
             "auth": {
                 "nationalsbackend647fca59": {
-                    "hostedUIProviderCreds": "[]"
+                    "facebookAppId": "201867554548489",
+                    "googleClientId": "640256100200-mgqh02vo0ep8m6tnaes4h8jnamncs4di.apps.googleusercontent.com",
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"201867554548489\",\"client_secret\":\"b1af87859c9b76237e7fbf659c34d987\"},{\"ProviderName\":\"Google\",\"client_id\":\"640256100200-mgqh02vo0ep8m6tnaes4h8jnamncs4di.apps.googleusercontent.com\",\"client_secret\":\"J3hn78BLj8PRtfqtrBi9vapd\"}]"
+                }
+            },
+            "function": {
+                "nationalsbackend647fca59CustomMessage": {
+                    "REDIRECTURL": "https://master.d2d1geoaz2t1ye.amplifyapp.com",
+                    "EMAILSUBJECT": "Your account has been created",
+                    "EMAILMESSAGE": "The body text goes here: "
+                },
+                "nationalsbackend647fca59PostConfirmation": {
+                    "GROUP": "ScoutNationals"
                 }
             }
         }

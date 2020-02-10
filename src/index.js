@@ -24,10 +24,15 @@ const theme = createMuiTheme({
   },
 });
 
+const federated = {
+  google_client_id: "640256100200-mgqh02vo0ep8m6tnaes4h8jnamncs4di.apps.googleusercontent.com",
+  facebook_client_id: "201867554548489"
+};
+
 ReactDOM.render(
     <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <App federated={federated}/>
     </ThemeProvider>,
     document.getElementById('root'));
 

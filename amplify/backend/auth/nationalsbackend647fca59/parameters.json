@@ -44,15 +44,55 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "manual",
     "hostedUI": true,
     "usernameAttributes": [
         "email"
     ],
     "hostedUIDomainName": "nationalsbackend647fca59-647fca59",
-    "authProvidersUserPool": [],
-    "hostedUIProviderMeta": "[]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\"],\"LogoutURLs\":[\"http://localhost:8080/\"]}",
-    "userPoolGroupList": [],
-    "dependsOn": []
+    "authProvidersUserPool": [
+        "Facebook",
+        "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "userPoolGroupList": [
+        "ScoutNationals"
+    ],
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "nationalsbackend647fca59CustomMessage",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "nationalsbackend647fca59PostConfirmation",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        }
+    ],
+    "thirdPartyAuth": true,
+    "authProviders": [
+        "graph.facebook.com",
+        "accounts.google.com"
+    ],
+    "userPoolGroups": true,
+    "adminQueries": true,
+    "triggers": "{\"CustomMessage\":[\"verification-link\"],\"PostConfirmation\":[\"add-to-group\"]}",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\"],\"LogoutURLs\":[\"http://localhost:8080/\"]}",
+    "adminQueryGroup": "ScoutNationalsAdmins",
+    "verificationBucketName": "nationalsbackend647fca59verificationbucket",
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [
+        "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
+    ]
 }
