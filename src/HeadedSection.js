@@ -4,7 +4,7 @@ import { Typography, Box } from '@material-ui/core'
 class HeadedSection extends React.Component {
     render() {
         return (
-           <>
+           <div>
                 <Typography variant='h5'>
                 { this.props.title }
                 </Typography>
@@ -15,10 +15,11 @@ class HeadedSection extends React.Component {
                     bgcolor="background.paper"
                     border={1}
                     padding={1}
-                    marginBottom={2}>
+                    marginBottom={2}
+                    >
                     { this.props.children }
                 </Box>
-            </>
+            </div>
         );
     }
 }

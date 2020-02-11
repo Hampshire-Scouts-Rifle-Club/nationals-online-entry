@@ -68,7 +68,7 @@ export default function Permissions() {
         <>
             <Typography variant='h5'>Permissions</Typography>
         
-          <FormControl component="fieldset">
+          <FormControl>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox checked={haveSection21Permission} onChange={handleChange('haveSection21Permission')} value="haveSection21Permission" />}

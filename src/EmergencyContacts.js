@@ -10,11 +10,15 @@ class EmergencyContacts extends React.Component {
                 <Grid
                   container
                   direction="column"
-                  justify="space-between"
                   alignItems="flex-start"
+                  spacing={1}
                 >
-                    <AddButton>Add On-Site Emergency Contact</AddButton>
-                    <AddButton>Add Off-Site Emergency Contact</AddButton>
+                    <Grid key={"1"} item>
+                        <AddButton>Add On-Site Emergency Contact</AddButton>
+                    </Grid>
+                    <Grid key={"1"} item>
+                        <AddButton>Add Off-Site Emergency Contact</AddButton>
+                    </Grid>
                 </Grid>
             </HeadedSection>
         );

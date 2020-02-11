@@ -10,6 +10,7 @@ import CampHelpers from './CampHelpers';
 import CampingSummary from './CampingSummary';
 import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
+import TopBar from './TopBar';
 
 Amplify.configure(awsconfig);
 
@@ -51,8 +52,7 @@ function App() {
 
   return (
     <div className="App">
-    <button onClick={() => 
-    Auth.federatedSignIn().then({ handleSignIn })}>Sign In</button>
+    <TopBar/>
     <Container maxWidth="sm">
       <Shooters/>
       <CampHelpers/>
