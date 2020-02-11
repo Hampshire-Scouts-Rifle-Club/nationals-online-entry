@@ -125,22 +125,13 @@ Parameters:
               
   dependsOn:
     Type: CommaDelimitedList
-      
-  hostedUIProviderCreds:
-    Type: String
-                
+        
   thirdPartyAuth:
     Type: String
                     
   authProviders:
     Type: CommaDelimitedList
-      
-  facebookAppId:
-    Type: String
-              
-  googleClientId:
-    Type: String
-                
+        
   userPoolGroups:
     Type: String
               
@@ -149,13 +140,7 @@ Parameters:
             
   triggers:
     Type: String
-              
-  oAuthMetadata:
-    Type: String
-              
-  adminQueryGroup:
-    Type: String
-              
+                          
   verificationBucketName:
     Type: String
                     
@@ -164,7 +149,19 @@ Parameters:
                 
   permissions:
     Type: CommaDelimitedList
-    
+      
+  facebookAppId:
+    Type: String
+              
+  googleClientId:
+    Type: String
+              
+  hostedUIProviderCreds:
+    Type: String
+              
+  oAuthMetadata:
+    Type: String
+            
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 

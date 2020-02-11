@@ -7,15 +7,15 @@ const awsmobile = {
     "aws_user_pools_id": "eu-west-1_mJfBYGoZ3",
     "aws_user_pools_web_client_id": "78q3rb12ejgvpruodp0el9m2ik",
     "oauth": {
-        "domain": "nationalsbackend647fca59-647fca59-prod.auth.eu-west-1.amazoncognito.com",
+        "domain": "hsrc-prod.auth.eu-west-1.amazoncognito.com",
         "scope": [
             "email",
             "openid",
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "http://localhost:8080/",
-        "redirectSignOut": "http://localhost:8080/",
+        "redirectSignIn": "http://localhost:8080/,https://master.d2d1geoaz2t1ye.amplifyapp.com/,https://hsrc-prod.auth.eu-west-1.amazoncognito.com/,https://hsrc-dev.auth.eu-west-1.amazoncognito.com/,https://hsrc-test.auth.eu-west-1.amazoncognito.com/",
+        "redirectSignOut": "http://localhost:8080/,https://hsrc-prod.auth.eu-west-1.amazoncognito.com/,https://master.d2d1geoaz2t1ye.amplifyapp.com/",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",

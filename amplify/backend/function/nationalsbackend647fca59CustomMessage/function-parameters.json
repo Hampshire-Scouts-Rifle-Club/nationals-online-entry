@@ -7,8 +7,10 @@
     "functionName": "nationalsbackend647fca59CustomMessage",
     "parentStack": "auth",
     "triggerEnvs": "[{\"key\":\"RESOURCENAME\",\"value\":\"resourceName\"}]",
-    "triggerTemplate": "CustomMessage.json.ejs",
+    "triggerDir": "/home/ec2-user/.nvm/versions/node/v10.18.1/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/CustomMessage",
     "roleName": "nationalsbackend647fca59CustomMessage",
+    "triggerTemplate": "CustomMessage.json.ejs",
+    "triggerEventPath": "CustomMessage.event.json",
     "skipEdit": true,
     "resourceName": "nationalsbackend647fca59CustomMessage"
 }
