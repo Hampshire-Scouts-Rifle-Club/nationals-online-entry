@@ -30,7 +30,7 @@ class Shooters extends React.Component {
         const ListView = ({ shooters }) => (
             <div>
                 <ul>
-                    {todos.map(todo => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
+                    {shooters.map(shooter => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
                 </ul>
             </div>
         );
@@ -44,7 +44,7 @@ class Shooters extends React.Component {
                     console.log(errors);
                       return (<h3>Error</h3>);
                     }
-                    if (loading || !listShooters) return (<h3>Loading...</h3>);
+                    if (loading || !items) return (<h3>Loading...</h3>);
                     return (<ListView shooters={items} /> );
                 }}
                 </Connect>
