@@ -13,10 +13,10 @@ class EmergencyContacts extends React.Component {
                   alignItems="flex-start"
                   spacing={1}
                 >
-                    <Grid key={"1"} item>
+                    <Grid key={"On-Site"} item>
                         <AddButton>Add On-Site Emergency Contact</AddButton>
                     </Grid>
-                    <Grid key={"2"} item>
+                    <Grid key={"Off-Site"} item>
                         <AddButton>Add Off-Site Emergency Contact</AddButton>
                     </Grid>
                 </Grid>

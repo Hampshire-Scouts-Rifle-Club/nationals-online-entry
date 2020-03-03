@@ -27,11 +27,10 @@ class Shooters extends React.Component {
  
 
     render() {
-        const ListView = ({ todos }) => (
+        const ListView = ({ shooters }) => (
             <div>
-                <h3>All Todos</h3>
                 <ul>
-                    {todos.map(todo => <li key={todo.id}>{todo.name} ({todo.id})</li>)}
+                    {todos.map(todo => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
                 </ul>
             </div>
         );
@@ -40,13 +39,13 @@ class Shooters extends React.Component {
             <>
             <HeadedSection title="Shooters">
                 <Connect query={graphqlOperation(queries.listShooters)}>
-                {({ data: { listShooters }, loading, errors }) => {
+                {({ data: { items }, loading, errors }) => {
                     if (errors) {
                     console.log(errors);
                       return (<h3>Error</h3>);
                     }
                     if (loading || !listShooters) return (<h3>Loading...</h3>);
-                    return (<ListView todos={listShooters.items} /> );
+                    return (<ListView shooters={items} /> );
                 }}
                 </Connect>
                 <AddButton onClick={() => this.handleClickOpen()}>
