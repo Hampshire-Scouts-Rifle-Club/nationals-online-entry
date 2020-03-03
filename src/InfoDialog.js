@@ -29,7 +29,8 @@ class InfoDialog extends React.Component {
             <DialogContent>
                 <DialogContentText>
                     <Typography variant="subtitle2" paragraph="true">{this.props.title}</Typography>
-                    { this.props.paragraphs.map(paragraph => <Typography paragraph="true">{ paragraph }</Typography>) }
+                    { // For convenience we use the index as the key. This would be bad if this were a dynamic list, but as it is static this is fine.
+                    this.props.paragraphs.map((paragraph, i) => <Typography key={ i } paragraph="true">{ paragraph }</Typography>) }
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

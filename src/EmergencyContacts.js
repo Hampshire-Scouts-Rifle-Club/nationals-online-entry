@@ -16,7 +16,7 @@ class EmergencyContacts extends React.Component {
                     <Grid key={"1"} item>
                         <AddButton>Add On-Site Emergency Contact</AddButton>
                     </Grid>
-                    <Grid key={"1"} item>
+                    <Grid key={"2"} item>
                         <AddButton>Add Off-Site Emergency Contact</AddButton>
                     </Grid>
                 </Grid>

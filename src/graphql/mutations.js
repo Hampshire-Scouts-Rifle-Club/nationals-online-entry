@@ -1,39 +1,99 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    createTodo(input: $input, condition: $condition) {
+export const createShootingEvent = /* GraphQL */ `
+  mutation CreateShootingEvent($input: CreateShootingEventInput!) {
+    createShootingEvent(input: $input) {
       id
-      name
+      title
       description
+      slots
+      price
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    updateTodo(input: $input, condition: $condition) {
+export const updateShootingEvent = /* GraphQL */ `
+  mutation UpdateShootingEvent($input: UpdateShootingEventInput!) {
+    updateShootingEvent(input: $input) {
       id
-      name
+      title
       description
+      slots
+      price
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    deleteTodo(input: $input, condition: $condition) {
+export const deleteShootingEvent = /* GraphQL */ `
+  mutation DeleteShootingEvent($input: DeleteShootingEventInput!) {
+    deleteShootingEvent(input: $input) {
       id
-      name
+      title
       description
+      slots
+      price
+    }
+  }
+`;
+export const createShooter = /* GraphQL */ `
+  mutation CreateShooter($input: CreateShooterInput!) {
+    createShooter(input: $input) {
+      id
+      firstName
+      surname
+      scoutGroup
+      ageDuringCompetition
+      enteredLastYear
+      isRangeOfficer
+      rangeOfficerCertificate
+      eventsEntered {
+        id
+        title
+        description
+        slots
+        price
+      }
+    }
+  }
+`;
+export const updateShooter = /* GraphQL */ `
+  mutation UpdateShooter($input: UpdateShooterInput!) {
+    updateShooter(input: $input) {
+      id
+      firstName
+      surname
+      scoutGroup
+      ageDuringCompetition
+      enteredLastYear
+      isRangeOfficer
+      rangeOfficerCertificate
+      eventsEntered {
+        id
+        title
+        description
+        slots
+        price
+      }
+    }
+  }
+`;
+export const deleteShooter = /* GraphQL */ `
+  mutation DeleteShooter($input: DeleteShooterInput!) {
+    deleteShooter(input: $input) {
+      id
+      firstName
+      surname
+      scoutGroup
+      ageDuringCompetition
+      enteredLastYear
+      isRangeOfficer
+      rangeOfficerCertificate
+      eventsEntered {
+        id
+        title
+        description
+        slots
+        price
+      }
     }
   }
 `;
