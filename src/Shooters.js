@@ -27,6 +27,7 @@ class Shooters extends React.Component {
  
 
     render() {
+
         const ListView = ({ shooters }) => (
             <div>
                 <ul>
@@ -39,13 +40,13 @@ class Shooters extends React.Component {
             <>
             <HeadedSection title="Shooters">
                 <Connect query={graphqlOperation(queries.listShooters)}>
-                {({ data: { items }, loading, errors }) => {
+                {({ data: { listShooters }, loading, errors }) => {
                     if (errors) {
                     console.log(errors);
                       return (<h3>Error</h3>);
                     }
-                    if (loading || !items) return (<h3>Loading...</h3>);
-                    return (<ListView shooters={items} /> );
+                    if (loading || !listShooters) return (<h3>Loading...</h3>);
+                    return (<ListView shooters={listShooters.items} /> );
                 }}
                 </Connect>
                 <AddButton onClick={() => this.handleClickOpen()}>
