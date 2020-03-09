@@ -6,6 +6,10 @@ import Container from '@material-ui/core/Container';
 import Amplify from 'aws-amplify';
 // import { Hub, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports'; 
+import { ApolloProvider } from "react-apollo";
+// import { Rehydrated } from "aws-appsync-react";
+import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+import AWSAppSyncClient from "aws-appsync";
 
 import Shooters from './Shooters';
 import CampHelpers from './CampHelpers';
@@ -15,6 +19,15 @@ import Permissions from './Permissions';
 import TopBar from './TopBar';
 
 Amplify.configure(awsconfig);
+
+const client = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: awsconfig.aws_appsync_authenticationType,
+    apiKey: awsconfig.aws_appsync_apiKey,
+  }
+});
 
 function App() {
 
@@ -53,6 +66,8 @@ function App() {
   // };
 
   return (
+    <ApolloProvider client={client}>
+      <ApolloHooksProvider client={client}>
     <div className="App">
     <TopBar/>
     <Container maxWidth="sm">
@@ -64,6 +79,8 @@ function App() {
     </Container>
         
     </div>
+    </ApolloHooksProvider>
+    </ApolloProvider>
   );
 }
 

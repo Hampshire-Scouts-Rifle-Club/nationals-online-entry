@@ -21,7 +21,8 @@ const awsmobile = {
     "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
     "aws_appsync_graphqlEndpoint": "https://66fcv54nzrdufovoi3aaiwjdyy.appsync-api.eu-west-1.amazonaws.com/graphql",
     "aws_appsync_region": "eu-west-1",
-    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "aws_appsync_authenticationType": "API_KEY",
+    "aws_appsync_apiKey": "da2-km4v7y35ujdc3duhnoowzilxey",
     "aws_cloud_logic_custom": [
         {
             "name": "AdminQueries",
