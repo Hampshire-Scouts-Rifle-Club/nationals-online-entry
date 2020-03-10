@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Box } from '@material-ui/core'
 
 class HeadedSection extends React.Component {
+
     render() {
         return (
            <div>
@@ -9,7 +10,6 @@ class HeadedSection extends React.Component {
                 { this.props.title }
                 </Typography>
                 <Box 
-                    display="flex" 
                     borderColor="grey.500"
                     borderRadius="borderRadius"
                     bgcolor="background.paper"

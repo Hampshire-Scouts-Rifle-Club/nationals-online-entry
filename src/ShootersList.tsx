@@ -1,14 +1,14 @@
 import * as React from 'react';
-import useShootersList from './useShootersList';
+import useShootersList, {Shooter} from './useShootersList';
 
 function ShootersList() {
     const shooters = useShootersList()
 
-    return <div>
-              <ul>
-                {shooters.map(shooter => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
+    return <>
+              <ul className="shooters-list">
+                {shooters.map((shooter:Shooter) => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
               </ul>
-           </div>;
+           </>;
 }
 
 export default ShootersList;

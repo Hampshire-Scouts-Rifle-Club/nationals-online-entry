@@ -1,6 +1,6 @@
 {
     "identityPoolName": "nationalsbackend647fca59_identitypool_647fca59",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "nation647fca59",
     "userPoolName": "nationalsbackend647fca59_userpool_647fca59",
     "autoVerifiedAttributes": [
@@ -93,5 +93,5 @@
     "permissions": [
         "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
     ],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\",\"https://master.d2d1geoaz2t1ye.amplifyapp.com/\",\"https://hsrc-prod.auth.eu-west-1.amazoncognito.com/\",\"https://hsrc-dev.auth.eu-west-1.amazoncognito.com/\",\"https://hsrc-test.auth.eu-west-1.amazoncognito.com/\"],\"LogoutURLs\":[\"http://localhost:8080/\",\"https://hsrc-prod.auth.eu-west-1.amazoncognito.com/\",\"https://master.d2d1geoaz2t1ye.amplifyapp.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8080/\",\"https://master.d2d1geoaz2t1ye.amplifyapp.com/\",\"https://hsrc-prod.auth.eu-west-1.amazoncognito.com/\",\"https://hsrc-dev.auth.eu-west-1.amazoncognito.com/\",\"https://hsrc-test.auth.eu-west-1.amazoncognito.com/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:8080/\",\"https://hsrc-prod.auth.eu-west-1.amazoncognito.com/\",\"https://master.d2d1geoaz2t1ye.amplifyapp.com/\"]}"
 }

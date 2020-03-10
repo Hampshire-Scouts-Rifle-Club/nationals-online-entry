@@ -14,7 +14,7 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "http://localhost:8080/,https://master.d2d1geoaz2t1ye.amplifyapp.com/,https://hsrc-prod.auth.eu-west-1.amazoncognito.com/,https://hsrc-dev.auth.eu-west-1.amazoncognito.com/,https://hsrc-test.auth.eu-west-1.amazoncognito.com/",
+        "redirectSignIn": "http://localhost:8080/,https://master.d2d1geoaz2t1ye.amplifyapp.com/,https://hsrc-prod.auth.eu-west-1.amazoncognito.com/,https://hsrc-dev.auth.eu-west-1.amazoncognito.com/,https://hsrc-test.auth.eu-west-1.amazoncognito.com/,http://localhost:3000/",
         "redirectSignOut": "http://localhost:8080/,https://hsrc-prod.auth.eu-west-1.amazoncognito.com/,https://master.d2d1geoaz2t1ye.amplifyapp.com/",
         "responseType": "code"
     },

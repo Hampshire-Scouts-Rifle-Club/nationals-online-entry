@@ -7,7 +7,7 @@
     "functionName": "nationalsbackend647fca59PostConfirmation",
     "parentStack": "auth",
     "triggerEnvs": "[]",
-    "triggerDir": "/home/ec2-user/.nvm/versions/node/v10.18.1/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
+    "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
     "roleName": "nationalsbackend647fca59PostConfirmation",
     "triggerTemplate": "PostConfirmation.json.ejs",
     "triggerEventPath": "PostConfirmation.event.json",

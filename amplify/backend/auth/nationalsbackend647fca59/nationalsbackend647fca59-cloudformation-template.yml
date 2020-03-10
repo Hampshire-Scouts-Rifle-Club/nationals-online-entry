@@ -140,7 +140,7 @@ Parameters:
             
   triggers:
     Type: String
-                          
+              
   verificationBucketName:
     Type: String
                     
@@ -161,7 +161,7 @@ Parameters:
               
   oAuthMetadata:
     Type: String
-            
+                        
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
