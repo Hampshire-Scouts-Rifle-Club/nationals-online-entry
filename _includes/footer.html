@@ -1,0 +1,14 @@
+<footer class="site-footer h-card">
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col"
+        <p>{{- site.description | escape -}} {% if site.github_repository %} Maintained by <a href="https://github.com/{{ site.github_repository| cgi_escape | escape }}">{{ site.github_repository| escape }}</a>{% endif %}</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
