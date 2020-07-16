@@ -1,16 +1,11 @@
-# NationalsWebEntry
-The web entry system for the National Scout Rifle Championships.
+![National Scout Rifle Championships Logo](help/nsrc-header.png)
 
-If you want to develop and deploy this system you will need an admin to give you permissions. For admins, this is [the process to follow](./help/Set%20Up%20New%20User.md).
+The online entry system for the National Scout Rifle Championship.
 
-## Create a Cloud9 IDE
+Check out [our wiki](https://github.com/Hampshire-Scouts-Rifle-Club/nationals-online-entry/wiki) for:
 
-Once you have been given permissons you'll be able to log in to the [HSRC AWS Console](https://hsrc.signin.aws.amazon.com/console). From there you can create a Cloud9 IDE to use and deploy the code.
+* [Project Aims](https://github.com/Hampshire-Scouts-Rifle-Club/nationals-online-entry/wiki/Project-Aims)
+* [Mock-ups](https://github.com/Hampshire-Scouts-Rifle-Club/nationals-online-entry/wiki/Mock-Ups)
 
-Log in to [AWS Console](https://hsrc.signin.aws.amazon.com/console).
+The current state of the system can be [seen here](https://main.d2d1geoaz2t1ye.amplifyapp.comg).
 
-In the AWS navigation bar choose 'Services', then 'Cloud9'. Then select 'Create Environment'. Give the environment a name then press 'Next Step'. Leave all the default settings and create the environment.
-
-## Clone this repository into your Cloud9 IDE
-
-Follow [the commands here](help/GitHub%20SSH%20Setup.md) to use SSH to clone the repository from GitHub. 
