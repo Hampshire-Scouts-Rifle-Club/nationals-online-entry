@@ -11,13 +11,13 @@ export default function Permissions() {
         haveGdprPermission: false,
       });
 
-    const handleChange = name => event => {
+    const handleChange = (name: string) => (event: { target: { checked: boolean; }; }) => {
         setState({ ...state, [name]: event.target.checked });
         };
 
     const { haveSection21Permission, havePorPermission, haveGdprPermission } = state;
 
-    const preventDefault = event => event.preventDefault();
+    const preventDefault = (event: { preventDefault: () => any; }) => event.preventDefault();
 
     const section21InfoTitle = "Extract from Scouts UK Factsheet FS120004: Target Shooting";
     const section21InfoParagraphs = [
@@ -27,11 +27,11 @@ export default function Permissions() {
         "Although not strictly a legal requirement, it is good practice to obtain a declaration that participants are not prohibited persons under Section 21 of the 1968 Firearms Act.",
         ];
         
-    const section21InfoDialogRef = React.createRef();
+    const section21InfoDialogRef = React.createRef<InfoDialog>();
 
-    const handleSection21ClickOpen = (event) => {
+    const handleSection21ClickOpen = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        section21InfoDialogRef.current.showDialog();
+        section21InfoDialogRef.current?.showDialog();
     };
 
     const section21Label = (
@@ -45,11 +45,11 @@ export default function Permissions() {
         "For those under the age of 18 years it is a requirement of POR that written parental consent is gained prior to the activity. Details of the particular form of shooting should be given with as much detail as practicable. This will help parents and the young people themselves to decide whether they consider the activity to be suitable for them. For some, the shooting of an air gun may be considered acceptable but not the shooting of a cartridge firearm. Others may consider the use of target rifles of all calibres acceptable but not air pistols. Such parental opinions must be respected.",
         ];
         
-    const porInfoDialogRef = React.createRef();
+    const porInfoDialogRef = React.createRef<InfoDialog>();
 
-    const handlePorClickOpen = (event) => {
+    const handlePorClickOpen = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        porInfoDialogRef.current.showDialog();
+        porInfoDialogRef.current?.showDialog();
     };
 
     const porLabel = (

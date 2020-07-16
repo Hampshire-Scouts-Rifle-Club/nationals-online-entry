@@ -8,21 +8,28 @@ class EmergencyContacts extends React.Component {
         return (
             <HeadedSection title="Emergency Contacts">
                 <Grid
-                  container
-                  direction="column"
-                  alignItems="flex-start"
-                  spacing={1}
+                    container
+                    direction="column"
+                    alignItems="flex-start"
+                    spacing={1}
                 >
                     <Grid key={"On-Site"} item>
-                        <AddButton>Add On-Site Emergency Contact</AddButton>
+                        <AddButton onClick={() => this.handleAddOnSiteContact()}>Add On-Site Emergency Contact</AddButton>
                     </Grid>
                     <Grid key={"Off-Site"} item>
-                        <AddButton>Add Off-Site Emergency Contact</AddButton>
+                        <AddButton onClick={() => this.handleAddOffSiteContact()}>Add Off-Site Emergency Contact</AddButton>
                     </Grid>
                 </Grid>
             </HeadedSection>
         );
     }
+
+    handleAddOnSiteContact() {
+    }
+
+    handleAddOffSiteContact() {
+    }
+
 }
 
 export default EmergencyContacts;

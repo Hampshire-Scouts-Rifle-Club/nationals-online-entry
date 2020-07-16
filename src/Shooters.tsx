@@ -1,0 +1,56 @@
+import React from 'react';
+import './Shooters.css';
+import { Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core'
+import HeadedSection from './HeadedSection';
+import AddButton from './AddButton';
+import ShootersList from './ShootersList';
+
+type ShootersProps = {
+
+};
+type ShootersState = {
+  isDialogOpen: boolean;
+};
+
+class Shooters extends React.Component<ShootersProps, ShootersState> {
+
+  state: ShootersState = {
+    isDialogOpen: false,
+  };
+
+  handleClickOpen() {
+    this.setState({ isDialogOpen: true });
+  }
+
+  handleClose() {
+    this.setState({ isDialogOpen: false });
+  }
+
+  render() {
+
+    return (
+      <>
+        <HeadedSection title="Shooters">
+          <ShootersList />
+          <AddButton onClick={() => this.handleClickOpen()}>
+            Add Shooter
+                </AddButton>
+        </HeadedSection>
+
+        <Dialog
+          open={this.state.isDialogOpen}
+          onClose={() => this.handleClose()}
+        >
+          <DialogTitle>{'Add Shooter pressed'}</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
+              OK
+                  </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+  }
+}
+
+export default Shooters;

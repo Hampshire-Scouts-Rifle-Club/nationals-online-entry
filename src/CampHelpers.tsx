@@ -7,9 +7,12 @@ class CampHelpers extends React.Component {
     render() {
         return (
             <HeadedSection title="Camp Helpers (not shooting)">
-                <AddButton>Add Camp Helper</AddButton>
+                <AddButton onClick={() => this.handleClickOpen()}>Add Camp Helper</AddButton>
             </HeadedSection>
         );
+    }
+
+    handleClickOpen() {
     }
 }
 

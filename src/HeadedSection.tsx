@@ -1,7 +1,11 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core'
 
-class HeadedSection extends React.Component {
+type HeadedSectionProps = {
+    title: string;
+  };
+
+class HeadedSection extends React.Component<HeadedSectionProps> {
 
     render() {
         return (

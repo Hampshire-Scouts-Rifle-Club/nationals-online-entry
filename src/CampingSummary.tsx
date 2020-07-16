@@ -6,9 +6,12 @@ class CampingSummary extends React.Component {
     render() {
         return (
             <HeadedSection title="Camping">
-                <AddButton>Book Camping Space</AddButton>
+                <AddButton onClick={() => this.handleClickOpen()}>Book Camping Space</AddButton>
             </HeadedSection>
         );
+    }
+
+    handleClickOpen() {
     }
 }
 
