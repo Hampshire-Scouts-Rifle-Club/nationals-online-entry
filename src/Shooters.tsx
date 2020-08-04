@@ -1,56 +1,40 @@
 import React from 'react';
 import './Shooters.css';
-import { Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core'
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import ShootersList from './ShootersList';
+import AddShooterDialog from './AddShooterDialog';
 
 type ShootersProps = {
 
 };
-type ShootersState = {
-  isDialogOpen: boolean;
-};
 
-class Shooters extends React.Component<ShootersProps, ShootersState> {
+function Shooters() {
 
-  state: ShootersState = {
-    isDialogOpen: false,
-  };
+  const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
 
-  handleClickOpen() {
-    this.setState({ isDialogOpen: true });
+  function handleClickOpen() {
+    setIsAddShooterOpen(true);
   }
 
-  handleClose() {
-    this.setState({ isDialogOpen: false });
+  function handleClose(_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setIsAddShooterOpen(false);
   }
+  return (
+    <>
+      <HeadedSection title="Shooters">
+        <ShootersList />
+        <AddButton onClick={() => handleClickOpen()}>
+          {"Add Shooter"}
+        </AddButton>
+      </HeadedSection>
 
-  render() {
-
-    return (
-      <>
-        <HeadedSection title="Shooters">
-          <ShootersList />
-          <AddButton onClick={() => this.handleClickOpen()}>
-            Add Shooter
-                </AddButton>
-        </HeadedSection>
-
-        <Dialog
-          open={this.state.isDialogOpen}
-          onClose={() => this.handleClose()}
-        >
-          <DialogTitle>{'Add Shooter pressed'}</DialogTitle>
-          <DialogActions>
-            <Button onClick={() => this.handleClose()} color="primary" autoFocus>
-              OK
-                  </Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    );
-  }
+      <AddShooterDialog 
+      open={isAddShooterOpen}
+      handleClose={handleClose}
+      />        
+    </>
+  );
 }
 
 export default Shooters;
