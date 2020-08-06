@@ -18,7 +18,7 @@ export const EmptyShooter: Shooter = {
   scoutGroup: '',
   county: '',
   didEnterLastYear: false,
-  isRangeOffice: false,
+  isRangeOfficer: false,
   rangeOfficerProofUrl: '',
 };
 
@@ -32,13 +32,14 @@ type ShootingEventType = {
 type ShooterPropsType = {
     open: boolean;
     handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    addShooter: (shooter: Shooter) => void;
     shooter: Shooter;
     eventsEntered: ShootingEventType[];
     allScoutGroups: string[];
     allEvents: ShootingEventType[];
 }
 
-export function AddShooterDialog({ open, handleClose, shooter }: ShooterPropsType) {
+export function AddShooterDialog({ open, handleClose, shooter, addShooter }: ShooterPropsType) {
   const formik = useFormik({
     initialValues: {
       firstName: shooter.firstName,
@@ -47,7 +48,18 @@ export function AddShooterDialog({ open, handleClose, shooter }: ShooterPropsTyp
       didEnterLastYear: shooter.didEnterLastYear,
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+        const newShooter: Shooter = {
+            id: '',
+            firstName: values.firstName,
+            lastName: values.lastName,
+            didEnterLastYear: values.didEnterLastYear,
+            dateOfBirth: values.dateOfBirth,
+            scoutGroup: '',
+            county: '',
+            isRangeOfficer: false,
+            rangeOfficerProofUrl: '',
+        }
+        addShooter(newShooter);
     },
   });
 
@@ -108,7 +120,7 @@ AddShooterDialog.defaultProps = {
     scoutGroup: '',
     county: '',
     didEnterLastYear: false,
-    isRangeOffice: false,
+    isRangeOfficer: false,
     rangeOfficerProofUrl: '',
   },
   eventsEntered: [],

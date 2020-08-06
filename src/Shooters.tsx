@@ -20,6 +20,10 @@ function Shooters() {
   function handleClose(_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setIsAddShooterOpen(false);
   }
+
+  function addShooter(shooter: Shooter) {
+    alert(JSON.stringify(shooter, null, 2));
+  }
   
   return (
     <>
@@ -33,6 +37,7 @@ function Shooters() {
       <AddShooterDialog 
       open={isAddShooterOpen}
       handleClose={handleClose}
+      addShooter={addShooter}
       />        
     </>
   );

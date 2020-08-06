@@ -20,7 +20,7 @@ export type Shooter = {
     scoutGroup: string;
     county: string;
     didEnterLastYear: boolean;
-    isRangeOffice: boolean;
+    isRangeOfficer: boolean;
     rangeOfficerProofUrl: string;
 }
 
