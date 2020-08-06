@@ -84,8 +84,21 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
 
           <TextField id="firstName" label="First name" onChange={formik.handleChange}>{formik.values.firstName}</TextField>
           <TextField id="lastName" label="Last name" onChange={formik.handleChange}>{formik.values.lastName}</TextField>
-          {/* <DatePickerField name="dateOfBirth" value={formik.values.dateOfBirth} /> */}
-          <FormControlLabel control={<Checkbox name="didEnterLastYear" value={formik.values.didEnterLastYear} onChange={formik.handleChange} />} label="Entered last year" />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <KeyboardDatePicker
+        disableFuture
+        variant="inline"
+        format="dd/MM/yyyy"
+        label="Date of birth"
+        views={['year', 'month', 'date']}
+        value={formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)}
+        onChange={(date) => { formik.setFieldValue("dateOfBirth", date) }}
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
+      />
+    </MuiPickersUtilsProvider>
+             <FormControlLabel control={<Checkbox name="didEnterLastYear" value={formik.values.didEnterLastYear} onChange={formik.handleChange} />} label="Entered last year" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
