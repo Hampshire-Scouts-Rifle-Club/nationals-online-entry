@@ -7,7 +7,6 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { useFormik, useField, useFormikContext } from 'formik';
-import DatePickerField from './DatePicker';
 import { Shooter } from "./Shooter";
 
 export const EmptyShooter: Shooter = {
