@@ -6,7 +6,7 @@ function ShootersList() {
 
     return <>
               <ul className="shooters-list">
-                {shooters.map((shooter:Shooter) => <li key={shooter.id}>{shooter.firstName} {shooter.surname}</li>)}
+                {shooters.map((shooter:Shooter) => <li key={shooter.id}>{shooter.firstName} {shooter.lastName}</li>)}
               </ul>
            </>;
 }
