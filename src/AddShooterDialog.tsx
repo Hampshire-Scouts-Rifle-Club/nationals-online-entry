@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import { useFormik, useField, useFormikContext } from 'formik';
+import { useFormik } from 'formik';
 import { Shooter } from "./Shooter";
 
 export const EmptyShooter: Shooter = {
@@ -22,20 +22,20 @@ export const EmptyShooter: Shooter = {
 };
 
 type ShootingEventType = {
-    title: string;
-    slots: number;
-    cost: number;
-    description: string;
+  title: string;
+  slots: number;
+  cost: number;
+  description: string;
 }
 
 type ShooterPropsType = {
-    open: boolean;
-    handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    addShooter: (shooter: Shooter) => void;
-    shooter: Shooter;
-    eventsEntered: ShootingEventType[];
-    allScoutGroups: string[];
-    allEvents: ShootingEventType[];
+  open: boolean;
+  handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  addShooter: (shooter: Shooter) => void;
+  shooter: Shooter;
+  eventsEntered: ShootingEventType[];
+  allScoutGroups: string[];
+  allEvents: ShootingEventType[];
 }
 
 export function AddShooterDialog({ open, handleClose, shooter, addShooter }: ShooterPropsType) {
@@ -45,20 +45,21 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
       lastName: shooter.lastName,
       dateOfBirth: shooter.dateOfBirth,
       didEnterLastYear: shooter.didEnterLastYear,
+      isRangeOfficer: shooter.isRangeOfficer,
     },
     onSubmit: (values) => {
-        const newShooter: Shooter = {
-            id: '',
-            firstName: values.firstName,
-            lastName: values.lastName,
-            didEnterLastYear: values.didEnterLastYear,
-            dateOfBirth: values.dateOfBirth,
-            scoutGroup: '',
-            county: '',
-            isRangeOfficer: false,
-            rangeOfficerProofUrl: '',
-        }
-        addShooter(newShooter);
+      const newShooter: Shooter = {
+        id: '',
+        firstName: values.firstName,
+        lastName: values.lastName,
+        didEnterLastYear: values.didEnterLastYear,
+        dateOfBirth: values.dateOfBirth,
+        scoutGroup: '',
+        county: '',
+        isRangeOfficer: values.isRangeOfficer,
+        rangeOfficerProofUrl: '',
+      }
+      addShooter(newShooter);
     },
   });
 
@@ -84,20 +85,29 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
           <TextField id="firstName" label="First name" onChange={formik.handleChange}>{formik.values.firstName}</TextField>
           <TextField id="lastName" label="Last name" onChange={formik.handleChange}>{formik.values.lastName}</TextField>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        disableFuture
-        variant="inline"
-        format="dd/MM/yyyy"
-        label="Date of birth"
-        views={['year', 'month', 'date']}
-        value={formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)}
-        onChange={(date) => { formik.setFieldValue("dateOfBirth", date) }}
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
-        }}
-      />
-    </MuiPickersUtilsProvider>
-             <FormControlLabel control={<Checkbox name="didEnterLastYear" value={formik.values.didEnterLastYear} onChange={formik.handleChange} />} label="Entered last year" />
+            <KeyboardDatePicker
+              disableFuture
+              variant="inline"
+              format="dd/MM/yyyy"
+              label="Date of birth"
+              views={['year', 'month', 'date']}
+              value={formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)}
+              onChange={(date) => { formik.setFieldValue("dateOfBirth", date) }}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <FormControlLabel control={
+            <Checkbox name="didEnterLastYear"
+              value={formik.values.didEnterLastYear}
+              onChange={formik.handleChange} />}
+            label="Entered last year" />
+          <FormControlLabel control={
+            <Checkbox name="isRangeOfficer"
+              value={formik.values.isRangeOfficer}
+              onChange={formik.handleChange} />}
+            label="Range officer" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
