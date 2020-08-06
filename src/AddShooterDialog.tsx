@@ -7,19 +7,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { useFormik } from 'formik';
-import { Shooter } from "./Shooter";
-
-export const EmptyShooter: Shooter = {
-  id: '',
-  firstName: '',
-  lastName: '',
-  dateOfBirth: new Date(),
-  scoutGroup: '',
-  county: '',
-  didEnterLastYear: false,
-  isRangeOfficer: false,
-  rangeOfficerProofUrl: '',
-};
+import { Shooter } from './Shooter';
 
 type ShootingEventType = {
   title: string;
@@ -38,7 +26,9 @@ type ShooterPropsType = {
   allEvents: ShootingEventType[];
 }
 
-export function AddShooterDialog({ open, handleClose, shooter, addShooter }: ShooterPropsType) {
+export function AddShooterDialog({
+  open, handleClose, shooter, addShooter,
+}: ShooterPropsType) {
   const formik = useFormik({
     initialValues: {
       firstName: shooter.firstName,
@@ -46,6 +36,7 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
       dateOfBirth: shooter.dateOfBirth,
       didEnterLastYear: shooter.didEnterLastYear,
       isRangeOfficer: shooter.isRangeOfficer,
+      scoutGroup: shooter.scoutGroup,
     },
     onSubmit: (values) => {
       const newShooter: Shooter = {
@@ -54,22 +45,17 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
         lastName: values.lastName,
         didEnterLastYear: values.didEnterLastYear,
         dateOfBirth: values.dateOfBirth,
-        scoutGroup: '',
+        scoutGroup: values.scoutGroup,
         county: '',
         isRangeOfficer: values.isRangeOfficer,
         rangeOfficerProofUrl: '',
-      }
+      };
       addShooter(newShooter);
     },
   });
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  // const [dateOfBirth, setDateOfBirth] = React.useState<Date | null>(
-  //     null,
-  // );
-  // const [firstName, setFirstName] = React.useState("")
-  // const [surname, setSurname] = React.useState("")
 
   return (
     <Dialog
@@ -92,22 +78,33 @@ export function AddShooterDialog({ open, handleClose, shooter, addShooter }: Sho
               label="Date of birth"
               views={['year', 'month', 'date']}
               value={formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)}
-              onChange={(date) => { formik.setFieldValue("dateOfBirth", date) }}
+              onChange={(date) => { formik.setFieldValue('dateOfBirth', date); }}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
             />
           </MuiPickersUtilsProvider>
-          <FormControlLabel control={
-            <Checkbox name="didEnterLastYear"
-              value={formik.values.didEnterLastYear}
-              onChange={formik.handleChange} />}
-            label="Entered last year" />
-          <FormControlLabel control={
-            <Checkbox name="isRangeOfficer"
-              value={formik.values.isRangeOfficer}
-              onChange={formik.handleChange} />}
-            label="Range officer" />
+          <FormControlLabel
+            control={(
+              <Checkbox
+                name="didEnterLastYear"
+                checked={formik.values.didEnterLastYear}
+                onChange={formik.handleChange}
+              />
+          )}
+            label="Entered last year"
+          />
+          <FormControlLabel
+            control={(
+              <Checkbox
+                name="isRangeOfficer"
+                checked={formik.values.isRangeOfficer}
+                onChange={formik.handleChange}
+              />
+          )}
+            label="Range officer"
+          />
+          <TextField id="scoutGroup" label="Scout group" onChange={formik.handleChange}>{formik.values.scoutGroup}</TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

@@ -1,4 +1,3 @@
-
 export type Shooter = {
     id: string;
     firstName: string;
@@ -9,4 +8,16 @@ export type Shooter = {
     didEnterLastYear: boolean;
     isRangeOfficer: boolean;
     rangeOfficerProofUrl: string;
+};
+
+export const EmptyShooter: Shooter = {
+  id: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: new Date(),
+  scoutGroup: '',
+  county: '',
+  didEnterLastYear: false,
+  isRangeOfficer: false,
+  rangeOfficerProofUrl: '',
 };
