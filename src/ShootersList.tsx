@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Shooter} from './useShootersList';
+import { Shooter } from "./Shooter";
 
 type ShootersProps = {
   shooters: Shooter[];
