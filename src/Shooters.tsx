@@ -5,13 +5,15 @@ import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import ShootersList from './ShootersList';
 import AddShooterDialog from './AddShooterDialog';
-import { Shooter } from './useShootersList';
+import useShootersList, { Shooter } from './useShootersList';
 
 type ShootersProps = {
 };
 
 function Shooters() {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
+
+  const shooters = useShootersList()
 
   function handleClickOpen() {
     setIsAddShooterOpen(true);
@@ -22,13 +24,14 @@ function Shooters() {
   }
 
   function addShooter(shooter: Shooter) {
+
     alert(JSON.stringify(shooter, null, 2));
   }
   
   return (
     <>
       <HeadedSection title="Shooters">
-        <ShootersList/>
+        <ShootersList shooters={ shooters }/>
         <AddButton onClick={() => handleClickOpen()}>
           {"Add Shooter"}
         </AddButton>
