@@ -1,16 +1,35 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
 import React from 'react';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
+import BookCampingSpaceDialog from './BookCampingSpaceDialog';
 
 function Camping() {
-  function handleClickOpen() {
-  }
+    const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
 
-  return (
-    <HeadedSection title="Camping">
-      <AddButton onClick={() => handleClickOpen()}>Book Camping Space</AddButton>
-    </HeadedSection>
-  );
+    function handleClickOpen() {
+        setIsCampingSpaceOpen(true);
+    }
+
+    function handleClose() {
+        setIsCampingSpaceOpen(false);
+    }
+    function bookCampingSpace() {
+    }
+    return (
+        <>
+            <HeadedSection title="Camping">
+                <AddButton onClick={() => handleClickOpen()}>Book Camping Space</AddButton>
+            </HeadedSection>
+
+            <BookCampingSpaceDialog
+              open={isCampingSpaceOpen}
+              handleClose={handleClose}
+              bookCampingSpace={bookCampingSpace}
+            />
+        </>
+    );
 }
 
 export default Camping;
