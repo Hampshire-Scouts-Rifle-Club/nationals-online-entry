@@ -23,7 +23,8 @@ function buildShootersByScoutGroup(shooters: Shooter[]) {
   const competitorsByScoutGroup: Map<string, Shooter[]> = new Map();
 
   shooters.forEach((shooter) => {
-    if (competitorsByScoutGroup.get(shooter.scoutGroup) === undefined) {
+    const isScoutGroupInMap = !(competitorsByScoutGroup.get(shooter.scoutGroup) === undefined);
+    if (!isScoutGroupInMap) {
       competitorsByScoutGroup.set(shooter.scoutGroup, []);
     }
     const scoutGroupCompetitors = competitorsByScoutGroup.get(shooter.scoutGroup);

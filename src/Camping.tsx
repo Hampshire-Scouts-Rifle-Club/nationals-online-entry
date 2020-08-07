@@ -1,15 +1,16 @@
 import React from 'react';
-import camping from './mockups/Camping.jpg';
-import './Camping.css';
+import HeadedSection from './HeadedSection';
+import AddButton from './AddButton';
 
-class Camping extends React.Component {
-    render() {
-        return (
-            <div className="camping">
-                <img src={camping} alt="Camping" />
-            </div>
-        );
-    }
+function Camping() {
+  function handleClickOpen() {
+  }
+
+  return (
+    <HeadedSection title="Camping">
+      <AddButton onClick={() => handleClickOpen()}>Book Camping Space</AddButton>
+    </HeadedSection>
+  );
 }
 
 export default Camping;

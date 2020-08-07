@@ -11,7 +11,7 @@ import Container from '@material-ui/core/Container';
 
 import Shooters from './Shooters';
 import CampHelpers from './CampHelpers';
-import CampingSummary from './CampingSummary';
+import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
 import TopBar from './TopBar';
@@ -69,7 +69,7 @@ function App() {
     <Container maxWidth="sm">
       <Shooters/>
       <CampHelpers/>
-      <CampingSummary/>
+      <Camping/>
       <EmergencyContacts/>
       <Permissions/>
     </Container>
