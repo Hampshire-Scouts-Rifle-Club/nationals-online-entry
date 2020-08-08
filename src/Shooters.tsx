@@ -7,8 +7,7 @@ import AddShooterDialog from './AddShooterDialog';
 import useShootersList from './useShootersList';
 import { Shooter, EmptyShooter } from './Shooter';
 
-type ShootersProps = {
-};
+type ShootersProps = {};
 
 function Shooters() {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
@@ -20,7 +19,7 @@ function Shooters() {
     setIsAddShooterOpen(true);
   }
 
-  function handleClose(_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function handleClose() {
     setIsAddShooterOpen(false);
   }
 

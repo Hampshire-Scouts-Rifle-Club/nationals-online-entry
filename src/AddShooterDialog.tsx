@@ -1,11 +1,21 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import {
-  TextField, useTheme, useMediaQuery,
-  Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, FormControlLabel,
+  TextField,
+  useTheme,
+  useMediaQuery,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Checkbox,
+  FormControlLabel,
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import { useFormik } from 'formik';
 import { Shooter } from './Shooter';
 
@@ -14,7 +24,7 @@ type ShootingEventType = {
   slots: number;
   cost: number;
   description: string;
-}
+};
 
 type ShooterPropsType = {
   open: boolean;
@@ -24,10 +34,13 @@ type ShooterPropsType = {
   eventsEntered: ShootingEventType[];
   allScoutGroups: string[];
   allEvents: ShootingEventType[];
-}
+};
 
 export function AddShooterDialog({
-  open, handleClose, shooter, addShooter,
+  open,
+  handleClose,
+  shooter,
+  addShooter,
 }: ShooterPropsType) {
   const formik = useFormik({
     initialValues: {
@@ -67,9 +80,20 @@ export function AddShooterDialog({
       <form onSubmit={formik.handleSubmit}>
         <DialogTitle id="responsive-dialog-title">Add Shooter</DialogTitle>
         <DialogContent>
-
-          <TextField id="firstName" label="First name" onChange={formik.handleChange}>{formik.values.firstName}</TextField>
-          <TextField id="lastName" label="Last name" onChange={formik.handleChange}>{formik.values.lastName}</TextField>
+          <TextField
+            id="firstName"
+            label="First name"
+            onChange={formik.handleChange}
+          >
+            {formik.values.firstName}
+          </TextField>
+          <TextField
+            id="lastName"
+            label="Last name"
+            onChange={formik.handleChange}
+          >
+            {formik.values.lastName}
+          </TextField>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableFuture
@@ -77,34 +101,44 @@ export function AddShooterDialog({
               format="dd/MM/yyyy"
               label="Date of birth"
               views={['year', 'month', 'date']}
-              value={formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)}
-              onChange={(date) => { formik.setFieldValue('dateOfBirth', date); }}
+              value={
+                formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)
+              }
+              onChange={(date) => {
+                formik.setFieldValue('dateOfBirth', date);
+              }}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
             />
           </MuiPickersUtilsProvider>
           <FormControlLabel
-            control={(
+            control={
               <Checkbox
                 name="didEnterLastYear"
                 checked={formik.values.didEnterLastYear}
                 onChange={formik.handleChange}
               />
-          )}
+            }
             label="Entered last year"
           />
           <FormControlLabel
-            control={(
+            control={
               <Checkbox
                 name="isRangeOfficer"
                 checked={formik.values.isRangeOfficer}
                 onChange={formik.handleChange}
               />
-          )}
+            }
             label="Range officer"
           />
-          <TextField id="scoutGroup" label="Scout group" onChange={formik.handleChange}>{formik.values.scoutGroup}</TextField>
+          <TextField
+            id="scoutGroup"
+            label="Scout group"
+            onChange={formik.handleChange}
+          >
+            {formik.values.scoutGroup}
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -118,20 +152,11 @@ export function AddShooterDialog({
       </form>
     </Dialog>
   );
-  // Text field for first name
-
-  // Text field for last time. CSS will say whether it is beside or below first name based on screen size
-
-  // Link to explanation for why we need date of birth from everyone
-
-  // Entered last year check box
-
-  // Events block
 }
 
 AddShooterDialog.defaultProps = {
   open: false,
-  handleClose: () => { },
+  handleClose: () => {},
   shooter: {
     firstName: '',
     lastName: '',
