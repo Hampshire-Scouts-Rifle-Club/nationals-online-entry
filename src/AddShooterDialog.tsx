@@ -40,7 +40,7 @@ export function AddShooterDialog({
     },
     onSubmit: (values) => {
       const newShooter: Shooter = {
-        id: '',
+        id: `${values.firstName}-${values.lastName}-${values.scoutGroup}`,
         firstName: values.firstName,
         lastName: values.lastName,
         didEnterLastYear: values.didEnterLastYear,

@@ -23,7 +23,7 @@ function buildShootersByScoutGroup(shooters: Shooter[]) {
   const competitorsByScoutGroup: Map<string, Shooter[]> = new Map();
 
   shooters.forEach((shooter) => {
-    const isScoutGroupInMap = !(competitorsByScoutGroup.get(shooter.scoutGroup) === undefined);
+    const isScoutGroupInMap = competitorsByScoutGroup.has(shooter.scoutGroup);
     if (!isScoutGroupInMap) {
       competitorsByScoutGroup.set(shooter.scoutGroup, []);
     }
@@ -35,9 +35,9 @@ function buildShootersByScoutGroup(shooters: Shooter[]) {
 
 function buildScoutGroupCompetitorsElement(scoutGroup: string, shootersInGroup: Shooter[]) {
   return (
-    <>
-      <div className="scout-group-heading">{scoutGroup}</div>
-      <ul className="shooters-list">
+    <div key={`${scoutGroup}-Section`}>
+      <div className="scout-group-heading" key={`${scoutGroup}-Heading`}>{scoutGroup}</div>
+      <ul className="shooters-list" key={scoutGroup}>
         {shootersInGroup.map((shooter) => (
           <li key={shooter.id}>
             {shooter.firstName}
@@ -49,7 +49,7 @@ function buildScoutGroupCompetitorsElement(scoutGroup: string, shootersInGroup: 
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 
@@ -58,9 +58,7 @@ function ShootersList({ shooters }: ShootersProps) {
 
   const elementsToReturn: JSX.Element[] = [];
 
-  Array.from(competitorsByScoutGroup.entries()).forEach((value) => {
-    const scoutGroup = value[0];
-    const shootersInGroup = value[1];
+  competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup,) => {
     const allCompetitorsElement = buildScoutGroupCompetitorsElement(scoutGroup, shootersInGroup);
     elementsToReturn.push(allCompetitorsElement);
   });
