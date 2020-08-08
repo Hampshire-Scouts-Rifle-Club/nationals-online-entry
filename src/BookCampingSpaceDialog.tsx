@@ -1,18 +1,29 @@
-import { useMediaQuery, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, DialogContentText } from "@material-ui/core";
-import React from "react";
-import { number, string } from "prop-types";
-import { useFormik } from "formik";
+import {
+  useMediaQuery,
+  useTheme,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  DialogContentText,
+} from '@material-ui/core';
+import React from 'react';
+import { number, string } from 'prop-types';
+import { useFormik } from 'formik';
 
 type BookCampingSpaceDialogProps = {
-    open: boolean;
-    handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    bookCampingSpace: () => void;
- }
+  open: boolean;
+  handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  bookCampingSpace: () => void;
+};
 
 export function BookCampingSpaceDialog({
-  open, handleClose, bookCampingSpace,
+  open,
+  handleClose,
+  bookCampingSpace,
 }: BookCampingSpaceDialogProps) {
-
   const formik = useFormik({
     initialValues: {
       numberOfPeopleCamping: number,
@@ -35,7 +46,9 @@ export function BookCampingSpaceDialog({
       aria-labelledby="responsive-dialog-title"
     >
       <form onSubmit={formik.handleSubmit}>
-        <DialogTitle id="responsive-dialog-title">Book Camping Space</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">
+          Book Camping Space
+        </DialogTitle>
         <DialogContent>
           <TextField
             id="numberOfPeopleCamping"
@@ -52,10 +65,27 @@ export function BookCampingSpaceDialog({
             {formik.values.numberOfPeopleCamping}
           </TextField>
           <DialogContentText>
-            All adult camper helpers must be listed on the main page to show Scout DBS check.
+            All adult camper helpers must be listed on the main page to show
+            Scout DBS check.
           </DialogContentText>
-          <TextField id="estimatedArrivalTime" label="Estimated arrival time" onChange={formik.handleChange}>{formik.values.estimatedArrivalTime}</TextField>
-          <TextField id="otherInformation" label="Any other information?" variant="outlined" fullWidth multiline rows={4} onChange={formik.handleChange}>{formik.values.otherInformation}</TextField>
+          <TextField
+            id="estimatedArrivalTime"
+            label="Estimated arrival time"
+            onChange={formik.handleChange}
+          >
+            {formik.values.estimatedArrivalTime}
+          </TextField>
+          <TextField
+            id="otherInformation"
+            label="Any other information?"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            onChange={formik.handleChange}
+          >
+            {formik.values.otherInformation}
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

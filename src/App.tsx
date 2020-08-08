@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 
 // import Amplify from 'aws-amplify';
 // import { Hub, Auth } from 'aws-amplify';
-// import awsconfig from './aws-exports'; 
+// import awsconfig from './aws-exports';
 // import { Rehydrated } from "aws-appsync-react";
 // import AWSAppSyncClient from "aws-appsync";
 
@@ -28,7 +28,6 @@ import TopBar from './TopBar';
 // });
 
 function App() {
-
   // const [state, setState] = useState({ user: null, customState: null });
 
   // useEffect(() => {
@@ -49,7 +48,7 @@ function App() {
   //   Auth.currentAuthenticatedUser()
   //     .then(user => this.setState({ user }))
   //     .catch(() => console.log("Not signed in"));
-      
+
   // const handleSignIn = () => {
   //   Auth.federatedSignIn().then(cred => {
   //     // If success, you will get the AWS credentials
@@ -65,15 +64,14 @@ function App() {
 
   return (
     <div className="App">
-    <TopBar/>
-    <Container maxWidth="sm">
-      <Shooters/>
-      <CampHelpers/>
-      <Camping/>
-      <EmergencyContacts/>
-      <Permissions/>
-    </Container>
-        
+      <TopBar />
+      <Container maxWidth="sm">
+        <Shooters />
+        <CampHelpers />
+        <Camping />
+        <EmergencyContacts />
+        <Permissions />
+      </Container>
     </div>
   );
 }

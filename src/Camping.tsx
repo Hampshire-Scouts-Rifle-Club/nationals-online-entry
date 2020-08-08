@@ -6,30 +6,31 @@ import AddButton from './AddButton';
 import BookCampingSpaceDialog from './BookCampingSpaceDialog';
 
 function Camping() {
-    const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
+  const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
 
-    function handleClickOpen() {
-        setIsCampingSpaceOpen(true);
-    }
+  function handleClickOpen() {
+    setIsCampingSpaceOpen(true);
+  }
 
-    function handleClose() {
-        setIsCampingSpaceOpen(false);
-    }
-    function bookCampingSpace() {
-    }
-    return (
-        <>
-            <HeadedSection title="Camping">
-                <AddButton onClick={() => handleClickOpen()}>Book Camping Space</AddButton>
-            </HeadedSection>
+  function handleClose() {
+    setIsCampingSpaceOpen(false);
+  }
+  function bookCampingSpace() {}
+  return (
+    <>
+      <HeadedSection title="Camping">
+        <AddButton onClick={() => handleClickOpen()}>
+          Book Camping Space
+        </AddButton>
+      </HeadedSection>
 
-            <BookCampingSpaceDialog
-              open={isCampingSpaceOpen}
-              handleClose={handleClose}
-              bookCampingSpace={bookCampingSpace}
-            />
-        </>
-    );
+      <BookCampingSpaceDialog
+        open={isCampingSpaceOpen}
+        handleClose={handleClose}
+        bookCampingSpace={bookCampingSpace}
+      />
+    </>
+  );
 }
 
 export default Camping;

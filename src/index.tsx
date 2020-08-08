@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
+import * as serviceWorker from './serviceWorker';
+import App from './App';
 
 // Create a theme instance.
 const theme = createMuiTheme({
@@ -30,11 +30,12 @@ const theme = createMuiTheme({
 // };
 
 ReactDOM.render(
-    <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App/>
-    </ThemeProvider>,
-    document.getElementById('root'));
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

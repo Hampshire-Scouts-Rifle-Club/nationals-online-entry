@@ -41,7 +41,8 @@
               "tsx": "never"
             }
          ],
-         "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}]
+         "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
+         "comma-dangle": [ "error", { "arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "never" } ]
     },
     "settings": {
         "import/resolver": {

@@ -3,17 +3,14 @@ import './CampHelpers.css';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 
-class CampHelpers extends React.Component {
-    render() {
-        return (
-            <HeadedSection title="Camp Helpers (not shooting)">
-                <AddButton onClick={() => this.handleClickOpen()}>Add Camp Helper</AddButton>
-            </HeadedSection>
-        );
-    }
+function CampHelpers() {
+  function handleClickOpen() {}
 
-    handleClickOpen() {
-    }
+  return (
+    <HeadedSection title="Camp Helpers (not shooting)">
+      <AddButton onClick={() => handleClickOpen()}>Add Camp Helper</AddButton>
+    </HeadedSection>
+  );
 }
 
 export default CampHelpers;

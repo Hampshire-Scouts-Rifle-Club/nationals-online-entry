@@ -3,7 +3,7 @@ import { Shooter } from './Shooter';
 
 type ShootersProps = {
   shooters: Shooter[];
-}
+};
 
 function calculateAge(dateOfBirth: Date) {
   const differenceFromNow = Date.now() - dateOfBirth.getTime();
@@ -27,23 +27,27 @@ function buildShootersByScoutGroup(shooters: Shooter[]) {
     if (!isScoutGroupInMap) {
       competitorsByScoutGroup.set(shooter.scoutGroup, []);
     }
-    const scoutGroupCompetitors = competitorsByScoutGroup.get(shooter.scoutGroup);
+    const scoutGroupCompetitors = competitorsByScoutGroup.get(
+      shooter.scoutGroup
+    );
     scoutGroupCompetitors!.push(shooter);
   });
   return competitorsByScoutGroup;
 }
 
-function buildScoutGroupCompetitorsElement(scoutGroup: string, shootersInGroup: Shooter[]) {
+function buildScoutGroupCompetitorsElement(
+  scoutGroup: string,
+  shootersInGroup: Shooter[]
+) {
   return (
     <div key={`${scoutGroup}-Section`}>
-      <div className="scout-group-heading" key={`${scoutGroup}-Heading`}>{scoutGroup}</div>
+      <div className="scout-group-heading" key={`${scoutGroup}-Heading`}>
+        {scoutGroup}
+      </div>
       <ul className="shooters-list" key={scoutGroup}>
         {shootersInGroup.map((shooter) => (
           <li key={shooter.id}>
-            {shooter.firstName}
-            {' '}
-            {shooter.lastName}
-            {', '}
+            {`${shooter.firstName} ${shooter.lastName}, `}
             {calculateAge(shooter.dateOfBirth).toString()}
             {buildIsRoString(shooter.isRangeOfficer)}
           </li>
@@ -58,16 +62,15 @@ function ShootersList({ shooters }: ShootersProps) {
 
   const elementsToReturn: JSX.Element[] = [];
 
-  competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup,) => {
-    const allCompetitorsElement = buildScoutGroupCompetitorsElement(scoutGroup, shootersInGroup);
+  competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup) => {
+    const allCompetitorsElement = buildScoutGroupCompetitorsElement(
+      scoutGroup,
+      shootersInGroup
+    );
     elementsToReturn.push(allCompetitorsElement);
   });
 
-  return (
-    <>
-      { elementsToReturn }
-    </>
-  );
+  return <>{elementsToReturn}</>;
 }
 
 export default ShootersList;
