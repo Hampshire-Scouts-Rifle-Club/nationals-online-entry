@@ -27,7 +27,17 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+         ]
     },
     "settings": {
         "import/resolver": {
@@ -35,5 +45,5 @@
             "extensions": [".js", ".jsx", ".ts", ".tsx"]
           }
         }
-      },
+      }
 }
