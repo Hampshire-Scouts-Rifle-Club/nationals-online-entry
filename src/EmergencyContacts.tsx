@@ -3,10 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 
-function EmergencyContacts() {
+function EmergencyContacts(): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   function handleAddOnSiteContact() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   function handleAddOffSiteContact() {}
+
   return (
     <HeadedSection title="Emergency Contacts">
       <Grid container direction="column" alignItems="flex-start" spacing={1}>

@@ -8,7 +8,7 @@ function AddButton({
 }: {
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: React.ReactNode;
-}) {
+}): JSX.Element {
   return (
     <Button
       variant="contained"

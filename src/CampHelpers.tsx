@@ -3,8 +3,11 @@ import './CampHelpers.css';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 
-function CampHelpers() {
-  function handleClickOpen() {}
+function CampHelpers(): JSX.Element {
+  function handleClickOpen() {
+    // eslint-disable-next-line no-console
+    console.log("Pressed 'Add Camp Helper");
+  }
 
   return (
     <HeadedSection title="Camp Helpers (not shooting)">

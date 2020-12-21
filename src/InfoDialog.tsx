@@ -20,7 +20,7 @@ function InfoDialog({
   paragraphs,
   isOpen,
   handleClose,
-}: InfoDialogProps) {
+}: InfoDialogProps): JSX.Element {
   return (
     <>
       <Dialog open={isOpen} onClose={handleClose}>

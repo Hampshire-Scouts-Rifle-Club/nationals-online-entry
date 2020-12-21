@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { SyntheticEvent, useState } from 'react';
 import './Permissions.css';
 import {
   FormControl,
@@ -10,14 +11,16 @@ import {
 } from '@material-ui/core';
 import InfoDialog from './InfoDialog';
 
-export default function Permissions() {
+export default function Permissions(): JSX.Element {
   const [state, setState] = useState({
     haveSection21Permission: false,
     havePorPermission: false,
     haveGdprPermission: false,
   });
 
-  const [isSection21InfoDialogOpen, setIsSection21InfoDialogOpen] = useState(false);
+  const [isSection21InfoDialogOpen, setIsSection21InfoDialogOpen] = useState(
+    false
+  );
 
   const [isPorInfoDialogOpen, setIsPorInfoDialogOpen] = useState(false);
 
@@ -33,7 +36,7 @@ export default function Permissions() {
     haveGdprPermission,
   } = state;
 
-  const preventDefault = (event: { preventDefault: () => any }) => event.preventDefault();
+  const preventDefault = (event: SyntheticEvent) => event.preventDefault();
 
   const section21InfoTitle =
     'Extract from Scouts UK Factsheet FS120004: Target Shooting';

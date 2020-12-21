@@ -8,7 +8,7 @@ type HeadedSectionProps = {
 function HeadedSection({
   title,
   children,
-}: PropsWithChildren<HeadedSectionProps>) {
+}: PropsWithChildren<HeadedSectionProps>): JSX.Element {
   return (
     <div>
       <Typography variant="h5">{title}</Typography>

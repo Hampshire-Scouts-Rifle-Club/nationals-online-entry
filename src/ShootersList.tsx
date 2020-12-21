@@ -30,7 +30,9 @@ function buildShootersByScoutGroup(shooters: Shooter[]) {
     const scoutGroupCompetitors = competitorsByScoutGroup.get(
       shooter.scoutGroup
     );
-    scoutGroupCompetitors!.push(shooter);
+    if (scoutGroupCompetitors != null) {
+      scoutGroupCompetitors.push(shooter);
+    }
   });
   return competitorsByScoutGroup;
 }
@@ -57,7 +59,7 @@ function buildScoutGroupCompetitorsElement(
   );
 }
 
-function ShootersList({ shooters }: ShootersProps) {
+function ShootersList({ shooters }: ShootersProps): JSX.Element {
   const competitorsByScoutGroup = buildShootersByScoutGroup(shooters);
 
   const elementsToReturn: JSX.Element[] = [];

@@ -6,9 +6,8 @@
     },
     "extends": [
         "plugin:prettier/recommended",
-        "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
         "airbnb"
     ],
     "globals": {
@@ -42,7 +41,12 @@
             }
          ],
          "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
-         "comma-dangle": [ "error", { "arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "never" } ]
+         "comma-dangle": [ "error", { "arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "never" } ],
+         "no-use-before-define": "off",
+         "no-undef": "off",
+         "no-unused-vars": "off",
+         "operator-linebreak": ["error", "after"],
+         "implicit-arrow-linebreak": "off"
     },
     "settings": {
         "import/resolver": {
@@ -50,5 +54,6 @@
             "extensions": [".js", ".jsx", ".ts", ".tsx"]
           }
         }
-      }
+      },
+      "ignorePatterns": ["aws-exports.tsx", "serviceWorker.tsx"]
 }

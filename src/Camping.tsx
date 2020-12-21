@@ -5,7 +5,7 @@ import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import BookCampingSpaceDialog from './BookCampingSpaceDialog';
 
-function Camping() {
+function Camping(): JSX.Element {
   const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -15,6 +15,7 @@ function Camping() {
   function handleClose() {
     setIsCampingSpaceOpen(false);
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   function bookCampingSpace() {}
   return (
     <>

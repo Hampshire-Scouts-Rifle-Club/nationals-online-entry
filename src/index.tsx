@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
+
+import Amplify from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import { ApolloProvider } from 'react-apollo';
+import awsconfig from './aws-exports';
+
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
@@ -29,11 +35,24 @@ const theme = createMuiTheme({
 //   facebook_client_id: "201867554548489"
 // };
 
+Amplify.configure(awsconfig);
+
+const client = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.API_KEY,
+    apiKey: awsconfig.aws_appsync_apiKey,
+  },
+});
+
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <App />
-  </ThemeProvider>,
+  <ApolloProvider client={client}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

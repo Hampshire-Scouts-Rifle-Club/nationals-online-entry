@@ -5,9 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    marginBottom: theme.spacing(1),  
+    marginBottom: theme.spacing(1),
   },
   grow: {
     flexGrow: 1,
@@ -24,12 +24,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TopBar() {
+export default function TopBar(): JSX.Element {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" >
+      <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             Team Entry
@@ -38,7 +38,9 @@ export default function TopBar() {
           <Typography variant="body1" className={classes.email}>
             joe.bloggs@email.com
           </Typography>
-          <Button variant="outlined" size="small" color="inherit">Sign Out</Button>
+          <Button variant="outlined" size="small" color="inherit">
+            Sign Out
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

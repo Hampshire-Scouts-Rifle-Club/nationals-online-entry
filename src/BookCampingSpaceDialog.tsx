@@ -23,14 +23,14 @@ export function BookCampingSpaceDialog({
   open,
   handleClose,
   bookCampingSpace,
-}: BookCampingSpaceDialogProps) {
+}: BookCampingSpaceDialogProps): JSX.Element {
   const formik = useFormik({
     initialValues: {
       numberOfPeopleCamping: number,
       estimatedArrivalTime: string,
       otherInformation: string,
     },
-    onSubmit: (values) => {
+    onSubmit: () => {
       bookCampingSpace();
     },
   });

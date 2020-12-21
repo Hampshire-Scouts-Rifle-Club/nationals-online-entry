@@ -3,11 +3,8 @@ import React from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
 
-// import Amplify from 'aws-amplify';
 // import { Hub, Auth } from 'aws-amplify';
-// import awsconfig from './aws-exports';
 // import { Rehydrated } from "aws-appsync-react";
-// import AWSAppSyncClient from "aws-appsync";
 
 import Shooters from './Shooters';
 import CampHelpers from './CampHelpers';
@@ -16,18 +13,7 @@ import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
 import TopBar from './TopBar';
 
-// Amplify.configure(awsconfig);
-
-// const client = new AWSAppSyncClient({
-//   url: awsconfig.aws_appsync_graphqlEndpoint,
-//   region: awsconfig.aws_appsync_region,
-//   auth: {
-//     type: awsconfig.aws_appsync_authenticationType,
-//     apiKey: awsconfig.aws_appsync_apiKey,
-//   }
-// });
-
-function App() {
+function App(): JSX.Element {
   // const [state, setState] = useState({ user: null, customState: null });
 
   // useEffect(() => {

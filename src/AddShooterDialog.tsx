@@ -10,6 +10,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Grid,
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -19,21 +20,21 @@ import {
 import { useFormik } from 'formik';
 import { Shooter } from './Shooter';
 
-type ShootingEventType = {
-  title: string;
-  slots: number;
-  cost: number;
-  description: string;
-};
+// type ShootingEventType = {
+//   title: string;
+//   slots: number;
+//   cost: number;
+//   description: string;
+// };
 
 type ShooterPropsType = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   addShooter: (shooter: Shooter) => void;
   shooter: Shooter;
-  eventsEntered: ShootingEventType[];
-  allScoutGroups: string[];
-  allEvents: ShootingEventType[];
+  // eventsEntered?: ShootingEventType[];
+  // allScoutGroups?: string[];
+  // allEvents?: ShootingEventType[];
 };
 
 export function AddShooterDialog({
@@ -41,7 +42,7 @@ export function AddShooterDialog({
   handleClose,
   shooter,
   addShooter,
-}: ShooterPropsType) {
+}: ShooterPropsType): JSX.Element {
   const formik = useFormik({
     initialValues: {
       firstName: shooter.firstName,
@@ -80,65 +81,94 @@ export function AddShooterDialog({
       <form onSubmit={formik.handleSubmit}>
         <DialogTitle id="responsive-dialog-title">Add Shooter</DialogTitle>
         <DialogContent>
-          <TextField
-            id="firstName"
-            label="First name"
-            onChange={formik.handleChange}
+          <Grid
+            container
+            direction="column"
+            justify="space-around"
+            alignItems="stretch"
+            wrap="wrap"
           >
-            {formik.values.firstName}
-          </TextField>
-          <TextField
-            id="lastName"
-            label="Last name"
-            onChange={formik.handleChange}
-          >
-            {formik.values.lastName}
-          </TextField>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableFuture
-              variant="inline"
-              format="dd/MM/yyyy"
-              label="Date of birth"
-              views={['year', 'month', 'date']}
-              value={
-                formik.values.dateOfBirth && new Date(formik.values.dateOfBirth)
-              }
-              onChange={(date) => {
-                formik.setFieldValue('dateOfBirth', date);
-              }}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="didEnterLastYear"
-                checked={formik.values.didEnterLastYear}
-                onChange={formik.handleChange}
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="baseline"
+            >
+              <Grid item>
+                <TextField
+                  id="firstName"
+                  label="First name"
+                  onChange={formik.handleChange}
+                >
+                  {formik.values.firstName}
+                </TextField>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="lastName"
+                  label="Last name"
+                  onChange={formik.handleChange}
+                >
+                  {formik.values.lastName}
+                </TextField>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  className="date-of-birth"
+                  disableFuture
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  label="Date of birth"
+                  views={['year', 'month', 'date']}
+                  value={
+                    formik.values.dateOfBirth &&
+                    new Date(formik.values.dateOfBirth)
+                  }
+                  onChange={(date) => {
+                    formik.setFieldValue('dateOfBirth', date);
+                  }}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="didEnterLastYear"
+                    checked={formik.values.didEnterLastYear}
+                    onChange={formik.handleChange}
+                  />
+                }
+                label="Entered last year"
               />
-            }
-            label="Entered last year"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isRangeOfficer"
-                checked={formik.values.isRangeOfficer}
-                onChange={formik.handleChange}
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="isRangeOfficer"
+                    checked={formik.values.isRangeOfficer}
+                    onChange={formik.handleChange}
+                  />
+                }
+                label="Range officer"
               />
-            }
-            label="Range officer"
-          />
-          <TextField
-            id="scoutGroup"
-            label="Scout group"
-            onChange={formik.handleChange}
-          >
-            {formik.values.scoutGroup}
-          </TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="scoutGroup"
+                label="Scout group"
+                onChange={formik.handleChange}
+              >
+                {formik.values.scoutGroup}
+              </TextField>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -154,22 +184,10 @@ export function AddShooterDialog({
   );
 }
 
-AddShooterDialog.defaultProps = {
-  open: false,
-  handleClose: () => {},
-  shooter: {
-    firstName: '',
-    lastName: '',
-    dateOfBirth: new Date(),
-    scoutGroup: '',
-    county: '',
-    didEnterLastYear: false,
-    isRangeOfficer: false,
-    rangeOfficerProofUrl: '',
-  },
-  eventsEntered: [],
-  allScoutGroups: [],
-  allEvents: [],
-};
+// AddShooterDialog.defaultProps = {
+//   eventsEntered: [],
+//   allScoutGroups: [],
+//   allEvents: [],
+// };
 
 export default AddShooterDialog;

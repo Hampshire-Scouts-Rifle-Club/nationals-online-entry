@@ -25,12 +25,10 @@ const mockShooters: Shooter[] = [
     rangeOfficerProofUrl: '',
     county: 'Surrey',
   },
-  // { id: "2", firstName: "Jon", surname: "Culshaw", scoutGroup: "1st Knaphill", ageDuringCompetition: 51, enteredLastYear: true, isRangeOfficer: true, rangeOfficerCertificate: ""},
-  // { id: "3", firstName: "Luke", surname: "Holcroft", scoutGroup: "1st Knaphill", ageDuringCompetition: 15, enteredLastYear: true, isRangeOfficer: false, rangeOfficerCertificate: ""},
 ];
 
 const mockShooters$ = of(mockShooters);
 
-export default function (): Shooter[] {
+export default function X(): Shooter[] {
   return useObservable(mockShooters$, []);
 }

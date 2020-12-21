@@ -7,9 +7,9 @@ import AddShooterDialog from './AddShooterDialog';
 import useShootersList from './useShootersList';
 import { Shooter, EmptyShooter } from './Shooter';
 
-type ShootersProps = {};
+// type ShootersProps = {};
 
-function Shooters() {
+function Shooters(): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
 
   const shooters = useShootersList();
