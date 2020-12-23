@@ -5,7 +5,6 @@
         "node": true
     },
     "extends": [
-        "plugin:prettier/recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "airbnb"
@@ -28,7 +27,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": "warn",
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "import/extensions": [
             "error",
@@ -55,5 +54,5 @@
           }
         }
       },
-      "ignorePatterns": ["aws-exports.tsx", "serviceWorker.tsx"]
+      "ignorePatterns": ["aws-exports.tsx", "serviceWorker.tsx", "**/stories/*.tsx", "**/*.stories.tsx"]
 }
