@@ -4,7 +4,7 @@ import { EventsEntered } from './EventsEntered';
 import AllEvents from './AllEvents';
 
 export default {
-  title: 'Events',
+  title: 'Events Entered',
   component: EventsEntered,
 };
 
@@ -16,6 +16,12 @@ const Template: Story<ComponentProps<typeof EventsEntered>> = (args) => (
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
   eventsEntered: [AllEvents[0], AllEvents[1]],
+  lockedEventIds: ['knockout', 'mainevent'],
+};
+
+export const ChildWithExtraEvents = Template.bind({});
+ChildWithExtraEvents.args = {
+  eventsEntered: [AllEvents[0], AllEvents[1], AllEvents[2], AllEvents[4], AllEvents[5]],
   lockedEventIds: ['knockout', 'mainevent'],
 };
 

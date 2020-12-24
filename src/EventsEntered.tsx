@@ -6,7 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import ShootingEvent from './ShootingEvent';
 
 type EventPropsType = {
@@ -41,7 +42,18 @@ function getRemoveButton(
   }
   return (
     <TableCell component="th" scope="row">
-      remove
+      <Button
+        size="small"
+        variant="contained"
+        color="secondary"
+        startIcon={<DeleteIcon />}
+        onClick={() => {
+          // eslint-disable-next-line no-alert
+          alert('clicked');
+        }}
+      >
+        Remove
+      </Button>
     </TableCell>
   );
 }
