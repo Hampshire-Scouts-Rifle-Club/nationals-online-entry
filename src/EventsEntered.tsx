@@ -32,6 +32,10 @@ const totalsStyle = {
   fontWeight: 800,
 };
 
+const eventTitleStyle = {
+  width: '100%',
+};
+
 function getRemoveButton(
   eventId: string,
   lockedEventIds: string[]
@@ -93,7 +97,7 @@ export function EventsEntered({
             {eventsEntered.map((event) => (
               <TableRow key={event.id}>
                 {getRemoveButton(event.id, lockedEventIds)}
-                <TableCell>{event.title}</TableCell>
+                <TableCell style={eventTitleStyle}>{event.title}</TableCell>
                 <TableCell align="center">{event.slots}</TableCell>
                 <TableCell align="right">{getCostString(event.cost)}</TableCell>
               </TableRow>
