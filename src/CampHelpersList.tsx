@@ -39,7 +39,18 @@ function CampHelpersList({ campHelpers }: CampHelpersListProps): JSX.Element {
     // eslint-disable-next-line function-paren-newline
   );
 
-  return <>{campHelperElements}</>;
+  if (campHelperElements.length > 0) {
+    campHelperElements.push(<hr />);
+  }
+
+  return (
+    <>
+      {campHelperElements}
+      <Typography variant="caption" paragraph color="textSecondary">
+        All adult camp helpers must be listed and have a Scout DBS.
+      </Typography>
+    </>
+  );
 }
 
 export default CampHelpersList;
