@@ -13,6 +13,7 @@ import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
 import TopBar from './TopBar';
 import { Shooter } from './Shooter';
+import { CampHelper } from './CampHelper';
 
 function App(): JSX.Element {
   // const [state, setState] = useState({ user: null, customState: null });
@@ -50,13 +51,17 @@ function App(): JSX.Element {
   // };
 
   const [allShooters, setAllShooters] = React.useState([] as Shooter[]);
+  const [campHelpers, setCampHelpers] = React.useState([] as CampHelper[]);
 
   return (
     <div className="App">
       <TopBar />
       <Container maxWidth="sm">
         <Shooters allShooters={allShooters} setAllShooters={setAllShooters} />
-        <CampHelpers />
+        <CampHelpers
+          campHelpers={campHelpers}
+          setCampHelpers={setCampHelpers}
+        />
         <Camping />
         <EmergencyContacts />
         <Permissions />
