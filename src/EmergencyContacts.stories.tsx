@@ -9,7 +9,8 @@ export default {
 
 const Template: Story<ComponentProps<typeof EmergencyContacts>> = (args) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <EmergencyContacts {...args} />
+  // <EmergencyContacts {...args} />
+  <EmergencyContacts/>
 );
 
 export const Empty = Template.bind({});
