@@ -58,11 +58,11 @@ function App(): JSX.Element {
       <TopBar />
       <Container maxWidth="sm">
         <Shooters allShooters={allShooters} setAllShooters={setAllShooters} />
+        <Camping />
         <CampHelpers
           campHelpers={campHelpers}
           setCampHelpers={setCampHelpers}
         />
-        <Camping />
         <EmergencyContacts />
         <Permissions />
       </Container>
