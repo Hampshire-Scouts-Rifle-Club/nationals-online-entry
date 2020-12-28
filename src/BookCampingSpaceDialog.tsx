@@ -64,10 +64,6 @@ export function BookCampingSpaceDialog({
           >
             {formik.values.numberOfPeopleCamping}
           </TextField>
-          <DialogContentText>
-            All adult camper helpers must be listed on the main page to show
-            Scout DBS check.
-          </DialogContentText>
           <TextField
             id="estimatedArrivalTime"
             label="Estimated arrival time"
@@ -81,11 +77,16 @@ export function BookCampingSpaceDialog({
             variant="outlined"
             fullWidth
             multiline
+            style={{ marginTop: '1rem' }}
             rows={4}
             onChange={formik.handleChange}
           >
             {formik.values.otherInformation}
           </TextField>
+          <DialogContentText variant="caption" style={{ marginTop: '1rem' }}>
+            All adult camp helpers must be listed on the main page to show Scout
+            DBS check.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -95,7 +96,6 @@ export function BookCampingSpaceDialog({
             Save
           </Button>
         </DialogActions>
-        <pre>{JSON.stringify(formik.values, null, 2)}</pre>
       </form>
     </Dialog>
   );
