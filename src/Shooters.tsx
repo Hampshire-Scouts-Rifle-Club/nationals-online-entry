@@ -4,16 +4,15 @@ import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import ShootersList from './ShootersList';
 import AddShooterDialog from './AddShooterDialog';
-import useShootersList from './useShootersList';
 import { Shooter, EmptyShooter } from './Shooter';
 
-// type ShootersProps = {};
+type ShootersProps = {
+  allShooters: Shooter[];
+  setAllShooters: (allShooters: Shooter[]) => void;
+};
 
-function Shooters(): JSX.Element {
+function Shooters({ allShooters, setAllShooters }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
-
-  const shooters = useShootersList();
-  const [allShooters, setAllShooters] = React.useState(shooters);
 
   function handleClickOpen() {
     setIsAddShooterOpen(true);
