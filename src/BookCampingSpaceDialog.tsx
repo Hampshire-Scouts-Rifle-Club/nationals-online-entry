@@ -52,7 +52,7 @@ export function BookCampingSpaceDialog({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">
           Book Camping Space
         </DialogTitle>
@@ -67,17 +67,15 @@ export function BookCampingSpaceDialog({
                 min: 0,
               },
             }}
+            value={formik.values.numberOfPeopleCamping}
             onChange={formik.handleChange}
-          >
-            {formik.values.numberOfPeopleCamping}
-          </TextField>
+          />
           <TextField
             id="estimatedArrivalTime"
             label="Estimated arrival time"
+            value={formik.values.estimatedArrivalTime}
             onChange={formik.handleChange}
-          >
-            {formik.values.estimatedArrivalTime}
-          </TextField>
+          />
           <TextField
             id="otherInformation"
             label="Any other information?"
@@ -86,17 +84,16 @@ export function BookCampingSpaceDialog({
             multiline
             style={{ marginTop: '1rem' }}
             rows={4}
+            value={formik.values.otherInformation}
             onChange={formik.handleChange}
-          >
-            {formik.values.otherInformation}
-          </TextField>
+          />
           <DialogContentText variant="caption" style={{ marginTop: '1rem' }}>
             All adult camp helpers must be listed on the main page to show Scout
             DBS check.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button type="submit" onClick={handleClose} color="primary">

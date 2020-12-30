@@ -1,6 +1,8 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 import React from 'react';
+import { Button } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import BookCampingSpaceDialog from './BookCampingSpaceDialog';
@@ -41,6 +43,15 @@ function Camping({
         <p>{`Camping for ${campBooking.numberOfCampers}`}</p>
         <p>{`Estimated arrival time ${campBooking.estimatedArrivalTime}`}</p>
         <p>{campBooking.anyOtherInfo}</p>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleClickOpen()}
+          style={{ margin: 1 }}
+        >
+          <EditIcon />
+          Edit
+        </Button>
       </div>
     );
   }
