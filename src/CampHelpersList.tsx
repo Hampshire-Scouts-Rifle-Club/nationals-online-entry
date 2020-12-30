@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Divider, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { CampHelper } from './CampHelper';
 
@@ -39,13 +39,12 @@ function CampHelpersList({ campHelpers }: CampHelpersListProps): JSX.Element {
     // eslint-disable-next-line function-paren-newline
   );
 
-  if (campHelperElements.length > 0) {
-    campHelperElements.push(<hr />);
-  }
+  const hasCampHelpers = campHelperElements.length > 0;
 
   return (
     <>
       {campHelperElements}
+      <Divider style={{ display: hasCampHelpers ? '' : 'none' }} />
       <Typography variant="caption" paragraph color="textSecondary">
         All adult camp helpers must be listed and have a Scout DBS.
       </Typography>
