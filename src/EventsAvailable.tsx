@@ -47,10 +47,11 @@ function getAddEventButton(
     <TableCell component="th" scope="row">
       <Button
         size="small"
-        variant="contained"
+        // variant="contained"
         color="secondary"
         startIcon={<AddIcon />}
         disabled={isEventEntered}
+        style={{ display: isEventEntered ? 'none' : '' }}
         onClick={() => {
           // eslint-disable-next-line no-alert
           alert('clicked');
@@ -64,6 +65,7 @@ function getAddEventButton(
 
 const eventTitleStyle = {
   width: '100%',
+  flex: 1,
 };
 
 export function EventsAvailable({

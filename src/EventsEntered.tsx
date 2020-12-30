@@ -48,7 +48,7 @@ function getRemoveButton(
     <TableCell component="th" scope="row">
       <Button
         size="small"
-        variant="contained"
+        // variant="contained"
         color="secondary"
         startIcon={<DeleteIcon />}
         onClick={() => {
