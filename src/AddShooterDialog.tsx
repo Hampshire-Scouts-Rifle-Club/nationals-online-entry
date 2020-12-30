@@ -78,7 +78,7 @@ export function AddShooterDialog({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">Add Shooter</DialogTitle>
         <DialogContent>
           <Grid
@@ -98,19 +98,17 @@ export function AddShooterDialog({
                 <TextField
                   id="firstName"
                   label="First name"
+                  value={formik.values.firstName}
                   onChange={formik.handleChange}
-                >
-                  {formik.values.firstName}
-                </TextField>
+                />
               </Grid>
               <Grid item>
                 <TextField
                   id="lastName"
                   label="Last name"
+                  value={formik.values.lastName}
                   onChange={formik.handleChange}
-                >
-                  {formik.values.lastName}
-                </TextField>
+                />
               </Grid>
             </Grid>
             <Grid item>
@@ -163,22 +161,20 @@ export function AddShooterDialog({
               <TextField
                 id="scoutGroup"
                 label="Scout group"
+                value={formik.values.scoutGroup}
                 onChange={formik.handleChange}
-              >
-                {formik.values.scoutGroup}
-              </TextField>
+              />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button type="submit" onClick={handleClose} color="primary">
             Save
           </Button>
         </DialogActions>
-        <pre>{JSON.stringify(formik.values, null, 2)}</pre>
       </form>
     </Dialog>
   );
