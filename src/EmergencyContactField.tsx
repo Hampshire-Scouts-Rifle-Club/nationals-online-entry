@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import AddEmergencyContactDialog from './AddEmergencyContactDialog';
 import { EmergencyContact } from './EmergencyContact';
 
@@ -29,17 +30,20 @@ function EmergencyContactField({
   return (
     <div style={{ marginLeft: '1rem' }}>
       <div style={{ display: hasEmergencyContact ? '' : 'none' }}>
-        <Typography variant="body2" style={{ display: 'inline' }}>
-          {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
-        </Typography>
-        <Button
-          size="small"
-          color="primary"
-          style={{ marginLeft: '1rem' }}
-          onClick={() => setIsAddEmergencyContactDialogOpen(true)}
-        >
-          Edit
-        </Button>
+        <Grid container>
+          <Typography variant="body2" style={{ display: 'inline', flex: 1 }}>
+            {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
+          </Typography>
+          <Button
+            size="small"
+            color="secondary"
+            startIcon={<EditIcon />}
+            style={{ marginLeft: '1rem' }}
+            onClick={() => setIsAddEmergencyContactDialogOpen(true)}
+          >
+            Edit
+          </Button>
+        </Grid>
       </div>
       <div style={{ display: hasEmergencyContact ? 'none' : '' }}>
         <Button
