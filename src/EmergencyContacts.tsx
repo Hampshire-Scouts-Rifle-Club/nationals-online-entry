@@ -1,30 +1,45 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
 import HeadedSection from './HeadedSection';
-import AddButton from './AddButton';
+import { EmergencyContact } from './EmergencyContact';
+import EmergencyContactField from './EmergencyContactField';
 
-function EmergencyContacts(): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  function handleAddOnSiteContact() {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  function handleAddOffSiteContact() {}
-
+type EmergencyContactsPropsType = {
+  onSiteEmergencyContact: EmergencyContact;
+  setOnSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
+  offSiteEmergencyContact: EmergencyContact;
+  setOffSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
+};
+function EmergencyContacts({
+  onSiteEmergencyContact,
+  setOnSiteEmergencyContact,
+  offSiteEmergencyContact,
+  setOffSiteEmergencyContact,
+}: EmergencyContactsPropsType): JSX.Element {
   return (
+    // <Card>
+    //   <CardContent>
     <HeadedSection title="Emergency Contacts">
-      <Grid container direction="column" alignItems="flex-start" spacing={1}>
-        <Grid key="On-Site" item>
-          <AddButton onClick={() => handleAddOnSiteContact()}>
-            Add On-Site Emergency Contact
-          </AddButton>
-        </Grid>
-        <Grid key="Off-Site" item>
-          <AddButton onClick={() => handleAddOffSiteContact()}>
-            Add Off-Site Emergency Contact
-          </AddButton>
-        </Grid>
-      </Grid>
+      {/* <Typography gutterBottom variant="h5" component="h2">
+        Emergency Contacts
+      </Typography> */}
+      <Typography variant="body2" color="textSecondary">
+        On-site:
+      </Typography>
+      <EmergencyContactField
+        emergencyContact={onSiteEmergencyContact}
+        setEmergencyContact={setOnSiteEmergencyContact}
+      />
+      <Typography variant="body2" color="textSecondary">
+        Off-site:
+      </Typography>
+      <EmergencyContactField
+        emergencyContact={offSiteEmergencyContact}
+        setEmergencyContact={setOffSiteEmergencyContact}
+      />
     </HeadedSection>
+    //   </CardContent>
+    // </Card>
   );
 }
 

@@ -15,6 +15,7 @@ import TopBar from './TopBar';
 import { Shooter } from './Shooter';
 import { CampHelper } from './CampHelper';
 import { EmptyCampBooking } from './CampBooking';
+import { EmptyEmergencyContact } from './EmergencyContact';
 
 function App(): JSX.Element {
   // const [state, setState] = useState({ user: null, customState: null });
@@ -54,6 +55,12 @@ function App(): JSX.Element {
   const [allShooters, setAllShooters] = React.useState([] as Shooter[]);
   const [campHelpers, setCampHelpers] = React.useState([] as CampHelper[]);
   const [campBooking, setCampBooking] = React.useState(EmptyCampBooking);
+  const [onSiteEmergencyContact, setOnSiteEmergencyContact] = React.useState(
+    EmptyEmergencyContact
+  );
+  const [offSiteEmergencyContact, setOffSiteEmergencyContact] = React.useState(
+    EmptyEmergencyContact
+  );
 
   return (
     <div className="App">
@@ -65,7 +72,12 @@ function App(): JSX.Element {
           campHelpers={campHelpers}
           setCampHelpers={setCampHelpers}
         />
-        <EmergencyContacts />
+        <EmergencyContacts
+          onSiteEmergencyContact={onSiteEmergencyContact}
+          setOnSiteEmergencyContact={setOnSiteEmergencyContact}
+          offSiteEmergencyContact={offSiteEmergencyContact}
+          setOffSiteEmergencyContact={setOffSiteEmergencyContact}
+        />
         <Permissions />
       </Container>
     </div>
