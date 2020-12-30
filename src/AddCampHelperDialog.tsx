@@ -52,8 +52,8 @@ export function AddCampHelperDialog({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <form onSubmit={formik.handleSubmit}>
-        <DialogTitle id="responsive-dialog-title">Add CampHelper</DialogTitle>
+      <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+        <DialogTitle id="responsive-dialog-title">Camp Helper</DialogTitle>
         <DialogContent>
           <Grid
             container
@@ -66,36 +66,30 @@ export function AddCampHelperDialog({
               <TextField
                 id="firstName"
                 label="First name"
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
-                fullWidth
-              >
-                {formik.values.firstName}
-              </TextField>
+              />
             </Grid>
             <Grid item>
               <TextField
                 id="lastName"
                 label="Last name"
+                value={formik.values.lastName}
                 onChange={formik.handleChange}
-                fullWidth
-              >
-                {formik.values.lastName}
-              </TextField>
+              />
             </Grid>
             <Grid item>
               <TextField
                 id="scoutAssociationId"
                 label="Scout membership number (for DBS)"
+                value={formik.values.scoutAssociationId}
                 onChange={formik.handleChange}
-                fullWidth
-              >
-                {formik.values.scoutAssociationId}
-              </TextField>
+              />
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button type="submit" onClick={handleClose} color="primary">
