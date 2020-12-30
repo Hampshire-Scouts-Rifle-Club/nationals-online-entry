@@ -10,28 +10,35 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 import React from 'react';
-import { number, string } from 'prop-types';
 import { useFormik } from 'formik';
+import { CampBooking } from './CampBooking';
 
 type BookCampingSpaceDialogProps = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  bookCampingSpace: () => void;
+  campBooking: CampBooking;
+  setCampBooking: (campBooking: CampBooking) => void;
 };
 
 export function BookCampingSpaceDialog({
   open,
   handleClose,
-  bookCampingSpace,
+  campBooking,
+  setCampBooking,
 }: BookCampingSpaceDialogProps): JSX.Element {
   const formik = useFormik({
     initialValues: {
-      numberOfPeopleCamping: number,
-      estimatedArrivalTime: string,
-      otherInformation: string,
+      numberOfPeopleCamping: campBooking.numberOfCampers,
+      estimatedArrivalTime: campBooking.estimatedArrivalTime,
+      otherInformation: campBooking.anyOtherInfo,
     },
-    onSubmit: () => {
-      bookCampingSpace();
+    onSubmit: (values) => {
+      const newCampBooking: CampBooking = {
+        numberOfCampers: values.numberOfPeopleCamping,
+        estimatedArrivalTime: values.estimatedArrivalTime,
+        anyOtherInfo: values.otherInformation,
+      };
+      setCampBooking(newCampBooking);
     },
   });
 

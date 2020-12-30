@@ -4,8 +4,17 @@ import React from 'react';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import BookCampingSpaceDialog from './BookCampingSpaceDialog';
+import { CampBooking } from './CampBooking';
 
-function Camping(): JSX.Element {
+type CampBookingProps = {
+  campBooking: CampBooking;
+  setCampBooking: (campBooking: CampBooking) => void;
+};
+
+function Camping({
+  campBooking,
+  setCampBooking,
+}: CampBookingProps): JSX.Element {
   const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -15,20 +24,36 @@ function Camping(): JSX.Element {
   function handleClose() {
     setIsCampingSpaceOpen(false);
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  function bookCampingSpace() {}
-  return (
-    <>
-      <HeadedSection title="Camping">
+
+  function buildCampBookingElement() {
+    const hasCampBooking = campBooking.numberOfCampers !== 0;
+
+    if (!hasCampBooking) {
+      return (
         <AddButton onClick={() => handleClickOpen()}>
           Book Camping Space
         </AddButton>
-      </HeadedSection>
+      );
+    }
+
+    return (
+      <div key="campbooking">
+        <p>{`Camping for ${campBooking.numberOfCampers}`}</p>
+        <p>{`Estimated arrival time ${campBooking.estimatedArrivalTime}`}</p>
+        <p>{campBooking.anyOtherInfo}</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <HeadedSection title="Camping">{buildCampBookingElement()}</HeadedSection>
 
       <BookCampingSpaceDialog
         open={isCampingSpaceOpen}
         handleClose={handleClose}
-        bookCampingSpace={bookCampingSpace}
+        campBooking={campBooking}
+        setCampBooking={setCampBooking}
       />
     </>
   );
