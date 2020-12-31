@@ -19,6 +19,7 @@ import {
 } from '@material-ui/pickers';
 import { useFormik } from 'formik';
 import { Shooter } from './Shooter';
+import { IndividualEntry } from './IndividualEntry';
 
 // type ShootingEventType = {
 //   title: string;
@@ -30,8 +31,8 @@ import { Shooter } from './Shooter';
 type ShooterPropsType = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  addShooter: (shooter: Shooter) => void;
-  shooter: Shooter;
+  addEntry: (entry: IndividualEntry) => void;
+  entry: IndividualEntry;
   // eventsEntered?: ShootingEventType[];
   // allScoutGroups?: string[];
   // allEvents?: ShootingEventType[];
@@ -40,17 +41,17 @@ type ShooterPropsType = {
 export function AddShooterDialog({
   open,
   handleClose,
-  shooter,
-  addShooter,
+  entry,
+  addEntry,
 }: ShooterPropsType): JSX.Element {
   const formik = useFormik({
     initialValues: {
-      firstName: shooter.firstName,
-      lastName: shooter.lastName,
-      dateOfBirth: shooter.dateOfBirth,
-      didEnterLastYear: shooter.didEnterLastYear,
-      isRangeOfficer: shooter.isRangeOfficer,
-      scoutGroup: shooter.scoutGroup,
+      firstName: entry.shooter.firstName,
+      lastName: entry.shooter.lastName,
+      dateOfBirth: entry.shooter.dateOfBirth,
+      didEnterLastYear: entry.shooter.didEnterLastYear,
+      isRangeOfficer: entry.shooter.isRangeOfficer,
+      scoutGroup: entry.shooter.scoutGroup,
     },
     onSubmit: (values) => {
       const newShooter: Shooter = {
@@ -64,7 +65,7 @@ export function AddShooterDialog({
         isRangeOfficer: values.isRangeOfficer,
         rangeOfficerProofUrl: '',
       };
-      addShooter(newShooter);
+      addEntry({ shooter: newShooter, eventsEntered: [] });
     },
   });
 

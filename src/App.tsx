@@ -12,10 +12,10 @@ import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
 import TopBar from './TopBar';
-import { Shooter } from './Shooter';
 import { CampHelper } from './CampHelper';
 import { EmptyCampBooking } from './CampBooking';
 import { EmptyEmergencyContact } from './EmergencyContact';
+import { IndividualEntry } from './IndividualEntry';
 
 function App(): JSX.Element {
   // const [state, setState] = useState({ user: null, customState: null });
@@ -52,7 +52,7 @@ function App(): JSX.Element {
   //       })
   // };
 
-  const [allShooters, setAllShooters] = React.useState([] as Shooter[]);
+  const [allEntries, setAllEntries] = React.useState([] as IndividualEntry[]);
   const [campHelpers, setCampHelpers] = React.useState([] as CampHelper[]);
   const [campBooking, setCampBooking] = React.useState(EmptyCampBooking);
   const [onSiteEmergencyContact, setOnSiteEmergencyContact] = React.useState(
@@ -66,7 +66,7 @@ function App(): JSX.Element {
     <div className="App">
       <TopBar />
       <Container maxWidth="sm">
-        <Shooters allShooters={allShooters} setAllShooters={setAllShooters} />
+        <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
         <CampHelpers
           campHelpers={campHelpers}

@@ -29,7 +29,7 @@ function ShootersGroupCard({
   shootersInGroup,
 }: ShootersGroupCardProps): JSX.Element {
   return (
-    <Card>
+    <Card key={scoutGroupName}>
       <CardHeader title={scoutGroupName} />
       <div
         style={{

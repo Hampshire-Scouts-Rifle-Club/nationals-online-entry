@@ -1,62 +1,26 @@
 import * as React from 'react';
-import { Shooter } from './Shooter';
+import { IndividualEntry } from './IndividualEntry';
+import ShootersGroupCard from './ShootersGroupCard';
 
 type ShootersProps = {
-  shooters: Shooter[];
+  shooters: IndividualEntry[];
 };
 
-function calculateAge(dateOfBirth: Date) {
-  const differenceFromNow = Date.now() - dateOfBirth.getTime();
-  const ageAsDate = new Date(differenceFromNow);
+function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
+  const competitorsByScoutGroup: Map<string, IndividualEntry[]> = new Map();
 
-  return Math.abs(ageAsDate.getUTCFullYear() - 1970);
-}
-
-function buildIsRoString(isRangeOfficer: boolean) {
-  if (isRangeOfficer) {
-    return ', RO';
-  }
-  return '';
-}
-
-function buildShootersByScoutGroup(shooters: Shooter[]) {
-  const competitorsByScoutGroup: Map<string, Shooter[]> = new Map();
-
-  shooters.forEach((shooter) => {
-    const isScoutGroupInMap = competitorsByScoutGroup.has(shooter.scoutGroup);
+  shooters.forEach((entry) => {
+    const { scoutGroup } = entry.shooter;
+    const isScoutGroupInMap = competitorsByScoutGroup.has(scoutGroup);
     if (!isScoutGroupInMap) {
-      competitorsByScoutGroup.set(shooter.scoutGroup, []);
+      competitorsByScoutGroup.set(scoutGroup, []);
     }
-    const scoutGroupCompetitors = competitorsByScoutGroup.get(
-      shooter.scoutGroup
-    );
+    const scoutGroupCompetitors = competitorsByScoutGroup.get(scoutGroup);
     if (scoutGroupCompetitors != null) {
-      scoutGroupCompetitors.push(shooter);
+      scoutGroupCompetitors.push(entry);
     }
   });
   return competitorsByScoutGroup;
-}
-
-function buildScoutGroupCompetitorsElement(
-  scoutGroup: string,
-  shootersInGroup: Shooter[]
-) {
-  return (
-    <div key={`${scoutGroup}-Section`}>
-      <div className="scout-group-heading" key={`${scoutGroup}-Heading`}>
-        {scoutGroup}
-      </div>
-      <ul className="shooters-list" key={scoutGroup}>
-        {shootersInGroup.map((shooter) => (
-          <li key={shooter.id}>
-            {`${shooter.firstName} ${shooter.lastName}, `}
-            {calculateAge(shooter.dateOfBirth).toString()}
-            {buildIsRoString(shooter.isRangeOfficer)}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
 }
 
 function ShootersList({ shooters }: ShootersProps): JSX.Element {
@@ -65,11 +29,12 @@ function ShootersList({ shooters }: ShootersProps): JSX.Element {
   const elementsToReturn: JSX.Element[] = [];
 
   competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup) => {
-    const allCompetitorsElement = buildScoutGroupCompetitorsElement(
-      scoutGroup,
-      shootersInGroup
+    elementsToReturn.push(
+      <ShootersGroupCard
+        scoutGroupName={scoutGroup}
+        shootersInGroup={shootersInGroup}
+      />
     );
-    elementsToReturn.push(allCompetitorsElement);
   });
 
   return <>{elementsToReturn}</>;

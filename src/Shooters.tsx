@@ -4,14 +4,15 @@ import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import ShootersList from './ShootersList';
 import AddShooterDialog from './AddShooterDialog';
-import { Shooter, EmptyShooter } from './Shooter';
+import { EmptyShooter } from './Shooter';
+import { IndividualEntry } from './IndividualEntry';
 
 type ShootersProps = {
-  allShooters: Shooter[];
-  setAllShooters: (allShooters: Shooter[]) => void;
+  allEntries: IndividualEntry[];
+  setAllEntries: (allEntries: IndividualEntry[]) => void;
 };
 
-function Shooters({ allShooters, setAllShooters }: ShootersProps): JSX.Element {
+function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -22,23 +23,23 @@ function Shooters({ allShooters, setAllShooters }: ShootersProps): JSX.Element {
     setIsAddShooterOpen(false);
   }
 
-  function addShooter(newShooter: Shooter) {
+  function addEntry(newEntry: IndividualEntry) {
     // alert(JSON.stringify(newShooter, null, 2));
-    setAllShooters(allShooters.concat(newShooter));
+    setAllEntries(allEntries.concat(newEntry));
   }
 
   return (
     <>
       <HeadedSection title="Shooters">
-        <ShootersList shooters={allShooters} />
+        <ShootersList shooters={allEntries} />
         <AddButton onClick={() => handleClickOpen()}>Add Shooter</AddButton>
       </HeadedSection>
 
       <AddShooterDialog
         open={isAddShooterOpen}
-        shooter={EmptyShooter}
+        entry={{ shooter: EmptyShooter, eventsEntered: [] }}
         handleClose={handleClose}
-        addShooter={addShooter}
+        addEntry={addEntry}
       />
     </>
   );

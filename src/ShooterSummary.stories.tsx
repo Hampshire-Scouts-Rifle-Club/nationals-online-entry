@@ -2,8 +2,9 @@ import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import ShooterSummary from './ShooterSummary';
 
-import AllEvents from './AllEvents';
+import { knockout, mainEvent } from './AllEvents';
 import { Shooter } from './Shooter';
+import { entryLukeHolcroft, entryJonCulshaw, entryJohnHolcroft } from './MockEntryData';
 
 export default {
   title: 'Shooter Summary',
@@ -14,30 +15,6 @@ const Template: Story<ComponentProps<typeof ShooterSummary>> = (args) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <ShooterSummary {...args} />
 );
-
-const childShooter: Shooter = {
-  id: '2',
-  firstName: 'Luke',
-  lastName: 'Holcroft',
-  scoutGroup: 'Woking ESU',
-  dateOfBirth: new Date('November 1, 2005 00:00:01'),
-  didEnterLastYear: true,
-  isRangeOfficer: false,
-  rangeOfficerProofUrl: '',
-  county: 'Surrey',
-};
-
-const adultShooter: Shooter = {
-  id: '1',
-  firstName: 'John',
-  lastName: 'Holcroft',
-  scoutGroup: '1st Knaphill',
-  dateOfBirth: new Date('November 15, 1974 00:00:01'),
-  didEnterLastYear: true,
-  isRangeOfficer: true,
-  rangeOfficerProofUrl: '',
-  county: 'Surrey',
-};
 
 const adultShooterNotRo: Shooter = {
   id: '1',
@@ -53,36 +30,24 @@ const adultShooterNotRo: Shooter = {
 
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
-  shooter: childShooter,
-  eventsEntered: [AllEvents[0], AllEvents[1]],
+  shooter: entryLukeHolcroft.shooter,
+  eventsEntered: [knockout, mainEvent],
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
-  shooter: childShooter,
-  eventsEntered: [
-    AllEvents[0],
-    AllEvents[1],
-    AllEvents[2],
-    AllEvents[4],
-    AllEvents[5],
-  ],
+  shooter: entryLukeHolcroft.shooter,
+  eventsEntered: entryLukeHolcroft.eventsEntered,
 };
 
-export const AdultROEnteredEverything = Template.bind({});
-AdultROEnteredEverything.args = {
-  shooter: adultShooter,
-  eventsEntered: AllEvents,
+export const AdultRO = Template.bind({});
+AdultRO.args = {
+  shooter: entryJonCulshaw.shooter,
+  eventsEntered: entryJonCulshaw.eventsEntered,
 };
 
 export const AdultNotROWithExtraEvents = Template.bind({});
 AdultNotROWithExtraEvents.args = {
   shooter: adultShooterNotRo,
-  eventsEntered: [
-    AllEvents[0],
-    AllEvents[1],
-    AllEvents[2],
-    AllEvents[4],
-    AllEvents[5],
-  ],
+  eventsEntered: entryJohnHolcroft.eventsEntered,
 };

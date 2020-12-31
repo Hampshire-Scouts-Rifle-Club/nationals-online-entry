@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { EventsAvailable } from './EventsAvailable';
-import AllEvents from './AllEvents';
+import { AllEvents } from './AllEvents';
 
 export default {
   title: 'Events Available',
