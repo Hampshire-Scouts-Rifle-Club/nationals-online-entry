@@ -62,7 +62,7 @@ function ShooterSummary({
   eventsEntered,
 }: ShooterSummaryProps): JSX.Element {
   return (
-    <>
+    <div>
       <Typography
         gutterBottom
         variant="h6"
@@ -101,7 +101,7 @@ function ShooterSummary({
       >
         {getCostString(sumCost(eventsEntered))}
       </Typography>
-    </>
+    </div>
   );
 }
 

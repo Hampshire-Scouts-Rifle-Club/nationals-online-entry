@@ -1,4 +1,6 @@
-import { Card, CardHeader, Divider } from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
 import ShooterSummary from './ShooterSummary';
@@ -30,16 +32,12 @@ function ShootersGroupCard({
 }: ShootersGroupCardProps): JSX.Element {
   return (
     <Card key={scoutGroupName}>
-      <CardHeader title={scoutGroupName} />
-      <div
-        style={{
-          paddingLeft: '1rem',
-          paddingRight: '1rem',
-          paddingBottom: '1rem',
-        }}
-      >
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          {scoutGroupName}
+        </Typography>
         {buildSummaryOfShooters(shootersInGroup)}
-      </div>
+      </CardContent>
     </Card>
   );
 }
