@@ -5,8 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Button, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { Card, CardContent, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShootingEvent from './ShootingEvent';
 
@@ -81,43 +81,49 @@ export function EventsEntered({
   lockedEventIds,
 }: EventPropsType): JSX.Element {
   return (
-    <>
-      <Typography variant="h6">Entered</Typography>
-      <TableContainer component={Paper}>
-        <Table size="small" aria-label="Events entered">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell />
-              <TableCell align="center">Slots</TableCell>
-              <TableCell align="right">Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {eventsEntered.map((event) => (
-              <TableRow key={event.id}>
-                {getRemoveButton(event.id, lockedEventIds)}
-                <TableCell style={eventTitleStyle}>{event.title}</TableCell>
-                <TableCell align="center">{event.slots}</TableCell>
-                <TableCell align="right">{getCostString(event.cost)}</TableCell>
+    <Card>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          Entered
+        </Typography>
+        <TableContainer>
+          <Table size="small" aria-label="Events entered">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell />
+                <TableCell align="center">Slots</TableCell>
+                <TableCell align="right">Cost</TableCell>
               </TableRow>
-            ))}
-            <TableRow key="totals">
-              <TableCell />
-              <TableCell align="right" style={totalsStyle}>
-                Total (Max 9 slots)
-              </TableCell>
-              <TableCell align="center" style={totalsStyle}>
-                {sumSlots(eventsEntered)}
-              </TableCell>
-              <TableCell align="right" style={totalsStyle}>
-                {getCostString(sumCost(eventsEntered))}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+            </TableHead>
+            <TableBody>
+              {eventsEntered.map((event) => (
+                <TableRow key={event.id}>
+                  {getRemoveButton(event.id, lockedEventIds)}
+                  <TableCell style={eventTitleStyle}>{event.title}</TableCell>
+                  <TableCell align="center">{event.slots}</TableCell>
+                  <TableCell align="right">
+                    {getCostString(event.cost)}
+                  </TableCell>
+                </TableRow>
+              ))}
+              <TableRow key="totals">
+                <TableCell />
+                <TableCell align="right" style={totalsStyle}>
+                  Total (Max 9 slots)
+                </TableCell>
+                <TableCell align="center" style={totalsStyle}>
+                  {sumSlots(eventsEntered)}
+                </TableCell>
+                <TableCell align="right" style={totalsStyle}>
+                  {getCostString(sumCost(eventsEntered))}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   );
 }
 

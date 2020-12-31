@@ -5,8 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Button, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { Card, CardContent, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import HelpIcon from '@material-ui/icons/Help';
 import ShootingEvent from './ShootingEvent';
@@ -73,28 +73,33 @@ export function EventsAvailable({
   enteredEventIds,
 }: EventsAvailablePropsType): JSX.Element {
   return (
-    <>
-      <Typography variant="h6">Available</Typography>
-      <TableContainer component={Paper}>
-        <Table size="small" aria-label="Events entered">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell />
-              <TableCell align="center">Slots</TableCell>
-              <TableCell align="right">Cost</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {allShootingEvents.map((event) => (
-              <TableRow key={event.id}>
-                {getAddEventButton(event.id, enteredEventIds)}
-                <TableCell style={eventTitleStyle}>{event.title}</TableCell>
-                <TableCell align="center">{event.slots}</TableCell>
-                <TableCell align="right">{getCostString(event.cost)}</TableCell>
-                <TableCell>
-                  {/* <IconButton
+    <Card>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          Available
+        </Typography>
+        <TableContainer>
+          <Table size="small" aria-label="Events entered">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell />
+                <TableCell align="center">Slots</TableCell>
+                <TableCell align="right">Cost</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allShootingEvents.map((event) => (
+                <TableRow key={event.id}>
+                  {getAddEventButton(event.id, enteredEventIds)}
+                  <TableCell style={eventTitleStyle}>{event.title}</TableCell>
+                  <TableCell align="center">{event.slots}</TableCell>
+                  <TableCell align="right">
+                    {getCostString(event.cost)}
+                  </TableCell>
+                  <TableCell>
+                    {/* <IconButton
                     aria-label="information"
                     color="primary"
                     onClick={() => {
@@ -104,25 +109,26 @@ export function EventsAvailable({
                   >
                     <HelpIcon />
                   </IconButton> */}
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<HelpIcon />}
-                    onClick={() => {
-                      // eslint-disable-next-line no-alert
-                      alert(event.description);
-                    }}
-                  >
-                    Info
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="secondary"
+                      startIcon={<HelpIcon />}
+                      onClick={() => {
+                        // eslint-disable-next-line no-alert
+                        alert(event.description);
+                      }}
+                    >
+                      Info
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   );
 }
 
