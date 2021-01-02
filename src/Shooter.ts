@@ -14,7 +14,7 @@ export const EmptyShooter: Shooter = {
   id: '',
   firstName: '',
   lastName: '',
-  dateOfBirth: new Date(),
+  dateOfBirth: new Date('January 1, 1900 00:00:01'),
   scoutGroup: '',
   county: '',
   didEnterLastYear: false,
