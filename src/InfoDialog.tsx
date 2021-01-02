@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  DialogTitle,
 } from '@material-ui/core';
 
 type InfoDialogProps = {
@@ -24,9 +25,10 @@ function InfoDialog({
   return (
     <>
       <Dialog open={isOpen} onClose={handleClose}>
+        {/* <DialogTitle>{title}</DialogTitle> */}
         <DialogContent>
           <DialogContentText>
-            <Typography variant="subtitle2" paragraph>
+            <Typography gutterBottom variant="h5" component="h2">
               {title}
             </Typography>
             {paragraphs.map((paragraph) => (

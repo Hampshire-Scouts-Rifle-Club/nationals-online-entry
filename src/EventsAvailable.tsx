@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +10,7 @@ import { Card, CardContent, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import HelpIcon from '@material-ui/icons/Help';
 import ShootingEvent from './ShootingEvent';
+import InfoDialog from './InfoDialog';
 
 type EventsAvailablePropsType = {
   allShootingEvents: ShootingEvent[];
@@ -72,6 +73,10 @@ export function EventsAvailable({
   allShootingEvents,
   enteredEventIds,
 }: EventsAvailablePropsType): JSX.Element {
+  const [infoDialogTitle, setInfoDialogTitle] = useState('');
+  const [infoDialogParagraphs, setInfoDialogParagraphs] = useState(['']);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
+
   return (
     <Card>
       <CardContent>
@@ -115,8 +120,9 @@ export function EventsAvailable({
                       color="secondary"
                       startIcon={<HelpIcon />}
                       onClick={() => {
-                        // eslint-disable-next-line no-alert
-                        alert(event.description);
+                        setInfoDialogTitle(event.title);
+                        setInfoDialogParagraphs(event.description);
+                        setIsInfoDialogOpen(true);
                       }}
                     >
                       Info
@@ -128,6 +134,14 @@ export function EventsAvailable({
           </Table>
         </TableContainer>
       </CardContent>
+      <InfoDialog
+        title={infoDialogTitle}
+        paragraphs={infoDialogParagraphs}
+        isOpen={isInfoDialogOpen}
+        handleClose={() => {
+          setIsInfoDialogOpen(false);
+        }}
+      />
     </Card>
   );
 }
