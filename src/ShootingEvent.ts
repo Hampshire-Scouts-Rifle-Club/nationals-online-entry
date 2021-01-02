@@ -1,7 +1,7 @@
 export type Event = {
   id: string;
   title: string;
-  description: string;
+  description: string[];
   slots: number;
   cost: number;
 };

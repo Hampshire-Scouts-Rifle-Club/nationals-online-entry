@@ -3,7 +3,9 @@ import {
   advancedFieldTarget,
   fullBore,
   knockout,
-  mainEvent,
+  airRifle6yd,
+  airPistol6yd,
+  fieldTarget,
   ownPistol,
   ownRifle10mSporter,
   ownRifle6yd,
@@ -13,6 +15,21 @@ import {
 } from './AllEvents';
 import { IndividualEntry } from './IndividualEntry';
 
+export const shooterBillyBloggs: Shooter = {
+  id: 'billybloggs',
+  firstName: 'Billy',
+  lastName: 'Bloggs',
+  scoutGroup: '1st Knaphill',
+  dateOfBirth: new Date('January 1, 2008 00:00:01'),
+  didEnterLastYear: false,
+  isRangeOfficer: false,
+  rangeOfficerProofUrl: '',
+  county: 'Surrey',
+};
+export const entryBillyBloggs: IndividualEntry = {
+  shooter: shooterBillyBloggs,
+  eventsEntered: [knockout, airRifle6yd, airPistol6yd, fieldTarget],
+};
 export const shooterJohnHolcroft: Shooter = {
   id: '1',
   firstName: 'John',
@@ -28,7 +45,9 @@ export const entryJohnHolcroft: IndividualEntry = {
   shooter: shooterJohnHolcroft,
   eventsEntered: [
     knockout,
-    mainEvent,
+    airRifle6yd,
+    airPistol6yd,
+    fieldTarget,
     ownRifle6yd,
     ownRifle10mSporter,
     ownPistol,
@@ -51,7 +70,9 @@ export const entryJonCulshaw: IndividualEntry = {
   shooter: shooterJonCulshaw,
   eventsEntered: [
     knockout,
-    mainEvent,
+    airRifle6yd,
+    airPistol6yd,
+    fieldTarget,
     ownRifle6yd,
     ownRifle10mSporter,
     ownPistol,
@@ -73,7 +94,9 @@ export const entryJamesWest: IndividualEntry = {
   shooter: shooterJamesWest,
   eventsEntered: [
     knockout,
-    mainEvent,
+    airRifle6yd,
+    airPistol6yd,
+    fieldTarget,
     ownRifle6yd,
     ownRifle10mSporter,
     ownPistol,
@@ -94,7 +117,9 @@ export const entryLukeHolcroft: IndividualEntry = {
   shooter: shooterLukeHolcroft,
   eventsEntered: [
     knockout,
-    mainEvent,
+    airRifle6yd,
+    airPistol6yd,
+    fieldTarget,
     ownRifle6yd,
     ownRifle10mSporter,
     ownPistol,
@@ -117,7 +142,9 @@ export const entryJennaCulshaw: IndividualEntry = {
   shooter: shooterJennaCulshaw,
   eventsEntered: [
     knockout,
-    mainEvent,
+    airRifle6yd,
+    airPistol6yd,
+    fieldTarget,
     ownRifle6yd,
     ownRifle10mSporter,
     ownPistol,

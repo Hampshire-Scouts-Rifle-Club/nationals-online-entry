@@ -2,9 +2,8 @@ import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import ShooterSummary from './ShooterSummary';
 
-import { knockout, mainEvent } from './AllEvents';
 import { Shooter } from './Shooter';
-import { entryLukeHolcroft, entryJonCulshaw, entryJohnHolcroft } from './MockEntryData';
+import { entryLukeHolcroft, entryJonCulshaw, entryJohnHolcroft, entryBillyBloggs } from './MockEntryData';
 
 export default {
   title: 'Shooter Summary',
@@ -30,8 +29,8 @@ const adultShooterNotRo: Shooter = {
 
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
-  shooter: entryLukeHolcroft.shooter,
-  eventsEntered: [knockout, mainEvent],
+  shooter: entryBillyBloggs.shooter,
+  eventsEntered: entryBillyBloggs.eventsEntered,
 };
 
 export const ChildWithExtraEvents = Template.bind({});

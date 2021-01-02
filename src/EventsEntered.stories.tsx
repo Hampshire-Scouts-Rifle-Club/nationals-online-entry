@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { EventsEntered } from './EventsEntered';
-import { knockout, mainEvent } from './AllEvents';
+import { MainEvents, MainEventIds } from './AllEvents';
 import { entryLukeHolcroft, entryJohnHolcroft } from './MockEntryData';
 
 export default {
@@ -16,14 +16,14 @@ const Template: Story<ComponentProps<typeof EventsEntered>> = (args) => (
 
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
-  eventsEntered: [knockout, mainEvent],
-  lockedEventIds: ['knockout', 'mainevent'],
+  eventsEntered: MainEvents,
+  lockedEventIds: MainEventIds,
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
   eventsEntered: entryLukeHolcroft.eventsEntered,
-  lockedEventIds: ['knockout', 'mainevent'],
+  lockedEventIds: MainEventIds,
 };
 
 export const AdultWithExtraEvents = Template.bind({});
