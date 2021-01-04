@@ -5,9 +5,9 @@
         "node": true
     },
     "extends": [
-        "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:react/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -45,7 +45,8 @@
          "no-undef": "off",
          "no-unused-vars": "off",
          "operator-linebreak": ["error", "after"],
-         "implicit-arrow-linebreak": "off"
+         "implicit-arrow-linebreak": "off",
+         "function-paren-newline": "off"
     },
     "settings": {
         "import/resolver": {

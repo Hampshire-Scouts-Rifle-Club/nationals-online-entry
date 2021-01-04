@@ -2,6 +2,7 @@ import React from 'react';
 // import { useEffect, useState } from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
+import createPersistedState from 'use-persisted-state';
 
 // import { Hub, Auth } from 'aws-amplify';
 // import { Rehydrated } from "aws-appsync-react";
@@ -52,7 +53,11 @@ function App(): JSX.Element {
   //       })
   // };
 
-  const [allEntries, setAllEntries] = React.useState([] as IndividualEntry[]);
+  const usePersistedState = createPersistedState('scoutnationalsentry');
+
+  const [allEntries, setAllEntries] = usePersistedState(
+    [] as IndividualEntry[]
+  );
   const [campHelpers, setCampHelpers] = React.useState([] as CampHelper[]);
   const [campBooking, setCampBooking] = React.useState(EmptyCampBooking);
   const [onSiteEmergencyContact, setOnSiteEmergencyContact] = React.useState(

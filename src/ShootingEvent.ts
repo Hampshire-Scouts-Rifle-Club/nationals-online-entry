@@ -1,9 +1,10 @@
-export type Event = {
+export type ShootingEvent = {
   id: string;
   title: string;
+  summary: string;
   description: string[];
   slots: number;
   cost: number;
 };
 
-export default Event;
+export default ShootingEvent;

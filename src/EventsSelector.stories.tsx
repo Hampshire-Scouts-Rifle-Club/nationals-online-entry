@@ -1,30 +1,36 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import { EventsAvailable } from './EventsAvailable';
-import { AllEvents } from './AllEvents';
+import { EventsSelector } from './EventsSelector';
+import { MainEventIds } from './AllEvents';
 import { entryBillyBloggs, entryLukeHolcroft } from './MockEntryData';
 
 export default {
-  title: 'Events Available',
-  component: EventsAvailable,
+  title: 'Events Selector',
+  component: EventsSelector,
 };
 
-const Template: Story<ComponentProps<typeof EventsAvailable>> = (args) => (
+const Template: Story<ComponentProps<typeof EventsSelector>> = (args) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <EventsAvailable {...args} />
+  <EventsSelector {...args} />
 );
 
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
-  allShootingEvents: AllEvents,
+  isMainEventLocked: true,
   enteredEventIds: entryBillyBloggs.eventsEntered.map((entry) => entry.id),
+  setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
-  allShootingEvents: AllEvents,
+  isMainEventLocked: true,
   enteredEventIds: entryLukeHolcroft.eventsEntered.map((entry) => entry.id),
+  setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 
 export const AdultDefaultEntry = Template.bind({});
-AdultDefaultEntry.args = { allShootingEvents: AllEvents, enteredEventIds: [] };
+AdultDefaultEntry.args = {
+  isMainEventLocked: false,
+  enteredEventIds: MainEventIds,
+  setEnteredEventIds: (eventIds) => alert(eventIds),
+};

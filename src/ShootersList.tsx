@@ -29,10 +29,12 @@ function ShootersList({ shooters }: ShootersProps): JSX.Element {
   const elementsToReturn: JSX.Element[] = [];
 
   competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup) => {
+    const groupKey = scoutGroup;
     elementsToReturn.push(
       <ShootersGroupCard
         scoutGroupName={scoutGroup}
         shootersInGroup={shootersInGroup}
+        key={groupKey}
       />
     );
   });

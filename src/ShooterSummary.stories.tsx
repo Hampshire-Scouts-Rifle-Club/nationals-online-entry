@@ -20,7 +20,7 @@ const adultShooterNotRo: Shooter = {
   firstName: 'Peter',
   lastName: 'Holcroft',
   scoutGroup: '1st Knaphill',
-  dateOfBirth: new Date('November 15, 1977 00:00:01'),
+  dateOfBirth: '1977-01-01T00:00:01.000Z',
   didEnterLastYear: false,
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',

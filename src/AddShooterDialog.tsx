@@ -19,39 +19,30 @@ import {
 } from '@material-ui/pickers';
 import { useFormik } from 'formik';
 import { Shooter } from './Shooter';
-import { IndividualEntry } from './IndividualEntry';
-
-// type ShootingEventType = {
-//   title: string;
-//   slots: number;
-//   cost: number;
-//   description: string;
-// };
 
 type ShooterPropsType = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  addEntry: (entry: IndividualEntry) => void;
-  entry: IndividualEntry;
-  // eventsEntered?: ShootingEventType[];
-  // allScoutGroups?: string[];
-  // allEvents?: ShootingEventType[];
+  addShooter: (shooter: Shooter) => void;
+  shooter: Shooter;
+  actionButtonTitle: string;
 };
 
 export function AddShooterDialog({
   open,
   handleClose,
-  entry,
-  addEntry,
+  shooter,
+  addShooter,
+  actionButtonTitle,
 }: ShooterPropsType): JSX.Element {
   const formik = useFormik({
     initialValues: {
-      firstName: entry.shooter.firstName,
-      lastName: entry.shooter.lastName,
-      dateOfBirth: entry.shooter.dateOfBirth,
-      didEnterLastYear: entry.shooter.didEnterLastYear,
-      isRangeOfficer: entry.shooter.isRangeOfficer,
-      scoutGroup: entry.shooter.scoutGroup,
+      firstName: shooter.firstName,
+      lastName: shooter.lastName,
+      dateOfBirth: shooter.dateOfBirth,
+      didEnterLastYear: shooter.didEnterLastYear,
+      isRangeOfficer: shooter.isRangeOfficer,
+      scoutGroup: shooter.scoutGroup,
     },
     onSubmit: (values) => {
       const newShooter: Shooter = {
@@ -65,7 +56,7 @@ export function AddShooterDialog({
         isRangeOfficer: values.isRangeOfficer,
         rangeOfficerProofUrl: '',
       };
-      addEntry({ shooter: newShooter, eventsEntered: [] });
+      addShooter(newShooter);
     },
   });
 
@@ -172,19 +163,18 @@ export function AddShooterDialog({
           <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button type="submit" onClick={handleClose} color="primary">
-            Save
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleClose}
+            color="primary"
+          >
+            {actionButtonTitle}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
   );
 }
-
-// AddShooterDialog.defaultProps = {
-//   eventsEntered: [],
-//   allScoutGroups: [],
-//   allEvents: [],
-// };
 
 export default AddShooterDialog;

@@ -17,7 +17,7 @@ function calculateAge(dateOfBirth: Date) {
 }
 
 function getShooterAgeAndStatusString(shooter: Shooter): string {
-  const shooterAge = calculateAge(shooter.dateOfBirth);
+  const shooterAge = calculateAge(new Date(shooter.dateOfBirth));
 
   if (shooterAge >= 18) {
     return shooter.isRangeOfficer ? 'Adult, RO' : 'Adult';

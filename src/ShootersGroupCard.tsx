@@ -13,6 +13,7 @@ type ShootersGroupCardProps = {
 function buildSummaryOfShooters(shootersInGroup: IndividualEntry[]) {
   const allShooterSummaries = shootersInGroup.map((individualEntry) => (
     <ShooterSummary
+      key={individualEntry.shooter.id}
       shooter={individualEntry.shooter}
       eventsEntered={individualEntry.eventsEntered}
     />

@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  DialogTitle,
 } from '@material-ui/core';
 
 type InfoDialogProps = {
