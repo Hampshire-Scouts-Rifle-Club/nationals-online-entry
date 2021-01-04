@@ -99,7 +99,7 @@ function ShooterSummary({
         color="textSecondary"
         // style={{ marginLeft: '1rem' }}
       >
-        {getCostString(sumCost(eventsEntered))}
+        {getCostString(22 + sumCost(eventsEntered))}
       </Typography>
     </div>
   );

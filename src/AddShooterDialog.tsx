@@ -23,17 +23,19 @@ import { Shooter } from './Shooter';
 type ShooterPropsType = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  addShooter: (shooter: Shooter) => void;
   shooter: Shooter;
+  setShooter: (shooter: Shooter) => void;
   actionButtonTitle: string;
+  actionButtonHandler: () => void;
 };
 
 export function AddShooterDialog({
   open,
   handleClose,
   shooter,
-  addShooter,
+  setShooter,
   actionButtonTitle,
+  actionButtonHandler,
 }: ShooterPropsType): JSX.Element {
   const formik = useFormik({
     initialValues: {
@@ -56,7 +58,9 @@ export function AddShooterDialog({
         isRangeOfficer: values.isRangeOfficer,
         rangeOfficerProofUrl: '',
       };
-      addShooter(newShooter);
+      setShooter(newShooter);
+      actionButtonHandler();
+      formik.handleReset(undefined);
     },
   });
 

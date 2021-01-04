@@ -4,11 +4,10 @@ import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
 import ShootersList from './ShootersList';
 import AddShooterDialog from './AddShooterDialog';
-import { EmptyShooter, Shooter } from './Shooter';
+import { EmptyShooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
 import EventsSelectorDialog from './EventsSelectorDialog';
 import { AllEvents, MainEventIds } from './AllEvents';
-import ShootingEvent from './ShootingEvent';
 
 type ShootersProps = {
   allEntries: IndividualEntry[];
@@ -18,10 +17,13 @@ type ShootersProps = {
 function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
-  const [workingShooter, setWorkingShooter] = React.useState(EmptyShooter);
   const [isMainEventLocked, setIsMainEventLocked] = React.useState(true);
 
+  const [shooter, setShooter] = React.useState(EmptyShooter);
+  const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
+
   function handleClickAddShooter() {
+    resetDialogs();
     setIsAddShooterOpen(true);
   }
 
@@ -32,29 +34,31 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
     return Math.abs(ageAsDate.getUTCFullYear() - 1970);
   }
 
-  function addShooter(shooter: Shooter) {
-    setWorkingShooter(shooter);
+  function handleAddShooterSubmit() {
     const isAdult = calculateAge(new Date(shooter.dateOfBirth)) >= 18;
     setIsMainEventLocked(!isAdult);
     setIsEventsSelectorOpen(true);
   }
 
-  function addNewEntrantWithEventIds(eventIds: string[]) {
+  function addNewEntrantWithEventIds(newEnteredEventIds: string[]) {
     const eventsEntered = AllEvents.filter((event) =>
-      eventIds.includes(event.id)
+      newEnteredEventIds.includes(event.id)
     );
 
-    addNewEntrant(workingShooter, eventsEntered);
+    addNewEntrant({
+      shooter,
+      eventsEntered,
+    });
   }
 
-  function addNewEntrant(shooter: Shooter, eventsEntered: ShootingEvent[]) {
-    const newEntry = {
-      shooter: workingShooter,
-      eventsEntered,
-    } as IndividualEntry;
+  function addNewEntrant(newEntry: IndividualEntry) {
     setAllEntries(allEntries.concat(newEntry));
   }
 
+  function resetDialogs() {
+    setShooter(EmptyShooter);
+    setEnteredEventIds(MainEventIds);
+  }
   return (
     <>
       <HeadedSection title="Shooters">
@@ -66,16 +70,17 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
 
       <AddShooterDialog
         open={isAddShooterOpen}
-        shooter={EmptyShooter}
         handleClose={() => setIsAddShooterOpen(false)}
-        addShooter={addShooter}
+        shooter={shooter}
+        setShooter={setShooter}
         actionButtonTitle="Next"
+        actionButtonHandler={handleAddShooterSubmit}
       />
       <EventsSelectorDialog
         open={isEventsSelectorOpen}
         handleClose={() => setIsEventsSelectorOpen(false)}
         isMainEventLocked={isMainEventLocked}
-        enteredEventIds={MainEventIds}
+        enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
       />
     </>

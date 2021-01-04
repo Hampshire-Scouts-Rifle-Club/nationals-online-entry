@@ -35,6 +35,7 @@ function EventsSelectorDialog({
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setEnteredEventIds(workingEnteredEventIds);
+    setWorkingEnteredEventIds(enteredEventIds);
   }
 
   function handleReset(event: FormEvent) {

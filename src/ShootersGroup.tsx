@@ -42,7 +42,7 @@ function ShootersGroupCard({
       >
         <Typography
           gutterBottom
-          variant="h5"
+          variant="h6"
           component="h2"
           style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}
         >
