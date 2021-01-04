@@ -53,19 +53,39 @@ function App(): JSX.Element {
   //       })
   // };
 
-  const usePersistedState = createPersistedState('scoutnationalsentry');
+  const usePersistedEntriesState = createPersistedState(
+    'scoutnationalsentries'
+  );
+  const usePersistedCampHelpersState = createPersistedState(
+    'scoutnationalscamphelpers'
+  );
+  const usePersistedCampBookingState = createPersistedState(
+    'scoutnationalscampbooking'
+  );
+  const usePersistedOnSiteEmergencyContactState = createPersistedState(
+    'scoutnationalsonsitemergencycontact'
+  );
+  const usePersistedOffSiteEmergencyContactState = createPersistedState(
+    'scoutnationalsoffsitemergencycontact'
+  );
 
-  const [allEntries, setAllEntries] = usePersistedState(
+  const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
   );
-  const [campHelpers, setCampHelpers] = React.useState([] as CampHelper[]);
-  const [campBooking, setCampBooking] = React.useState(EmptyCampBooking);
-  const [onSiteEmergencyContact, setOnSiteEmergencyContact] = React.useState(
-    EmptyEmergencyContact
+  const [campHelpers, setCampHelpers] = usePersistedCampHelpersState(
+    [] as CampHelper[]
   );
-  const [offSiteEmergencyContact, setOffSiteEmergencyContact] = React.useState(
-    EmptyEmergencyContact
+  const [campBooking, setCampBooking] = usePersistedCampBookingState(
+    EmptyCampBooking
   );
+  const [
+    onSiteEmergencyContact,
+    setOnSiteEmergencyContact,
+  ] = usePersistedOnSiteEmergencyContactState(EmptyEmergencyContact);
+  const [
+    offSiteEmergencyContact,
+    setOffSiteEmergencyContact,
+  ] = usePersistedOffSiteEmergencyContactState(EmptyEmergencyContact);
 
   function handleReset() {
     setAllEntries([]);
