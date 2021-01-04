@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
-import ShootersGroupCard from './ShootersGroupCard';
+import ShootersGroup from './ShootersGroup';
 
 type ShootersProps = {
   shooters: IndividualEntry[];
@@ -31,7 +31,7 @@ function ShootersList({ shooters }: ShootersProps): JSX.Element {
   competitorsByScoutGroup.forEach((shootersInGroup, scoutGroup) => {
     const groupKey = scoutGroup;
     elementsToReturn.push(
-      <ShootersGroupCard
+      <ShootersGroup
         scoutGroupName={scoutGroup}
         shootersInGroup={shootersInGroup}
         key={groupKey}

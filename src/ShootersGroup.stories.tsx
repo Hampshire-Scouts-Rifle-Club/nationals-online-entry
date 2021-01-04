@@ -1,16 +1,16 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import ShootersGroupCard from './ShootersGroupCard';
+import ShootersGroup from './ShootersGroup';
 import { entryJamesWest, entryJohnHolcroft, entryJonCulshaw } from './MockEntryData';
 
 export default {
-  title: 'Shooters Group Card',
-  component: ShootersGroupCard,
+  title: 'Shooters Group',
+  component: ShootersGroup,
 };
 
-const Template: Story<ComponentProps<typeof ShootersGroupCard>> = (args) => (
+const Template: Story<ComponentProps<typeof ShootersGroup>> = (args) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <ShootersGroupCard {...args} />
+  <ShootersGroup {...args} />
 );
 
 export const TeamEntry = Template.bind({});
