@@ -67,9 +67,17 @@ function App(): JSX.Element {
     EmptyEmergencyContact
   );
 
+  function handleReset() {
+    setAllEntries([]);
+    setCampHelpers([]);
+    setCampBooking(EmptyCampBooking);
+    setOnSiteEmergencyContact(EmptyEmergencyContact);
+    setOffSiteEmergencyContact(EmptyEmergencyContact);
+  }
+
   return (
     <div className="App">
-      <TopBar />
+      <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />

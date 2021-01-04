@@ -22,9 +22,17 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
+  button: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
 }));
 
-export default function TopBar(): JSX.Element {
+type TopBarProps = {
+  resetHandler: () => void;
+};
+
+export default function TopBar({ resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -40,6 +48,15 @@ export default function TopBar(): JSX.Element {
           </Typography>
           <Button variant="outlined" size="small" color="inherit">
             Sign Out
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="inherit"
+            onClick={() => resetHandler()}
+            className={classes.button}
+          >
+            Reset
           </Button>
         </Toolbar>
       </AppBar>
