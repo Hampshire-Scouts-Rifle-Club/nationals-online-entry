@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import EventsSelector from './EventsSelector';
 
 type EventSelectorDialogProps = {
@@ -32,11 +32,13 @@ function EventsSelectorDialog({
     enteredEventIds
   );
 
-  function handleSubmit() {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
     setEnteredEventIds(workingEnteredEventIds);
   }
 
-  function handleReset() {
+  function handleReset(event: FormEvent) {
+    event.preventDefault();
     setWorkingEnteredEventIds(enteredEventIds);
   }
 
