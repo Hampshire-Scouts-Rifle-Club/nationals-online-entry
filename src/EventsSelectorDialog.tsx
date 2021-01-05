@@ -35,6 +35,10 @@ function EventsSelectorDialog({
     enteredEventIds
   );
 
+  React.useEffect(() => {
+    setWorkingEnteredEventIds(enteredEventIds);
+  }, [enteredEventIds]);
+
   function handleSubmit() {
     setEnteredEventIds(workingEnteredEventIds);
     handleClose();
