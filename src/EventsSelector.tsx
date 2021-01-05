@@ -13,7 +13,8 @@ import HelpIcon from '@material-ui/icons/Help';
 import CheckIcon from '@material-ui/icons/Check';
 import ShootingEvent from './ShootingEvent';
 import InfoDialog from './InfoDialog';
-import { AllEvents, AllEventsInCategories } from './AllEvents';
+import { AllEventsInCategories } from './AllEvents';
+import { getCostString } from './EventsSummaryBuilder';
 
 type EventsSelectorProps = {
   enteredEventIds: string[];
@@ -21,37 +22,10 @@ type EventsSelectorProps = {
   isMainEventLocked: boolean;
 };
 
-const noDecimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-});
-
-const decimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  minimumFractionDigits: 2,
-});
-
-function getCostString(cost: number): string {
-  const isWholeNumber = cost % 1 === 0;
-  const formatter = isWholeNumber ? noDecimalsFormatter : decimalsFormatter;
-  return formatter.format(cost);
-}
-
 const eventTitleStyle = {
   width: '100%',
   flex: 1,
 };
-
-function sumCost(events: ShootingEvent[]) {
-  return events.map(({ cost }) => cost).reduce((sum, i) => sum + i, 0);
-}
-
-function sumSlots(events: ShootingEvent[]) {
-  return events.map(({ slots }) => slots).reduce((sum, i) => sum + i, 0);
-}
 
 export function EventsSelector({
   enteredEventIds,
@@ -207,32 +181,9 @@ export function EventsSelector({
     );
   });
 
-  function buildSummary() {
-    const eventsEntered = AllEvents.filter(
-      (event) => enteredEventIds.includes(event.id)
-      // eslint-disable-next-line function-paren-newline
-    );
-    const totalSlots = sumSlots(eventsEntered);
-    const extrasCost = sumCost(eventsEntered);
-    let totalCostString = `${getCostString(22 + extrasCost)}: Entry`;
-    if (extrasCost > 0) {
-      const extrasCostString = getCostString(extrasCost);
-      totalCostString += ` + ${extrasCostString} extra events`;
-    }
-    return (
-      <>
-        <Typography>{`${totalSlots} slots of 9 maximum`}</Typography>
-        <Typography>{totalCostString}</Typography>
-      </>
-    );
-  }
-
   return (
-    <Card>
-      <CardContent>
-        {categorisedEventElements}
-        {buildSummary()}
-      </CardContent>
+    <>
+      {categorisedEventElements}
       <InfoDialog
         title={infoDialogTitle}
         paragraphs={infoDialogParagraphs}
@@ -241,7 +192,7 @@ export function EventsSelector({
           setIsInfoDialogOpen(false);
         }}
       />
-    </Card>
+    </>
   );
 }
 

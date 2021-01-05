@@ -4,15 +4,18 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
-import React, { FormEvent } from 'react';
+import React from 'react';
+import { AllEvents } from './AllEvents';
 import EventsSelector from './EventsSelector';
+import { getCostString, sumCost, sumSlots } from './EventsSummaryBuilder';
 
 type EventSelectorDialogProps = {
   open: boolean;
-  handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleClose: () => void;
   enteredEventIds: string[];
   setEnteredEventIds: (eventIds: string[]) => void;
   isMainEventLocked: boolean;
@@ -32,15 +35,32 @@ function EventsSelectorDialog({
     enteredEventIds
   );
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
+  function handleSubmit() {
     setEnteredEventIds(workingEnteredEventIds);
+    handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
   }
 
-  function handleReset(event: FormEvent) {
-    event.preventDefault();
+  function handleReset() {
+    handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
+  }
+
+  function buildSummary() {
+    const eventsEntered = AllEvents.filter(
+      (event) => workingEnteredEventIds.includes(event.id)
+      // eslint-disable-next-line function-paren-newline
+    );
+    const totalSlots = sumSlots(eventsEntered);
+    const extrasCost = sumCost(eventsEntered);
+    const totalCostString = `${getCostString(22 + extrasCost)}`;
+
+    return (
+      <>
+        <Typography variant="subtitle2">{totalCostString}</Typography>
+        <Typography variant="subtitle2">{`(${totalSlots} slots of 9)`}</Typography>
+      </>
+    );
   }
 
   return (
@@ -49,30 +69,25 @@ function EventsSelectorDialog({
       open={open}
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
+      scroll="paper"
     >
-      <form onSubmit={handleSubmit} onReset={handleReset}>
-        <DialogTitle id="responsive-dialog-title">Choose Events</DialogTitle>
-        <DialogContent>
-          <EventsSelector
-            enteredEventIds={workingEnteredEventIds}
-            setEnteredEventIds={setWorkingEnteredEventIds}
-            isMainEventLocked={isMainEventLocked}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button type="reset" onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={handleClose}
-            color="primary"
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </form>
+      <DialogTitle id="responsive-dialog-title">Choose Events</DialogTitle>
+      <DialogContent dividers>
+        <EventsSelector
+          enteredEventIds={workingEnteredEventIds}
+          setEnteredEventIds={setWorkingEnteredEventIds}
+          isMainEventLocked={isMainEventLocked}
+        />
+      </DialogContent>
+      <DialogActions>
+        {buildSummary()}
+        <Button onClick={handleReset} color="primary">
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={handleSubmit} color="primary">
+          Save
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
