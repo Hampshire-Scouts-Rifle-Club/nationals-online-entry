@@ -8,6 +8,7 @@ import { EmptyShooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
 import EventsSelectorDialog from './EventsSelectorDialog';
 import { AllEvents, MainEventIds } from './AllEvents';
+import { calculateAge } from './AgeUtils';
 
 type ShootersProps = {
   allEntries: IndividualEntry[];
@@ -25,13 +26,6 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   function handleClickAddShooter() {
     resetDialogs();
     setIsAddShooterOpen(true);
-  }
-
-  function calculateAge(dateOfBirth: Date, onDate = Date.now()) {
-    const differenceFromNow = onDate - dateOfBirth.getTime();
-    const ageAsDate = new Date(differenceFromNow);
-
-    return Math.abs(ageAsDate.getUTCFullYear() - 1970);
   }
 
   function handleAddShooterSubmit() {

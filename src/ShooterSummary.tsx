@@ -1,6 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import * as React from 'react';
+import { calculateAge } from './AgeUtils';
 import { Shooter } from './Shooter';
 import ShootingEvent from './ShootingEvent';
 
@@ -8,13 +9,6 @@ type ShooterSummaryProps = {
   shooter: Shooter;
   eventsEntered: ShootingEvent[];
 };
-
-function calculateAge(dateOfBirth: Date) {
-  const differenceFromNow = Date.now() - dateOfBirth.getTime();
-  const ageAsDate = new Date(differenceFromNow);
-
-  return Math.abs(ageAsDate.getUTCFullYear() - 1970);
-}
 
 function getShooterAgeAndStatusString(shooter: Shooter): string {
   const shooterAge = calculateAge(new Date(shooter.dateOfBirth));
