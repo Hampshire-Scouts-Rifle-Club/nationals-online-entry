@@ -31,22 +31,26 @@ export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
   shooter: entryBillyBloggs.shooter,
   eventsEntered: entryBillyBloggs.eventsEntered,
+  handleEdit: () => alert('Edit clicked')
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
   shooter: entryLukeHolcroft.shooter,
   eventsEntered: entryLukeHolcroft.eventsEntered,
+  handleEdit: () => alert('Edit clicked')
 };
 
 export const AdultRO = Template.bind({});
 AdultRO.args = {
   shooter: entryJonCulshaw.shooter,
   eventsEntered: entryJonCulshaw.eventsEntered,
+  handleEdit: () => alert('Edit clicked')
 };
 
 export const AdultNotROWithExtraEvents = Template.bind({});
 AdultNotROWithExtraEvents.args = {
   shooter: adultShooterNotRo,
   eventsEntered: entryJohnHolcroft.eventsEntered,
+  handleEdit: () => alert('Edit clicked')
 };

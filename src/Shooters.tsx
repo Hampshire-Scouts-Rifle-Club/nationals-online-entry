@@ -7,7 +7,7 @@ import AddShooterDialog from './AddShooterDialog';
 import { EmptyShooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
 import EventsSelectorDialog from './EventsSelectorDialog';
-import { AllEvents, MainEventIds } from './AllEvents';
+import { AllEvents, MainEventIds, MainEvents } from './AllEvents';
 import { calculateAge } from './AgeUtils';
 
 type ShootersProps = {
@@ -18,20 +18,47 @@ type ShootersProps = {
 function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
+  const [isEditShooterOpen, setIsEditShooterOpen] = React.useState(false);
+  const [
+    isEditEventsSelectorOpen,
+    setIsEditEventsSelectorOpen,
+  ] = React.useState(false);
   const [isMainEventLocked, setIsMainEventLocked] = React.useState(true);
+
+  const EmptyEntry = {
+    shooter: EmptyShooter,
+    eventsEntered: MainEvents,
+  } as IndividualEntry;
 
   const [shooter, setShooter] = React.useState(EmptyShooter);
   const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
+
+  const [entryToEdit, setEntryToEdit] = React.useState(EmptyEntry);
+
+  function handleEditEntry(entry: IndividualEntry) {
+    setEntryToEdit(entry);
+    resetDialogs(entry);
+    setIsEditShooterOpen(true);
+  }
 
   function handleClickAddShooter() {
     resetDialogs();
     setIsAddShooterOpen(true);
   }
 
-  function handleAddShooterSubmit() {
+  function lockOrUnlockMainEvents() {
     const isAdult = calculateAge(new Date(shooter.dateOfBirth)) >= 18;
     setIsMainEventLocked(!isAdult);
+  }
+
+  function handleAddShooterSubmit() {
+    lockOrUnlockMainEvents();
     setIsEventsSelectorOpen(true);
+  }
+
+  function handleEditShooterSubmit() {
+    lockOrUnlockMainEvents();
+    setIsEditEventsSelectorOpen(true);
   }
 
   function addNewEntrantWithEventIds(newEnteredEventIds: string[]) {
@@ -45,18 +72,39 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
     });
   }
 
+  function editEntrantWithEventIds(newEnteredEventIds: string[]) {
+    const eventsEntered = AllEvents.filter((event) =>
+      newEnteredEventIds.includes(event.id)
+    );
+
+    editEntrant({
+      shooter,
+      eventsEntered,
+    });
+  }
+
   function addNewEntrant(newEntry: IndividualEntry) {
     setAllEntries(allEntries.concat(newEntry));
   }
 
-  function resetDialogs() {
-    setShooter(EmptyShooter);
-    setEnteredEventIds(MainEventIds);
+  function editEntrant(newEntry: IndividualEntry) {
+    const allEntriesWithoutChanged = allEntries.filter(
+      (entry) => entry !== entryToEdit
+    );
+    const newAllEntries = allEntriesWithoutChanged.concat(newEntry);
+    setAllEntries(newAllEntries);
   }
+
+  function resetDialogs(to = EmptyEntry) {
+    setShooter(to.shooter);
+    const eventIds = to.eventsEntered.map((event) => event.id);
+    setEnteredEventIds(eventIds);
+  }
+
   return (
     <>
       <HeadedSection title="Shooters">
-        <ShootersList shooters={allEntries} />
+        <ShootersList shooters={allEntries} handleEdit={handleEditEntry} />
         <AddButton onClick={() => handleClickAddShooter()}>
           Add Shooter
         </AddButton>
@@ -68,7 +116,8 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
         shooter={shooter}
         setShooter={setShooter}
         actionButtonTitle="Next"
-        actionButtonHandler={handleAddShooterSubmit}
+        submitHandler={handleAddShooterSubmit}
+        title="Add Shooter"
       />
       <EventsSelectorDialog
         open={isEventsSelectorOpen}
@@ -76,6 +125,23 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
         isMainEventLocked={isMainEventLocked}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
+      />
+
+      <AddShooterDialog
+        open={isEditShooterOpen}
+        handleClose={() => setIsEditShooterOpen(false)}
+        shooter={shooter}
+        setShooter={setShooter}
+        actionButtonTitle="Next"
+        submitHandler={handleEditShooterSubmit}
+        title="Edit Shooter"
+      />
+      <EventsSelectorDialog
+        open={isEditEventsSelectorOpen}
+        handleClose={() => setIsEditEventsSelectorOpen(false)}
+        isMainEventLocked={isMainEventLocked}
+        enteredEventIds={enteredEventIds}
+        setEnteredEventIds={editEntrantWithEventIds}
       />
     </>
   );

@@ -7,29 +7,31 @@ import ShooterSummary from './ShooterSummary';
 type ShootersGroupCardProps = {
   scoutGroupName: string;
   shootersInGroup: IndividualEntry[];
+  handleEdit: (entry: IndividualEntry) => void;
 };
-
-function buildSummaryOfShooters(shootersInGroup: IndividualEntry[]) {
-  const allShooterSummaries = shootersInGroup.map((individualEntry) => (
-    <ShooterSummary
-      key={individualEntry.shooter.id}
-      shooter={individualEntry.shooter}
-      eventsEntered={individualEntry.eventsEntered}
-    />
-  ));
-
-  const withDividers = allShooterSummaries.map((summaryElement, index) => [
-    index > 0 && <Divider variant="middle" style={{ margin: '0.5rem' }} />,
-    summaryElement,
-  ]);
-
-  return withDividers;
-}
 
 function ShootersGroupCard({
   scoutGroupName,
   shootersInGroup,
+  handleEdit,
 }: ShootersGroupCardProps): JSX.Element {
+  function buildSummaryOfShooters() {
+    const allShooterSummaries = shootersInGroup.map((individualEntry) => (
+      <ShooterSummary
+        key={individualEntry.shooter.id}
+        shooter={individualEntry.shooter}
+        eventsEntered={individualEntry.eventsEntered}
+        handleEdit={() => handleEdit(individualEntry)}
+      />
+    ));
+    const withDividers = allShooterSummaries.map((summaryElement, index) => [
+      index > 0 && <Divider variant="middle" style={{ margin: '0.5rem' }} />,
+      summaryElement,
+    ]);
+
+    return withDividers;
+  }
+
   return (
     <>
       <div
@@ -49,9 +51,7 @@ function ShootersGroupCard({
           {scoutGroupName}
         </Typography>
       </div>
-      <div style={{ marginBottom: '1rem' }}>
-        {buildSummaryOfShooters(shootersInGroup)}
-      </div>
+      <div style={{ marginBottom: '1rem' }}>{buildSummaryOfShooters()}</div>
     </>
   );
 }

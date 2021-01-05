@@ -23,10 +23,11 @@ import { Shooter } from './Shooter';
 type ShooterPropsType = {
   open: boolean;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  shooter: Shooter;
   setShooter: (shooter: Shooter) => void;
+  shooter: Shooter;
+  submitHandler: (shooter: Shooter) => void;
   actionButtonTitle: string;
-  actionButtonHandler: () => void;
+  title: string;
 };
 
 export function AddShooterDialog({
@@ -34,8 +35,9 @@ export function AddShooterDialog({
   handleClose,
   shooter,
   setShooter,
+  submitHandler,
   actionButtonTitle,
-  actionButtonHandler,
+  title,
 }: ShooterPropsType): JSX.Element {
   const formik = useFormik({
     initialValues: {
@@ -59,10 +61,23 @@ export function AddShooterDialog({
         rangeOfficerProofUrl: '',
       };
       setShooter(newShooter);
-      actionButtonHandler();
-      formik.handleReset(undefined);
+      submitHandler(newShooter);
+      formik.resetForm();
     },
   });
+
+  React.useEffect(() => {
+    formik.resetForm({
+      values: {
+        firstName: shooter.firstName,
+        lastName: shooter.lastName,
+        dateOfBirth: shooter.dateOfBirth,
+        didEnterLastYear: shooter.didEnterLastYear,
+        isRangeOfficer: shooter.isRangeOfficer,
+        scoutGroup: shooter.scoutGroup,
+      },
+    });
+  }, [shooter]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -75,7 +90,7 @@ export function AddShooterDialog({
       aria-labelledby="responsive-dialog-title"
     >
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-        <DialogTitle id="responsive-dialog-title">Add Shooter</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <Grid
             container

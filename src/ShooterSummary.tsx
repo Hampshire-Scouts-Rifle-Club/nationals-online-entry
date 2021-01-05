@@ -2,12 +2,14 @@ import { Button, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import * as React from 'react';
 import { calculateAge } from './AgeUtils';
+import { getCostString, sumCost } from './EventsSummaryBuilder';
 import { Shooter } from './Shooter';
 import ShootingEvent from './ShootingEvent';
 
 type ShooterSummaryProps = {
   shooter: Shooter;
   eventsEntered: ShootingEvent[];
+  handleEdit: () => void;
 };
 
 function getShooterAgeAndStatusString(shooter: Shooter): string {
@@ -28,32 +30,10 @@ function getEventsEntered(eventsEntered: ShootingEvent[]): string {
   return allEventTitles.join(', ');
 }
 
-const noDecimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-});
-
-const decimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  minimumFractionDigits: 2,
-});
-
-function getCostString(cost: number): string {
-  const isWholeNumber = cost % 1 === 0;
-  const formatter = isWholeNumber ? noDecimalsFormatter : decimalsFormatter;
-  return formatter.format(cost);
-}
-
-function sumCost(events: ShootingEvent[]) {
-  return events.map(({ cost }) => cost).reduce((sum, i) => sum + i, 0);
-}
-
 function ShooterSummary({
   shooter,
   eventsEntered,
+  handleEdit,
 }: ShooterSummaryProps): JSX.Element {
   return (
     <div>
@@ -78,6 +58,7 @@ function ShooterSummary({
         // variant="outlined"
         style={{ float: 'right' }}
         startIcon={<EditIcon />}
+        onClick={() => handleEdit()}
       >
         Edit
       </Button>

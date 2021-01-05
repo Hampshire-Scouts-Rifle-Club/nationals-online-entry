@@ -4,6 +4,7 @@ import ShootersGroup from './ShootersGroup';
 
 type ShootersProps = {
   shooters: IndividualEntry[];
+  handleEdit: (entry: IndividualEntry) => void;
 };
 
 function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
@@ -23,7 +24,7 @@ function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
   return competitorsByScoutGroup;
 }
 
-function ShootersList({ shooters }: ShootersProps): JSX.Element {
+function ShootersList({ shooters, handleEdit }: ShootersProps): JSX.Element {
   const competitorsByScoutGroup = buildShootersByScoutGroup(shooters);
 
   const elementsToReturn: JSX.Element[] = [];
@@ -35,6 +36,7 @@ function ShootersList({ shooters }: ShootersProps): JSX.Element {
         scoutGroupName={scoutGroup}
         shootersInGroup={shootersInGroup}
         key={groupKey}
+        handleEdit={handleEdit}
       />
     );
   });
