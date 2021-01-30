@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import { airRifle6yd, beginnersSmallBore } from './AllEvents';
+import { airRifle6yd, beginnersSmallBore, knockout } from './AllEvents';
 import EventDescription from './EventDescription';
 
 
@@ -14,6 +14,12 @@ const Template: Story<ComponentProps<typeof EventDescription>> = (args) => (
   <EventDescription {...args} />
 );
 
+export const Knockout = Template.bind({});
+Knockout.args = {
+    event: knockout,
+    showAddButton: false,
+    showRemoveButton: false,
+}
 export const AirRifle6yd = Template.bind({});
 AirRifle6yd.args = {
     event: airRifle6yd,

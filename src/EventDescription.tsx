@@ -53,19 +53,38 @@ EventsDescriptionProps): JSX.Element {
   return (
     <>
       <Typography variant="h6">{event.title}</Typography>
-      <Typography variant="subtitle1">
-        {(getCostString(event.cost), getSlotsString(event.slots))}
-      </Typography>
-      <Typography variant="subtitle1">event.summary</Typography>
-      <Button color="primary" style={{ display: showAddButton ? '' : 'none' }}>
-        Add
-      </Button>
-      <Button
-        color="primary"
-        style={{ display: showRemoveButton ? '' : 'none' }}
-      >
-        Remove
-      </Button>
+      <Typography>{event.summary}</Typography>
+
+      <div style={{ marginTop: '1rem' }}>
+        <Typography>{getSlotsString(event.slots)}</Typography>
+        <Typography>{event.cost > 0 && getCostString(event.cost)}</Typography>
+      </div>
+
+      <div style={{ marginTop: '1rem' }}>
+        <Button
+          color="primary"
+          variant="outlined"
+          size="small"
+          style={{ display: showAddButton ? '' : 'none' }}
+        >
+          Add
+        </Button>
+        <Button
+          color="primary"
+          variant="outlined"
+          size="small"
+          style={{ display: showRemoveButton ? '' : 'none' }}
+        >
+          Remove
+        </Button>
+        <Button
+          color="primary"
+          size="small"
+          onClick={() => setIsInfoDialogOpen(true)}
+        >
+          Rules
+        </Button>
+      </div>
       <InfoDialog
         title={event.title}
         paragraphs={event.description}

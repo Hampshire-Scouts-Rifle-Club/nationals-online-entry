@@ -46,7 +46,9 @@
          "no-unused-vars": "off",
          "operator-linebreak": ["error", "after"],
          "implicit-arrow-linebreak": "off",
-         "function-paren-newline": "off"
+         "function-paren-newline": "off",
+         "no-shadow": "off",
+         "@typescript-eslint/no-shadow": ["error"]
     },
     "settings": {
         "import/resolver": {
