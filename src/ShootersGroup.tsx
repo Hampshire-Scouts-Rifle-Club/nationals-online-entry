@@ -25,7 +25,13 @@ function ShootersGroupCard({
       />
     ));
     const withDividers = allShooterSummaries.map((summaryElement, index) => [
-      index > 0 && <Divider variant="middle" style={{ margin: '0.5rem' }} />,
+      index > 0 && (
+        <Divider
+          variant="middle"
+          style={{ margin: '0.5rem' }}
+          key={`${summaryElement.key}-Divider`}
+        />
+      ),
       summaryElement,
     ]);
 
@@ -35,7 +41,7 @@ function ShootersGroupCard({
   return (
     <>
       <div
-        key={scoutGroupName}
+        key={`${scoutGroupName}-Header`}
         style={{
           backgroundColor: '#e0e0e0',
           marginLeft: '-0.5rem',
@@ -51,7 +57,9 @@ function ShootersGroupCard({
           {scoutGroupName}
         </Typography>
       </div>
-      <div style={{ marginBottom: '1rem' }}>{buildSummaryOfShooters()}</div>
+      <div style={{ marginBottom: '1rem' }} key={`${scoutGroupName}-Entrants`}>
+        {buildSummaryOfShooters()}
+      </div>
     </>
   );
 }
