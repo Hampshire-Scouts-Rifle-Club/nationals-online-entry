@@ -17,14 +17,14 @@ const Template: Story<ComponentProps<typeof EventsSelector>> = (args) => (
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
   isMainEventLocked: true,
-  enteredEventIds: entryBillyBloggs.eventsEntered.map((entry) => entry.id),
+  enteredEventIds: entryBillyBloggs.enteredEventIds,
   setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
   isMainEventLocked: true,
-  enteredEventIds: entryLukeHolcroft.eventsEntered.map((entry) => entry.id),
+  enteredEventIds: entryLukeHolcroft.enteredEventIds,
   setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 

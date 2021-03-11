@@ -3,7 +3,12 @@ import { Story } from '@storybook/react/types-6-0';
 import ShooterSummary from './ShooterSummary';
 
 import { Shooter } from './Shooter';
-import { entryLukeHolcroft, entryJonCulshaw, entryJohnHolcroft, entryBillyBloggs } from './MockEntryData';
+import {
+  entryLukeHolcroft,
+  entryJonCulshaw,
+  entryJohnHolcroft,
+  entryBillyBloggs,
+} from './MockEntryData';
 
 export default {
   title: 'Shooter Summary',
@@ -30,27 +35,27 @@ const adultShooterNotRo: Shooter = {
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
   shooter: entryBillyBloggs.shooter,
-  eventsEntered: entryBillyBloggs.eventsEntered,
-  handleEdit: () => alert('Edit clicked')
+  enteredEventIds: entryBillyBloggs.enteredEventIds,
+  handleEdit: () => alert('Edit clicked'),
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
   shooter: entryLukeHolcroft.shooter,
-  eventsEntered: entryLukeHolcroft.eventsEntered,
-  handleEdit: () => alert('Edit clicked')
+  enteredEventIds: entryLukeHolcroft.enteredEventIds,
+  handleEdit: () => alert('Edit clicked'),
 };
 
 export const AdultRO = Template.bind({});
 AdultRO.args = {
   shooter: entryJonCulshaw.shooter,
-  eventsEntered: entryJonCulshaw.eventsEntered,
-  handleEdit: () => alert('Edit clicked')
+  enteredEventIds: entryJonCulshaw.enteredEventIds,
+  handleEdit: () => alert('Edit clicked'),
 };
 
 export const AdultNotROWithExtraEvents = Template.bind({});
 AdultNotROWithExtraEvents.args = {
   shooter: adultShooterNotRo,
-  eventsEntered: entryJohnHolcroft.eventsEntered,
-  handleEdit: () => alert('Edit clicked')
+  enteredEventIds: entryJohnHolcroft.enteredEventIds,
+  handleEdit: () => alert('Edit clicked'),
 };

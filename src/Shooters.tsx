@@ -7,7 +7,7 @@ import AddShooterDialog from './AddShooterDialog';
 import { EmptyShooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
 import EventsSelectorDialog from './EventsSelectorDialog';
-import { AllEvents, MainEventIds, MainEvents } from './AllEvents';
+import { MainEventIds } from './AllEvents';
 import { calculateAge } from './AgeUtils';
 
 type ShootersProps = {
@@ -27,7 +27,7 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
 
   const EmptyEntry = {
     shooter: EmptyShooter,
-    eventsEntered: MainEvents,
+    enteredEventIds: MainEventIds,
   } as IndividualEntry;
 
   const [shooter, setShooter] = React.useState(EmptyShooter);
@@ -62,24 +62,24 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   }
 
   function addNewEntrantWithEventIds(newEnteredEventIds: string[]) {
-    const eventsEntered = AllEvents.filter((event) =>
-      newEnteredEventIds.includes(event.id)
-    );
+    // const eventsEntered = AllEvents.filter((event) =>
+    //   newEnteredEventIds.includes(event.id)
+    // );
 
     addNewEntrant({
       shooter,
-      eventsEntered,
+      enteredEventIds: newEnteredEventIds,
     });
   }
 
   function editEntrantWithEventIds(newEnteredEventIds: string[]) {
-    const eventsEntered = AllEvents.filter((event) =>
-      newEnteredEventIds.includes(event.id)
-    );
+    // const eventsEntered = AllEvents.filter((event) =>
+    //   newEnteredEventIds.includes(event.id)
+    // );
 
     editEntrant({
       shooter,
-      eventsEntered,
+      enteredEventIds: newEnteredEventIds,
     });
   }
 
@@ -97,8 +97,7 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
 
   function resetDialogs(to = EmptyEntry) {
     setShooter(to.shooter);
-    const eventIds = to.eventsEntered.map((event) => event.id);
-    setEnteredEventIds(eventIds);
+    setEnteredEventIds(to.enteredEventIds);
   }
 
   return (

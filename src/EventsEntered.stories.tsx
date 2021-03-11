@@ -16,15 +16,18 @@ const Template: Story<ComponentProps<typeof EventsEntered>> = (args) => (
 
 export const ChildDefaultEntry = Template.bind({});
 ChildDefaultEntry.args = {
-  eventsEntered: MainEvents,
+  enteredEventIds: MainEventIds,
   lockedEventIds: MainEventIds,
 };
 
 export const ChildWithExtraEvents = Template.bind({});
 ChildWithExtraEvents.args = {
-  eventsEntered: entryLukeHolcroft.eventsEntered,
+  enteredEventIds: entryLukeHolcroft.enteredEventIds,
   lockedEventIds: MainEventIds,
 };
 
 export const AdultWithExtraEvents = Template.bind({});
-AdultWithExtraEvents.args = { eventsEntered: entryJohnHolcroft.eventsEntered, lockedEventIds: [] };
+AdultWithExtraEvents.args = {
+  enteredEventIds: entryJohnHolcroft.enteredEventIds,
+  lockedEventIds: [],
+};

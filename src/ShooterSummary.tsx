@@ -2,13 +2,14 @@ import { Button, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import * as React from 'react';
 import { calculateAge } from './AgeUtils';
+import { AllEvents } from './AllEvents';
 import { getCostString, sumCost } from './EventsSummaryBuilder';
 import { Shooter } from './Shooter';
 import ShootingEvent from './ShootingEvent';
 
 type ShooterSummaryProps = {
   shooter: Shooter;
-  eventsEntered: ShootingEvent[];
+  enteredEventIds: string[];
   handleEdit: () => void;
 };
 
@@ -32,9 +33,12 @@ function getEventsEntered(eventsEntered: ShootingEvent[]): string {
 
 function ShooterSummary({
   shooter,
-  eventsEntered,
+  enteredEventIds,
   handleEdit,
 }: ShooterSummaryProps): JSX.Element {
+  const eventsEntered = AllEvents.filter((event) =>
+    enteredEventIds.includes(event.id)
+  );
   return (
     <div>
       <Typography

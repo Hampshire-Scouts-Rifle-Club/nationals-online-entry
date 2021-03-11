@@ -20,7 +20,7 @@ function ShootersGroupCard({
       <ShooterSummary
         key={individualEntry.shooter.id}
         shooter={individualEntry.shooter}
-        eventsEntered={individualEntry.eventsEntered}
+        enteredEventIds={individualEntry.enteredEventIds}
         handleEdit={() => handleEdit(individualEntry)}
       />
     ));

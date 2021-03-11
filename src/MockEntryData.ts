@@ -28,7 +28,12 @@ export const shooterBillyBloggs: Shooter = {
 };
 export const entryBillyBloggs: IndividualEntry = {
   shooter: shooterBillyBloggs,
-  eventsEntered: [knockout, airRifle6yd, airPistol6yd, fieldTarget],
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+  ],
 };
 export const shooterJohnHolcroft: Shooter = {
   id: '1',
@@ -43,16 +48,16 @@ export const shooterJohnHolcroft: Shooter = {
 };
 export const entryJohnHolcroft: IndividualEntry = {
   shooter: shooterJohnHolcroft,
-  eventsEntered: [
-    knockout,
-    airRifle6yd,
-    airPistol6yd,
-    fieldTarget,
-    ownRifle6yd,
-    ownRifle10mSporter,
-    ownPistol,
-    targetSprint,
-    fullBore,
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+    ownRifle6yd.id,
+    ownRifle10mSporter.id,
+    ownPistol.id,
+    targetSprint.id,
+    fullBore.id,
   ],
 };
 export const shooterJonCulshaw: Shooter = {
@@ -68,15 +73,15 @@ export const shooterJonCulshaw: Shooter = {
 };
 export const entryJonCulshaw: IndividualEntry = {
   shooter: shooterJonCulshaw,
-  eventsEntered: [
-    knockout,
-    airRifle6yd,
-    airPistol6yd,
-    fieldTarget,
-    ownRifle6yd,
-    ownRifle10mSporter,
-    ownPistol,
-    advancedFieldTarget,
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+    ownRifle6yd.id,
+    ownRifle10mSporter.id,
+    ownPistol.id,
+    advancedFieldTarget.id,
   ],
 };
 export const shooterJamesWest: Shooter = {
@@ -92,14 +97,14 @@ export const shooterJamesWest: Shooter = {
 };
 export const entryJamesWest: IndividualEntry = {
   shooter: shooterJamesWest,
-  eventsEntered: [
-    knockout,
-    airRifle6yd,
-    airPistol6yd,
-    fieldTarget,
-    ownRifle6yd,
-    ownRifle10mSporter,
-    ownPistol,
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+    ownRifle6yd.id,
+    ownRifle10mSporter.id,
+    ownPistol.id,
   ],
 };
 export const shooterLukeHolcroft: Shooter = {
@@ -115,16 +120,16 @@ export const shooterLukeHolcroft: Shooter = {
 };
 export const entryLukeHolcroft: IndividualEntry = {
   shooter: shooterLukeHolcroft,
-  eventsEntered: [
-    knockout,
-    airRifle6yd,
-    airPistol6yd,
-    fieldTarget,
-    ownRifle6yd,
-    ownRifle10mSporter,
-    ownPistol,
-    smallBore,
-    targetSprint,
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+    ownRifle6yd.id,
+    ownRifle10mSporter.id,
+    ownPistol.id,
+    smallBore.id,
+    targetSprint.id,
   ],
 };
 export const shooterJennaCulshaw: Shooter = {
@@ -140,16 +145,16 @@ export const shooterJennaCulshaw: Shooter = {
 };
 export const entryJennaCulshaw: IndividualEntry = {
   shooter: shooterJennaCulshaw,
-  eventsEntered: [
-    knockout,
-    airRifle6yd,
-    airPistol6yd,
-    fieldTarget,
-    ownRifle6yd,
-    ownRifle10mSporter,
-    ownPistol,
-    smallBore,
-    targetSprint,
-    threePositionSporter,
+  enteredEventIds: [
+    knockout.id,
+    airRifle6yd.id,
+    airPistol6yd.id,
+    fieldTarget.id,
+    ownRifle6yd.id,
+    ownRifle10mSporter.id,
+    ownPistol.id,
+    smallBore.id,
+    targetSprint.id,
+    threePositionSporter.id,
   ],
 };

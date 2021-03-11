@@ -10,6 +10,7 @@ import TopBar from './TopBar';
 import { EmptyCampBooking } from './CampBooking';
 import { EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
+import SaveState from './SaveState';
 
 function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState(
@@ -60,6 +61,12 @@ function App(): JSX.Element {
           setOffSiteEmergencyContact={setOffSiteEmergencyContact}
         />
         <Permissions />
+        <SaveState
+          allEntries={allEntries}
+          campBooking={campBooking}
+          onSiteEmergencyContact={onSiteEmergencyContact}
+          offSiteEmergencyContact={offSiteEmergencyContact}
+        />
       </Container>
     </div>
   );

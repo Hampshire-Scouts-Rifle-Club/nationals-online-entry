@@ -19,7 +19,7 @@ ChildDefaultEntry.args = {
   open: true,
   handleClose: () => {},
   isMainEventLocked: true,
-  enteredEventIds: entryBillyBloggs.eventsEntered.map((entry) => entry.id),
+  enteredEventIds: entryBillyBloggs.enteredEventIds,
   setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 
@@ -28,7 +28,7 @@ ChildWithMaxEvents.args = {
   open: true,
   handleClose: () => {},
   isMainEventLocked: true,
-  enteredEventIds: entryLukeHolcroft.eventsEntered.map((entry) => entry.id),
+  enteredEventIds: entryLukeHolcroft.enteredEventIds,
   setEnteredEventIds: (eventIds) => alert(eventIds),
 };
 

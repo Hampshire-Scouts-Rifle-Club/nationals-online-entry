@@ -9,9 +9,10 @@ import Button from '@material-ui/core/Button';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ShootingEvent from './ShootingEvent';
+import { AllEvents } from './AllEvents';
 
 type EventPropsType = {
-  eventsEntered: ShootingEvent[];
+  enteredEventIds: string[];
   lockedEventIds: string[];
 };
 
@@ -77,9 +78,12 @@ function sumSlots(events: ShootingEvent[]) {
 }
 
 export function EventsEntered({
-  eventsEntered,
+  enteredEventIds,
   lockedEventIds,
 }: EventPropsType): JSX.Element {
+  const eventsEntered = AllEvents.filter((event) =>
+    enteredEventIds.includes(event.id)
+  );
   return (
     <Card>
       <CardContent>

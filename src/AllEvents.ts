@@ -3,7 +3,8 @@ import ShootingEvent from './ShootingEvent';
 export const knockout: ShootingEvent = {
   id: 'knockout',
   title: 'Knockout',
-  summary: 'Knockdown Competition using Spring Powered Air Rifles.',
+  summary:
+    'Shoulder to shoulder, the first to shoot down 5 targets goes through to the next round. Using springer rifles, limited to 2 minutes and 10 pellets',
   description: [
     'There will be two classes of Reactive Target Knockout: Senior and Junior.',
     'In all rounds before the semi-finals, shooters will compete shoulder to shoulder to be the first to hit all of their own set of five reactive targets. The first to hit all five targets wins the tie. Both time and pellets will be limited (to 2 minutes and 10 pellets respectively).',
