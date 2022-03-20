@@ -1,0 +1,28 @@
+{
+  "authSelections": "userPoolOnly",
+  "resourceName": "nationalsonlineentry3a09ba4d",
+  "serviceType": "imported",
+  "region": "eu-west-1",
+  "usernameAttributes": [
+    "email"
+  ],
+  "authProvidersUserPool": [
+    "Facebook",
+    "Google"
+  ],
+  "requiredAttributes": [
+    "email"
+  ],
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [
+    "Requires Lowercase",
+    "Requires Uppercase",
+    "Requires Numbers",
+    "Requires Symbols"
+  ],
+  "mfaConfiguration": "OFF",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaTypes": []
+}

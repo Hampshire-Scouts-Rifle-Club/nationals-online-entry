@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
-import { Hub } from 'aws-amplify';
-import Auth, { CognitoUser } from '@aws-amplify/auth';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
 import createPersistedState from 'use-persisted-state';
+import { Auth, Hub } from 'aws-amplify';
 import Shooters from './Shooters';
 import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
@@ -13,7 +12,6 @@ import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import SaveState from './SaveState';
-import { useUserContext } from './UserContext';
 
 function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -48,21 +46,24 @@ function App(): JSX.Element {
     setOffSiteEmergencyContact(EmptyEmergencyContact);
   }, []);
 
-  const { user, setUser } = useUserContext();
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     const getAuthenticatedUser = async () => {
       const data = await Auth.currentAuthenticatedUser();
-      setUser(data as CognitoUser);
+      setUser(data);
     };
 
-    getAuthenticatedUser().catch(console.error);
-  });
+    getAuthenticatedUser().catch((reason: any) => {
+      console.error('Auth.currentAuthenticatedUser():');
+      console.error(reason);
+    });
+  }, []);
 
   Hub.listen('auth', ({ payload: { event, data } }) => {
     switch (event) {
       case 'signIn':
-        setUser(data as CognitoUser);
+        setUser(data);
         console.log('sign in', event, data);
         break;
       case 'signOut':
@@ -73,6 +74,8 @@ function App(): JSX.Element {
         console.log('unknown auth event');
     }
   });
+  // const { user, initialise: initialiseUserContext } = useUserContext();
+  // initialiseUserContext();
 
   return (
     <div className="App">

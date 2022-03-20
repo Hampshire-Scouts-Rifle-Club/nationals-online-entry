@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "nationalsonlineentry3a09ba4d": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

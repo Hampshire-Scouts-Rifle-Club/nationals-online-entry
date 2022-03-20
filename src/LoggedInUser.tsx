@@ -1,10 +1,10 @@
 import React from 'react';
-import Auth, { CognitoUser } from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import { Button } from '@material-ui/core';
 import { useUserContext } from './UserContext';
 
 function LoggedInUser(): JSX.Element {
-  const { user } = useUserContext();
+  // const { user } = useUserContext();
 
   const signIn = (
     <Button
@@ -28,7 +28,7 @@ function LoggedInUser(): JSX.Element {
     </Button>
   );
 
-  const uiElement = user ? signOut : signIn;
+  const uiElement = signIn;
 
   return uiElement;
 }

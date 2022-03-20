@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-nationalsonlineentry-dev-182101-authRole",
+      "UnauthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-dev-182101-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-dev-182101-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-nationalsonlineentry-dev-182101-deployment",
+      "UnauthRoleName": "amplify-nationalsonlineentry-dev-182101-unauthRole",
+      "StackName": "amplify-nationalsonlineentry-dev-182101",
+      "StackId": "arn:aws:cloudformation:eu-west-1:274672405337:stack/amplify-nationalsonlineentry-dev-182101/81cb17d0-a87a-11ec-886a-0606d23da4c9",
+      "AmplifyAppId": "dd90rqrhlulcl"
+    },
+    "categories": {
+      "auth": {
+        "nationalsonlineentry3a09ba4d": {
+          "userPoolId": "eu-west-1_aRZISfKvC",
+          "userPoolName": "HSRC-Users",
+          "webClientId": "5vl121hntrlpc8veeo43so2m7q",
+          "nativeClientId": "5vl121hntrlpc8veeo43so2m7q"
+        }
+      }
+    }
+  }
+}

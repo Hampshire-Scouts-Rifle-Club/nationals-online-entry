@@ -5,8 +5,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-config/aws-config.json';
-import awsauth from './aws-config/aws-auth.json';
+import awsExports from './aws-exports';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -29,8 +28,8 @@ const theme = createTheme({
   },
 });
 
-Amplify.configure(awsconfig);
-Auth.configure({ oauth: awsauth });
+Amplify.configure(awsExports);
+console.log(JSON.stringify(Auth.configure()));
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
