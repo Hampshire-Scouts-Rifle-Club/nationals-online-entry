@@ -1,0 +1,68 @@
+{
+  "allEntries": [
+    {
+      "shooter": {
+        "id": "John-Holcroft-1st Knaphill",
+        "firstName": "John",
+        "lastName": "Holcroft",
+        "didEnterLastYear": true,
+        "dateOfBirth": "1974-11-15T00:00:00.000Z",
+        "scoutGroup": "1st Knaphill",
+        "county": "",
+        "isRangeOfficer": true,
+        "rangeOfficerProofUrl": ""
+      },
+      "enteredEventIds": [
+        "knockout",
+        "airrifle6yd",
+        "airpistol6yd",
+        "fieldTarget",
+        "targetsprint",
+        "ownrifle10msporter",
+        "ownpistol"
+      ]
+    },
+    {
+      "shooter": {
+        "id": "Luke-Holcroft-Woking ESU",
+        "firstName": "Luke",
+        "lastName": "Holcroft",
+        "didEnterLastYear": true,
+        "dateOfBirth": "2005-11-01T00:00:00.000Z",
+        "scoutGroup": "Woking ESU",
+        "county": "",
+        "isRangeOfficer": false,
+        "rangeOfficerProofUrl": ""
+      },
+      "enteredEventIds": [
+        "knockout",
+        "airrifle6yd",
+        "airpistol6yd",
+        "fieldTarget",
+        "targetsprint"
+      ]
+    },
+    {
+      "shooter": {
+        "id": "James-West-Woking ESU",
+        "firstName": "James",
+        "lastName": "West",
+        "didEnterLastYear": true,
+        "dateOfBirth": "2008-01-01T00:00:00.000Z",
+        "scoutGroup": "Woking ESU",
+        "county": "",
+        "isRangeOfficer": false,
+        "rangeOfficerProofUrl": ""
+      },
+      "enteredEventIds": [
+        "knockout",
+        "airrifle6yd",
+        "airpistol6yd",
+        "fieldTarget",
+        "ownrifle10msporter",
+        "ownpistol",
+        "smallbore"
+      ]
+    }
+  ]
+}

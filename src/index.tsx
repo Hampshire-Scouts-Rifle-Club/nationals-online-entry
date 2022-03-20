@@ -4,7 +4,9 @@ import './index.css';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
-import Amplify from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-config/aws-config.json';
+import awsauth from './aws-config/aws-auth.json';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -27,11 +29,8 @@ const theme = createTheme({
   },
 });
 
-Amplify.configure({
-  aws_cognito_region: 'eu-west-1',
-  aws_user_pools_id: 'eu-west-1_aRZISfKvC',
-  aws_user_pools_web_client_id: '1fpknjlf31oeq2ul6hnrdme8sg',
-});
+Amplify.configure(awsconfig);
+Auth.configure({ oauth: awsauth });
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

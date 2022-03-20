@@ -1,0 +1,24 @@
+{
+  "Auth": {
+    "region": "eu-west-1",
+    "userPoolId": "eu-west-1_aRZISfKvC",
+    "userPoolWebClientId": "1fpknjlf31oeq2ul6hnrdme8sg",
+    "mandatorySignIn": false,
+    "cookieStorage": {
+      "domain": "localhost",
+      "path": "/",
+      "expires": 365,
+      "secure": true
+    },
+    "redirectSignIn": "https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=1fpknjlf31oeq2ul6hnrdme8sg&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk",
+    "redirectSignOut": "https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=1fpknjlf31oeq2ul6hnrdme8sg&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk"
+  },
+  "API": {
+    "endpoints": [
+      {
+        "name": "entry",
+        "endpoint": "https://entry.nationalscoutriflechampionships.org.uk"
+      }
+    ]
+  }
+}

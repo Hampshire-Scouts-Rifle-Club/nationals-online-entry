@@ -1,0 +1,7 @@
+{
+  "domain": "https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=1fpknjlf31oeq2ul6hnrdme8sg&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk",
+  "scope": ["email", "profile", "openid", "aws.cognito.signin.user.admin"],
+  "redirectSignIn": "https://localhost:1234",
+  "redirectSignOut": "https://localhost:1234",
+  "responseType": "token"
+}
