@@ -1,61 +1,78 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "node": true
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "plugin:react/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "airbnb",
-        "plugin:react/recommended"
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier", "react", "@typescript-eslint"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "prettier",
-        "react",
-        "@typescript-eslint"
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
     ],
-    "rules": {
-        "prettier/prettier": "warn",
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "js": "never",
-              "jsx": "never",
-              "ts": "never",
-              "tsx": "never"
-            }
-         ],
-         "react/jsx-wrap-multilines": ["error", {"declaration": false, "assignment": false}],
-         "comma-dangle": [ "error", { "arrays": "always-multiline", "objects": "always-multiline", "imports": "always-multiline", "exports": "always-multiline", "functions": "never" } ],
-         "no-use-before-define": "off",
-         "no-undef": "off",
-         "no-unused-vars": "off",
-         "operator-linebreak": ["error", "after"],
-         "implicit-arrow-linebreak": "off",
-         "function-paren-newline": "off",
-         "no-shadow": "off",
-         "@typescript-eslint/no-shadow": ["error"]
-    },
-    "settings": {
-        "import/resolver": {
-          "node": {
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
-          }
-        }
-      },
-      "ignorePatterns": ["aws-exports.tsx", "serviceWorker.tsx", "**/stories/*.tsx", "**/*.stories.tsx"]
+    "react/jsx-wrap-multilines": [
+      "error",
+      { "declaration": false, "assignment": false }
+    ],
+    "react/jsx-no-useless-fragment": ["error", { "allowExpressions": true }],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "no-use-before-define": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "operator-linebreak": ["error", "after"],
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "ignorePatterns": [
+    "aws-exports.tsx",
+    "serviceWorker.tsx",
+    "**/stories/*.tsx",
+    "**/*.stories.tsx"
+  ]
 }

@@ -22,28 +22,26 @@ function InfoDialog({
   handleClose,
 }: InfoDialogProps): JSX.Element {
   return (
-    <>
-      <Dialog open={isOpen} onClose={handleClose}>
-        {/* <DialogTitle>{title}</DialogTitle> */}
-        <DialogContent>
-          <DialogContentText>
-            <Typography gutterBottom variant="h5" component="h2">
-              {title}
+    <Dialog open={isOpen} onClose={handleClose}>
+      {/* <DialogTitle>{title}</DialogTitle> */}
+      <DialogContent>
+        <DialogContentText>
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
+          </Typography>
+          {paragraphs.map((paragraph) => (
+            <Typography key={paragraph} paragraph>
+              {paragraph}
             </Typography>
-            {paragraphs.map((paragraph) => (
-              <Typography key={paragraph} paragraph>
-                {paragraph}
-              </Typography>
-            ))}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+          ))}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary" autoFocus>
+          OK
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 

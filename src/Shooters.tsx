@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './Shooters.css';
 import HeadedSection from './HeadedSection';
 import AddButton from './AddButton';
@@ -19,10 +19,8 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
   const [isEditShooterOpen, setIsEditShooterOpen] = React.useState(false);
-  const [
-    isEditEventsSelectorOpen,
-    setIsEditEventsSelectorOpen,
-  ] = React.useState(false);
+  const [isEditEventsSelectorOpen, setIsEditEventsSelectorOpen] =
+    React.useState(false);
   const [isMainEventLocked, setIsMainEventLocked] = React.useState(true);
 
   const EmptyEntry = {
@@ -35,53 +33,59 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
 
   const [entryToEdit, setEntryToEdit] = React.useState(EmptyEntry);
 
-  function handleEditEntry(entry: IndividualEntry) {
+  const handleEditEntry = useCallback((entry: IndividualEntry) => {
     setEntryToEdit(entry);
     resetDialogs(entry);
     setIsEditShooterOpen(true);
-  }
+  }, []);
 
-  function handleClickAddShooter() {
+  const handleClickAddShooter = useCallback(() => {
     resetDialogs();
     setIsAddShooterOpen(true);
-  }
+  }, []);
 
   function lockOrUnlockMainEvents() {
     const isAdult = calculateAge(new Date(shooter.dateOfBirth)) >= 18;
     setIsMainEventLocked(!isAdult);
   }
 
-  function handleAddShooterSubmit() {
+  const handleAddShooterSubmit = useCallback(() => {
     lockOrUnlockMainEvents();
     setIsEventsSelectorOpen(true);
-  }
+  }, []);
 
-  function handleEditShooterSubmit() {
+  const handleEditShooterSubmit = useCallback(() => {
     lockOrUnlockMainEvents();
     setIsEditEventsSelectorOpen(true);
-  }
+  }, []);
 
-  function addNewEntrantWithEventIds(newEnteredEventIds: string[]) {
-    // const eventsEntered = AllEvents.filter((event) =>
-    //   newEnteredEventIds.includes(event.id)
-    // );
+  const addNewEntrantWithEventIds = useCallback(
+    (newEnteredEventIds: string[]) => {
+      // const eventsEntered = AllEvents.filter((event) =>
+      //   newEnteredEventIds.includes(event.id)
+      // );
 
-    addNewEntrant({
-      shooter,
-      enteredEventIds: newEnteredEventIds,
-    });
-  }
+      addNewEntrant({
+        shooter,
+        enteredEventIds: newEnteredEventIds,
+      });
+    },
+    []
+  );
 
-  function editEntrantWithEventIds(newEnteredEventIds: string[]) {
-    // const eventsEntered = AllEvents.filter((event) =>
-    //   newEnteredEventIds.includes(event.id)
-    // );
+  const editEntrantWithEventIds = useCallback(
+    (newEnteredEventIds: string[]) => {
+      // const eventsEntered = AllEvents.filter((event) =>
+      //   newEnteredEventIds.includes(event.id)
+      // );
 
-    editEntrant({
-      shooter,
-      enteredEventIds: newEnteredEventIds,
-    });
-  }
+      editEntrant({
+        shooter,
+        enteredEventIds: newEnteredEventIds,
+      });
+    },
+    []
+  );
 
   function addNewEntrant(newEntry: IndividualEntry) {
     setAllEntries(allEntries.concat(newEntry));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
 import createPersistedState from 'use-persisted-state';
@@ -7,46 +7,43 @@ import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
 import Permissions from './Permissions';
 import TopBar from './TopBar';
-import { EmptyCampBooking } from './CampBooking';
-import { EmptyEmergencyContact } from './EmergencyContact';
+import { CampBooking, EmptyCampBooking } from './CampBooking';
+import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import SaveState from './SaveState';
 
 function App(): JSX.Element {
-  const usePersistedEntriesState = createPersistedState(
+  const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
     'scoutnationalsentries'
   );
-  const usePersistedCampBookingState = createPersistedState(
+  const usePersistedCampBookingState = createPersistedState<CampBooking>(
     'scoutnationalscampbooking'
   );
-  const usePersistedOnSiteEmergencyContactState = createPersistedState(
-    'scoutnationalsonsitemergencycontact'
-  );
-  const usePersistedOffSiteEmergencyContactState = createPersistedState(
-    'scoutnationalsoffsitemergencycontact'
-  );
+  const usePersistedOnSiteEmergencyContactState =
+    createPersistedState<EmergencyContact>(
+      'scoutnationalsonsitemergencycontact'
+    );
+  const usePersistedOffSiteEmergencyContactState =
+    createPersistedState<EmergencyContact>(
+      'scoutnationalsoffsitemergencycontact'
+    );
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
   );
-  const [campBooking, setCampBooking] = usePersistedCampBookingState(
-    EmptyCampBooking
-  );
-  const [
-    onSiteEmergencyContact,
-    setOnSiteEmergencyContact,
-  ] = usePersistedOnSiteEmergencyContactState(EmptyEmergencyContact);
-  const [
-    offSiteEmergencyContact,
-    setOffSiteEmergencyContact,
-  ] = usePersistedOffSiteEmergencyContactState(EmptyEmergencyContact);
+  const [campBooking, setCampBooking] =
+    usePersistedCampBookingState(EmptyCampBooking);
+  const [onSiteEmergencyContact, setOnSiteEmergencyContact] =
+    usePersistedOnSiteEmergencyContactState(EmptyEmergencyContact);
+  const [offSiteEmergencyContact, setOffSiteEmergencyContact] =
+    usePersistedOffSiteEmergencyContactState(EmptyEmergencyContact);
 
-  function handleReset() {
+  const handleReset = useCallback(() => {
     setAllEntries([]);
     setCampBooking(EmptyCampBooking);
     setOnSiteEmergencyContact(EmptyEmergencyContact);
     setOffSiteEmergencyContact(EmptyEmergencyContact);
-  }
+  }, []);
 
   return (
     <div className="App">

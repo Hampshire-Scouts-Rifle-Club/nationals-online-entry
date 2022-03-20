@@ -25,11 +25,7 @@ function SaveState({
   };
   const teamEntryJson = JSON.stringify(teamEntry, null, 2);
 
-  return (
-    <>
-      <pre>{teamEntryJson}</pre>
-    </>
-  );
+  return <pre>{teamEntryJson}</pre>;
 }
 
 export default SaveState;

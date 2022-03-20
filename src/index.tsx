@@ -1,19 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
 import Amplify from 'aws-amplify';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import { ApolloProvider } from 'react-apollo';
-import awsconfig from './aws-exports';
 
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 // Create a theme instance.
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       light: '#4862b2',
@@ -30,29 +27,17 @@ const theme = createMuiTheme({
   },
 });
 
-// const federated = {
-//   google_client_id: "640256100200-mgqh02vo0ep8m6tnaes4h8jnamncs4di.apps.googleusercontent.com",
-//   facebook_client_id: "201867554548489"
-// };
-
-Amplify.configure(awsconfig);
-
-const client = new AWSAppSyncClient({
-  url: awsconfig.aws_appsync_graphqlEndpoint,
-  region: awsconfig.aws_appsync_region,
-  auth: {
-    type: AUTH_TYPE.API_KEY,
-    apiKey: awsconfig.aws_appsync_apiKey,
-  },
+Amplify.configure({
+  aws_cognito_region: 'eu-west-1',
+  aws_user_pools_id: 'eu-west-1_aRZISfKvC',
+  aws_user_pools_web_client_id: '1fpknjlf31oeq2ul6hnrdme8sg',
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </ApolloProvider>,
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

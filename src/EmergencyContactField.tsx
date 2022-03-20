@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -14,14 +14,12 @@ function EmergencyContactField({
   emergencyContact,
   setEmergencyContact,
 }: EmergencyContactFieldProps): JSX.Element {
-  const [
-    isAddEmergencyContactDialogOpen,
-    setIsAddEmergencyContactDialogOpen,
-  ] = React.useState(false);
+  const [isAddEmergencyContactDialogOpen, setIsAddEmergencyContactDialogOpen] =
+    React.useState(false);
 
-  function handleClose() {
+  const handleClose = useCallback(() => {
     setIsAddEmergencyContactDialogOpen(false);
-  }
+  }, []);
 
   const hasEmergencyContact =
     emergencyContact.name.trim().length !== 0 &&

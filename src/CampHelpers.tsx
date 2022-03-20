@@ -17,6 +17,21 @@ function CampHelpers({
 }: CampHelperProps): JSX.Element {
   const [isAddCampHelperOpen, setIsAddCampHelperOpen] = React.useState(false);
 
+  /*
+  We should using 'useCallback' for all functions references in the JSX. 
+  Otherwise the function is recreated on every render. 
+  Use like this:
+
+  const handleClickOpen = useCallback(() => setIsDialogOpen(true), []);
+  const handleClose = useCallback(() => setIsDialogOpen(false), []);
+
+  const updateTitleAndSubtitle = useCallback(
+    (newTitle: string, newSubtitle: string) =>
+      setTitleAndSubtitle(newTitle, newSubtitle),
+    []
+  );
+  */
+
   function handleClickOpen() {
     setIsAddCampHelperOpen(true);
   }

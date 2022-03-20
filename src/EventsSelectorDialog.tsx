@@ -8,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AllEvents } from './AllEvents';
 import EventsSelector from './EventsSelector';
 import { getCostString, sumCost, sumSlots } from './EventsSummaryBuilder';
@@ -31,24 +31,23 @@ function EventsSelectorDialog({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [workingEnteredEventIds, setWorkingEnteredEventIds] = React.useState(
-    enteredEventIds
-  );
+  const [workingEnteredEventIds, setWorkingEnteredEventIds] =
+    React.useState(enteredEventIds);
 
   React.useEffect(() => {
     setWorkingEnteredEventIds(enteredEventIds);
   }, [enteredEventIds]);
 
-  function handleSubmit() {
+  const handleSubmit = useCallback(() => {
     setEnteredEventIds(workingEnteredEventIds);
     handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
-  }
+  }, []);
 
-  function handleReset() {
+  const handleReset = useCallback(() => {
     handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
-  }
+  }, []);
 
   function buildSummary() {
     const eventsEntered = AllEvents.filter(
