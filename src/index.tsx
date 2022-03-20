@@ -10,6 +10,41 @@ import awsExports from './aws-exports';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
+const correctRedirectUris = () => {
+  const isLocalhost = Boolean(
+    window.location.hostname === 'localhost' ||
+      // [::1] is the IPv6 localhost address.
+      window.location.hostname === '[::1]' ||
+      // 127.0.0.1/8 is considered localhost for IPv4.
+      window.location.hostname.match(
+        /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+      )
+  );
+
+  // Assuming you have two redirect URIs, and the first is for
+  // localhost and second is for production
+  const [localRedirectSignIn, productionRedirectSignIn] =
+    awsExports.oauth.redirectSignIn.split(',');
+
+  const [localRedirectSignOut, productionRedirectSignOut] =
+    awsExports.oauth.redirectSignOut.split(',');
+
+  const updatedAwsConfig = {
+    ...awsExports,
+    oauth: {
+      ...awsExports.oauth,
+      redirectSignIn: isLocalhost
+        ? localRedirectSignIn
+        : productionRedirectSignIn,
+      redirectSignOut: isLocalhost
+        ? localRedirectSignOut
+        : productionRedirectSignOut,
+    },
+  };
+
+  Amplify.configure(updatedAwsConfig);
+};
+
 // Create a theme instance.
 const theme = createTheme({
   palette: {
@@ -29,6 +64,7 @@ const theme = createTheme({
 });
 
 Amplify.configure(awsExports);
+correctRedirectUris();
 console.log(JSON.stringify(Auth.configure()));
 
 ReactDOM.render(
