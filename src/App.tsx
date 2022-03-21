@@ -75,9 +75,12 @@ function App(): JSX.Element {
   }, []);
 
   function getUser() {
-    return Auth.currentAuthenticatedUser({ bypassCache: true })
+    return Auth.currentUserInfo()
       .then((userData) => userData)
       .catch((reason) => setCustomState(reason));
+    // return Auth.currentAuthenticatedUser({ bypassCache: true })
+    //   .then((userData) => userData)
+    //   .catch((reason) => setCustomState(reason));
   }
 
   const handleSignIn = useCallback(() => {
