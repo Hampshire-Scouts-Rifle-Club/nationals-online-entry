@@ -164,7 +164,7 @@ function App(): JSX.Element {
   }, []);
 
   function getUser() {
-    return Auth.currentAuthenticatedUser()
+    return Auth.currentAuthenticatedUser({ bypassCache: true })
       .then((userData) => userData)
       .catch((reason) => setCustomState(reason));
   }
