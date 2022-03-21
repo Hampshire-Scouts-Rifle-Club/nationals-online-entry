@@ -169,6 +169,20 @@ function App(): JSX.Element {
       .catch((reason) => setCustomState(reason));
   }
 
+  const handleSignIn = useCallback(() => {
+    Auth.federatedSignIn()
+      .then((newUser) => setUser(newUser))
+      .catch((reason) => setCustomState(reason));
+  }, []);
+
+  const handleSignOut = useCallback(() => {
+    Auth.signOut()
+      .then((value) => {
+        setUser(null);
+        setCustomState(value);
+      })
+      .catch((reason) => setCustomState(reason));
+  }, []);
   // function getSessionInfo() {
   //   Auth.currentSession().then((res) => {
   //     debugger;
@@ -184,10 +198,8 @@ function App(): JSX.Element {
   const showLogOutButton = user || customState;
   return (
     <div className="App">
-      <Button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</Button>
-      {showLogOutButton && (
-        <Button onClick={() => Auth.signOut()}>Sign Out</Button>
-      )}
+      <Button onClick={handleSignIn}>Open Hosted UI</Button>
+      {showLogOutButton && <Button onClick={handleSignOut}>Sign Out</Button>}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
