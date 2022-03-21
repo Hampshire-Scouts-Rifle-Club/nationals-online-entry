@@ -55,10 +55,10 @@ function App(): JSX.Element {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          getUser().then((userData) => setUser(userData));
+          getUser().then((userData) => setUser(extractUserEmail(userData)));
           break;
         case 'cognitoHostedUI':
-          getUser().then((userData) => setUser(userData));
+          getUser().then((userData) => setUser(extractUserEmail(userData)));
           break;
         case 'signOut':
           setUser(null);
@@ -75,12 +75,17 @@ function App(): JSX.Element {
   }, []);
 
   function getUser() {
-    return Auth.currentUserInfo()
+    return Auth.currentAuthenticatedUser({ bypassCache: true })
       .then((userData) => userData)
       .catch((reason) => setCustomState(reason));
-    // return Auth.currentAuthenticatedUser({ bypassCache: true })
-    //   .then((userData) => userData)
-    //   .catch((reason) => setCustomState(reason));
+  }
+
+  function extractUserEmail(user: any): string {
+    // Google email path: x.signInUserSession.idToken.payload.email
+    // Cognito email path: x.signInUserSession.idToken.payload.email
+    const email = user?.signInUserSession?.idToken?.payload?.email;
+
+    return email ? email : user;
   }
 
   const handleSignIn = useCallback(() => {
