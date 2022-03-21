@@ -161,6 +161,12 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <Button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</Button>
+      {user && (
+        <Button onClick={() => Auth.signOut()}>
+          Sign Out
+          {user.getUsername()}
+        </Button>
+      )}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
