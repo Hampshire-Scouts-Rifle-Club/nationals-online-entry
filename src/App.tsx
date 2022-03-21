@@ -56,11 +56,11 @@ function App(): JSX.Element {
     setOffSiteEmergencyContact(EmptyEmergencyContact);
   }, []);
 
-  const [user, setUser] = useState<any>();
-  type SignOutHandlerType = Record<string | number | symbol, any> | undefined;
-  // prettier-ignore
-  const [signOutHandler, setSignOutHandler] =
-    useState<(data?: SignOutHandlerType) => void>(() => { /* Do nothing */ });
+  // const [user, setUser] = useState<any>();
+  // type SignOutHandlerType = Record<string | number | symbol, any> | undefined;
+  // // prettier-ignore
+  // const [signOutHandler, setSignOutHandler] =
+  //   useState<(data?: SignOutHandlerType) => void>(() => { /* Do nothing */ });
 
   // useEffect(() => {
   //   const getAuthenticatedUser = async () => {
@@ -132,14 +132,40 @@ function App(): JSX.Element {
   //   return authToken;
   // }
 
-  const app = (
+  const [user, setUser] = useState<any>(null);
+  const [customState, setCustomState] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+          setUser(data);
+          break;
+        case 'customOAuthState':
+          setCustomState(data);
+          break;
+        case 'signOut':
+        default:
+          setUser(null);
+          break;
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then((currentUser) => setUser(currentUser))
+      .catch(() => console.log('Not signed in'));
+
+    return unsubscribe;
+  }, []);
+
+  return (
     <div className="App">
+      <Button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</Button>
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
           {user ? JSON.stringify(user, null, 2) : 'No authenicated user'}
         </pre>
-        <Button onClick={signOutHandler}>Sign out</Button>
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
         <EmergencyContacts
@@ -157,16 +183,6 @@ function App(): JSX.Element {
         />
       </Container>
     </div>
-  );
-
-  return (
-    <Authenticator>
-      {({ signOut, user: theUser }) => {
-        setUser(theUser);
-        setSignOutHandler(signOut);
-        return app;
-      }}
-    </Authenticator>
   );
 }
 
