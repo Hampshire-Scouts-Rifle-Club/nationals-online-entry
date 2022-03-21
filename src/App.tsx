@@ -136,27 +136,50 @@ function App(): JSX.Element {
   const [customState, setCustomState] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          setUser(data);
+          getUser().then((userData) => setUser(userData));
           break;
-        case 'customOAuthState':
-          setCustomState(data);
+        case 'cognitoHostedUI':
+          getUser().then((userData) => setUser(userData));
           break;
         case 'signOut':
-        default:
           setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+        default:
+          setCustomState(data);
           break;
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((currentUser) => setUser(currentUser))
-      .catch((reason) => setCustomState(reason));
+    getUser().then((userData) => setUser(userData));
+    // getSessionInfo();
 
-    return unsubscribe;
+    // Auth.currentAuthenticatedUser()
+    //   .then((currentUser) => setUser(currentUser))
+    //   .catch((reason) => setCustomState(reason));
   }, []);
+
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then((userData) => userData)
+      .catch((reason) => setCustomState(reason));
+  }
+
+  // function getSessionInfo() {
+  //   Auth.currentSession().then((res) => {
+  //     debugger;
+  //     let access_token = res.getAccessToken();
+  //     let id_token = res.getIdToken();
+  //     let refresh_token = res.getRefreshToken();
+
+  //     setAccessToken(access_token);
+  //     setIdToken(id_token);
+  //   });
+  // }
 
   const showLogOutButton = user || customState;
   return (
