@@ -53,7 +53,7 @@ export default function TopBar({ resetHandler }: TopBarProps): JSX.Element {
           >
             Reset
           </Button>
-          <LoggedInUser />
+          {/* <LoggedInUser /> */}
         </Toolbar>
       </AppBar>
     </div>
