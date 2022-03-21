@@ -158,10 +158,13 @@ function App(): JSX.Element {
     return unsubscribe;
   }, []);
 
+  const showLogOutButton = user || customState;
   return (
     <div className="App">
       <Button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</Button>
-      {user && <Button onClick={() => Auth.signOut()}>Sign Out</Button>}
+      {showLogOutButton && (
+        <Button onClick={() => Auth.signOut()}>Sign Out</Button>
+      )}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
