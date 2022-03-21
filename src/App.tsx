@@ -153,7 +153,7 @@ function App(): JSX.Element {
 
     Auth.currentAuthenticatedUser()
       .then((currentUser) => setUser(currentUser))
-      .catch(() => console.log('Not signed in'));
+      .catch((reason) => setCustomState(reason));
 
     return unsubscribe;
   }, []);
@@ -161,17 +161,13 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <Button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</Button>
-      {user && (
-        <Button onClick={() => Auth.signOut()}>
-          Sign Out
-          {user.getUsername()}
-        </Button>
-      )}
+      {user && <Button onClick={() => Auth.signOut()}>Sign Out</Button>}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
           {user ? JSON.stringify(user, null, 2) : 'No authenicated user'}
         </pre>
+        <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
         <EmergencyContacts
