@@ -80,12 +80,13 @@ function App(): JSX.Element {
       .catch((reason) => setCustomState(reason));
   }
 
-  function extractUserEmail(user: any): string {
+  function extractUserEmail(userData: any): string {
     // Google email path: x.signInUserSession.idToken.payload.email
     // Cognito email path: x.signInUserSession.idToken.payload.email
-    const email = user?.signInUserSession?.idToken?.payload?.email;
+    const email =
+      userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
 
-    return email ? email : user;
+    return email;
   }
 
   const handleSignIn = useCallback(() => {
