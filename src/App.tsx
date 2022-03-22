@@ -71,7 +71,7 @@ function App(): JSX.Element {
       }
     });
 
-    getUser().then((userData) => setUser(userData));
+    getUser().then((userData) => setUser(extractUserEmail(userData)));
   }, []);
 
   function getUser() {
@@ -80,7 +80,6 @@ function App(): JSX.Element {
       .catch((reason) => setCustomState(reason));
   }
 
-  // https://hsrc.auth.eu-west-1.amazoncognito.com/logout?client_id=5vl121hntrlpc8veeo43so2m7q&logout_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk%2Flogout%2F
   function extractUserEmail(userData: any): string {
     // Google email path: x.signInUserSession.idToken.payload.email
     // Cognito email path: x.signInUserSession.idToken.payload.email
@@ -108,6 +107,9 @@ function App(): JSX.Element {
   const appElement = (
     <div className="App">
       <Button onClick={handleSignIn}>Open Hosted UI</Button>
+      <Button href="https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=5vl121hntrlpc8veeo43so2m7q&response_type=code&scope=email+openid&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk">
+        Open Hosted UI
+      </Button>
       {user && <Button onClick={handleSignOut}>Sign Out</Button>}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
