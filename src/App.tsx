@@ -3,8 +3,9 @@ import './App.css';
 import Container from '@material-ui/core/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
-import { Button, Typography } from '@material-ui/core';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+// eslint-disable-next-line
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Shooters from './Shooters';
 import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
@@ -14,6 +15,7 @@ import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import SaveState from './SaveState';
+import CodeParamRemover from './CodeParamRemover';
 
 function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -106,6 +108,7 @@ function App(): JSX.Element {
 
   const appElement = (
     <div className="App">
+      <CodeParamRemover />
       <Button onClick={handleSignIn}>Open Hosted UI</Button>
       <Button href="https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=5vl121hntrlpc8veeo43so2m7q&response_type=code&scope=email+openid&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk">
         Open Hosted UI
@@ -114,7 +117,7 @@ function App(): JSX.Element {
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
         <pre>
-          {user ? JSON.stringify(user, null, 2) : 'No authenicated user'}
+          {user ? JSON.stringify(user, null, 2) : 'No authenticated user'}
         </pre>
         <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
@@ -139,8 +142,8 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={appElement} />
-        <Route path="/logout" element={<Typography>Logged out</Typography>} />
+        <Route path="/" element={<>{appElement}</>} />
+        <Route path="/logout" element={<Navigate replace to="/" />} />
       </Routes>
     </BrowserRouter>
   );
