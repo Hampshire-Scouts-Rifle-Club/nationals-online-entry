@@ -3,8 +3,8 @@ import './App.css';
 import Container from '@material-ui/core/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
-import { Button } from '@material-ui/core';
-
+import { Button, Typography } from '@material-ui/core';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Shooters from './Shooters';
 import Camping from './Camping';
 import EmergencyContacts from './EmergencyContacts';
@@ -80,6 +80,7 @@ function App(): JSX.Element {
       .catch((reason) => setCustomState(reason));
   }
 
+  // https://hsrc.auth.eu-west-1.amazoncognito.com/logout?client_id=5vl121hntrlpc8veeo43so2m7q&logout_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk%2Flogout%2F
   function extractUserEmail(userData: any): string {
     // Google email path: x.signInUserSession.idToken.payload.email
     // Cognito email path: x.signInUserSession.idToken.payload.email
@@ -104,7 +105,7 @@ function App(): JSX.Element {
       .catch((reason) => setCustomState(reason));
   }, []);
 
-  return (
+  const appElement = (
     <div className="App">
       <Button onClick={handleSignIn}>Open Hosted UI</Button>
       {user && <Button onClick={handleSignOut}>Sign Out</Button>}
@@ -131,6 +132,15 @@ function App(): JSX.Element {
         />
       </Container>
     </div>
+  );
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={appElement} />
+        <Route path="/logout" element={<Typography>Logged out</Typography>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
