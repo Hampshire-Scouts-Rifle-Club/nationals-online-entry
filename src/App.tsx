@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
 // eslint-disable-next-line
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
@@ -16,8 +16,9 @@ import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
+import { fakeUserData } from './FakeUserData';
 
-export const isDev = () =>
+const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export function App(): JSX.Element {
@@ -59,10 +60,10 @@ export function App(): JSX.Element {
   ]);
 
   const [authUserData, setUserData] = useState<any>();
-  const [error, setError] = useState<any>();
-  // const [user, setUser] = useState<any>(null);
-  // const [userToken, setUserToken] = useState<any>();
-  // const [customState, setCustomState] = useState<any>(null);
+  const [error, setError] = useState<Error>();
+
+  const [searchParams] = useSearchParams();
+  const showDevControls = searchParams.get('dev') !== null;
 
   useEffect(() => {
     Hub.listen('auth', async ({ payload: { event, data } }) => {
@@ -82,9 +83,17 @@ export function App(): JSX.Element {
       }
     });
 
-    getUser().then((userData) => {
-      if (userData) setUserData(userData);
-    });
+    const initialiseUser = async () => {
+      try {
+        setUserData(await getUser());
+      } catch (reason: any) {
+        // setError(reason);
+        if (isDev()) {
+          setUserData(JSON.parse(fakeUserData));
+        }
+      }
+    };
+    initialiseUser();
   }, []);
 
   async function getUser() {
@@ -93,42 +102,17 @@ export function App(): JSX.Element {
         bypassCache: true,
       });
       return userData;
-    } catch (reason) {
-      setError(reason);
-      return undefined;
+    } catch (reason: any) {
+      throw new Error(reason);
     }
   }
 
   const handleSetUserData = useCallback((userData: any) => {
-    setError(null);
+    setError(undefined);
     setUserData(userData);
   }, []);
 
-  // function extractUserToken(userData: any): string {
-  //   // Google email path: x.signInUserSession.idToken.payload.email
-  //   // Cognito email path: x.signInUserSession.idToken.payload.email
-  //   const idToken =
-  //     userData?.signInUserSession?.idToken?.jwtToken ?? 'ID token not found';
-
-  //   return idToken;
-  // }
-
-  // const handleSignIn = useCallback(() => {
-  //   Auth.federatedSignIn()
-  //     .then((newUser) => setUser(newUser))
-  //     .catch((reason) => setCustomState(reason));
-  // }, []);
-
-  // const handleSignOut = useCallback(() => {
-  //   Auth.signOut()
-  //     .then((value) => {
-  //       setUser(null);
-  //       setCustomState(value);
-  //     })
-  //     .catch((reason) => setCustomState(reason));
-  // }, []);
-
-  const appElement = (
+  return (
     <div className="App">
       <CodeParamRemover />
       <TopBar
@@ -139,24 +123,6 @@ export function App(): JSX.Element {
       />
       {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
-        {/* {isDev() && (
-          <>
-            <pre>
-              {user ? JSON.stringify(user, null, 2) : 'No authenticated user'}
-              {userToken
-                ? JSON.stringify(userToken, null, 2)
-                : 'No authenticated user'}
-            </pre>
-            <Button
-              onClick={() =>
-                navigator.clipboard.writeText(JSON.stringify(authUserData))
-              }
-            >
-              Copy Authenticated User Data
-            </Button>
-            <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
-          </>
-        )} */}
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
         <EmergencyContacts
@@ -166,7 +132,7 @@ export function App(): JSX.Element {
           setOffSiteEmergencyContact={setOffSiteEmergencyContact}
         />
         <Permissions />
-        {isDev() && (
+        {showDevControls && (
           <SaveState
             allEntries={allEntries}
             campBooking={campBooking}
@@ -176,14 +142,5 @@ export function App(): JSX.Element {
         )}
       </Container>
     </div>
-  );
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={appElement} />
-        <Route path="/logout" element={<Navigate replace to="/" />} />
-      </Routes>
-    </BrowserRouter>
   );
 }
