@@ -13,13 +13,11 @@ import React, { useState, useCallback, ChangeEvent } from 'react';
 interface InjectAuthenticatedUserDialogProps {
   open: boolean;
   handleClose: () => void;
-  userData: any;
   setUserData: (userData: any) => void;
 }
 export function InjectAuthenticatedUserDialog({
   open,
   handleClose,
-  userData,
   setUserData,
 }: InjectAuthenticatedUserDialogProps) {
   const [workingText, setWorkingText] = useState('');
@@ -56,7 +54,6 @@ export function InjectAuthenticatedUserDialog({
             fullWidth
             multiline
             rows={4}
-            value={JSON.stringify(userData)}
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
               setWorkingText(event.target.value)
             }
@@ -66,7 +63,14 @@ export function InjectAuthenticatedUserDialog({
           <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button type="submit" onClick={handleClose} color="primary">
+          <Button
+            type="submit"
+            onClick={() => {
+              // submitData();
+              handleClose();
+            }}
+            color="primary"
+          >
             Save
           </Button>
         </DialogActions>

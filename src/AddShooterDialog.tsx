@@ -77,7 +77,8 @@ export function AddShooterDialog({
         scoutGroup: shooter.scoutGroup,
       },
     });
-  }, [formik, shooter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));

@@ -36,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
+function extractUserEmail(userData: any): string {
+  // Google email path: x.signInUserSession.idToken.payload.email
+  // Cognito email path: x.signInUserSession.idToken.payload.email
+  const email =
+    userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
+
+  return email;
+}
+
 type TopBarProps = {
   userData: any;
   setUserData: (userData: any) => void;
@@ -74,12 +83,13 @@ export function TopBar({
 
   const titleBarText = showDevControls ? 'Team Entry - DEV' : 'Team Entry';
 
+  const email = userData ? extractUserEmail(userData) : '';
+
   return (
     <div className={classes.root}>
       <InjectAuthenticatedUserDialog
         open={isInjectAuthenticatedUserDialogOpen}
         handleClose={() => setIsInjectAuthenticatedUserDialogOpen(false)}
-        userData={userData}
         setUserData={setUserData}
       />
       <AppBar position="static">
@@ -112,6 +122,7 @@ export function TopBar({
           )}
           {userData && showDevControls && (
             <Button
+              color="inherit"
               onClick={() =>
                 navigator.clipboard.writeText(JSON.stringify(userData))
               }
@@ -120,18 +131,24 @@ export function TopBar({
               Copy User Data
             </Button>
           )}
-          {userData && <Button onClick={handleSignOut}>Sign Out (API)</Button>}
+          {userData && (
+            <Button color="inherit" onClick={handleSignOut}>
+              Sign Out (API)
+            </Button>
+          )}
 
-          <Button
-            variant="outlined"
-            size="small"
-            color="inherit"
-            onClick={() => resetHandler()}
-            className={classes.button}
-          >
-            Reset
-          </Button>
-          {/* <LoggedInUser /> */}
+          {showDevControls && (
+            <Button
+              variant="outlined"
+              size="small"
+              color="inherit"
+              onClick={() => resetHandler()}
+              className={classes.button}
+            >
+              Reset
+            </Button>
+          )}
+          <Typography color="inherit">{email}</Typography>
         </Toolbar>
       </AppBar>
     </div>

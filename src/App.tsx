@@ -83,7 +83,7 @@ export function App(): JSX.Element {
     });
 
     getUser().then((userData) => {
-      setUserData(userData);
+      if (userData) setUserData(userData);
     });
   }, []);
 
@@ -99,14 +99,10 @@ export function App(): JSX.Element {
     }
   }
 
-  // function extractUserEmail(userData: any): string {
-  //   // Google email path: x.signInUserSession.idToken.payload.email
-  //   // Cognito email path: x.signInUserSession.idToken.payload.email
-  //   const email =
-  //     userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
-
-  //   return email;
-  // }
+  const handleSetUserData = useCallback((userData: any) => {
+    setError(null);
+    setUserData(userData);
+  }, []);
 
   // function extractUserToken(userData: any): string {
   //   // Google email path: x.signInUserSession.idToken.payload.email
@@ -138,7 +134,7 @@ export function App(): JSX.Element {
       <TopBar
         resetHandler={handleReset}
         userData={authUserData}
-        setUserData={setUserData}
+        setUserData={handleSetUserData}
         errorHandler={setError}
       />
       {error !== undefined && <ErrorBox error={error} />}
