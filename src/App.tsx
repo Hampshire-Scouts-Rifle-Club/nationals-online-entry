@@ -99,7 +99,7 @@ function App(): JSX.Element {
     // Google email path: x.signInUserSession.idToken.payload.email
     // Cognito email path: x.signInUserSession.idToken.payload.email
     const idToken =
-      userData?.signInUserSession?.idToken ?? 'ID token not found';
+      userData?.signInUserSession?.idToken?.jwtToken ?? 'ID token not found';
 
     return idToken;
   }
@@ -135,6 +135,9 @@ function App(): JSX.Element {
             ? JSON.stringify(userToken, null, 2)
             : 'No authenticated user'}
         </pre>
+        <Button onClick={() => navigator.clipboard.writeText(userToken)}>
+          Copy JWT Token
+        </Button>
         <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />

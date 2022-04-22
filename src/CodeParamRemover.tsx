@@ -13,7 +13,7 @@ function CodeParamRemover(): JSX.Element {
     }
   }, [navigate, searchParams, setSearchParams]);
 
-  return <>&nbsp;</>;
+  return <div />;
 }
 
 export default CodeParamRemover;
