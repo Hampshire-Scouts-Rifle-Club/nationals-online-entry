@@ -51,6 +51,7 @@ function App(): JSX.Element {
   }, []);
 
   const [user, setUser] = useState<any>(null);
+  const [userToken, setUserToken] = useState<any>();
   const [customState, setCustomState] = useState<any>(null);
 
   useEffect(() => {
@@ -73,7 +74,10 @@ function App(): JSX.Element {
       }
     });
 
-    getUser().then((userData) => setUser(extractUserEmail(userData)));
+    getUser().then((userData) => {
+      setUser(extractUserEmail(userData));
+      setUserToken(extractUserToken(userData));
+    });
   }, []);
 
   function getUser() {
@@ -89,6 +93,15 @@ function App(): JSX.Element {
       userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
 
     return email;
+  }
+
+  function extractUserToken(userData: any): string {
+    // Google email path: x.signInUserSession.idToken.payload.email
+    // Cognito email path: x.signInUserSession.idToken.payload.email
+    const idToken =
+      userData?.signInUserSession?.idToken ?? 'ID token not found';
+
+    return idToken;
   }
 
   const handleSignIn = useCallback(() => {
@@ -118,6 +131,9 @@ function App(): JSX.Element {
       <Container maxWidth="sm">
         <pre>
           {user ? JSON.stringify(user, null, 2) : 'No authenticated user'}
+          {userToken
+            ? JSON.stringify(userToken, null, 2)
+            : 'No authenticated user'}
         </pre>
         <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
