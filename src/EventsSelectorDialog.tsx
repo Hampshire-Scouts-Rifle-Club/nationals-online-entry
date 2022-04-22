@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { AllEvents } from './AllEvents';
-import EventsSelector from './EventsSelector';
+import { EventsSelector } from './EventsSelector';
 import { getCostString, sumCost, sumSlots } from './EventsSummaryBuilder';
 
 type EventSelectorDialogProps = {
@@ -21,7 +21,7 @@ type EventSelectorDialogProps = {
   isMainEventLocked: boolean;
 };
 
-function EventsSelectorDialog({
+export function EventsSelectorDialog({
   open,
   handleClose,
   enteredEventIds,
@@ -42,12 +42,17 @@ function EventsSelectorDialog({
     setEnteredEventIds(workingEnteredEventIds);
     handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
-  }, []);
+  }, [
+    enteredEventIds,
+    handleClose,
+    setEnteredEventIds,
+    workingEnteredEventIds,
+  ]);
 
   const handleReset = useCallback(() => {
     handleClose();
     setWorkingEnteredEventIds(enteredEventIds);
-  }, []);
+  }, [enteredEventIds, handleClose]);
 
   function buildSummary() {
     const eventsEntered = AllEvents.filter(
@@ -94,5 +99,3 @@ function EventsSelectorDialog({
     </Dialog>
   );
 }
-
-export default EventsSelectorDialog;

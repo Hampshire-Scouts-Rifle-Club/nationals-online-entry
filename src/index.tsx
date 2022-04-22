@@ -8,7 +8,7 @@ import Amplify, { Auth } from 'aws-amplify';
 import awsExports from './aws-exports';
 
 import * as serviceWorker from './serviceWorker';
-import App from './App';
+import { App } from './App';
 
 const correctRedirectUris = () => {
   const isLocalhost = Boolean(

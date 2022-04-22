@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-function CodeParamRemover(): JSX.Element {
+export function CodeParamRemover(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -15,5 +15,3 @@ function CodeParamRemover(): JSX.Element {
 
   return <div />;
 }
-
-export default CodeParamRemover;

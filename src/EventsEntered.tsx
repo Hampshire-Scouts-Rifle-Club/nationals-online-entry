@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ShootingEvent from './ShootingEvent';
+import { ShootingEvent } from './ShootingEvent';
 import { AllEvents } from './AllEvents';
 
 type EventPropsType = {
@@ -130,5 +130,3 @@ export function EventsEntered({
     </Card>
   );
 }
-
-export default EventsEntered;

@@ -3,9 +3,9 @@
 import React, { useCallback } from 'react';
 import { Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import HeadedSection from './HeadedSection';
-import AddButton from './AddButton';
-import BookCampingSpaceDialog from './BookCampingSpaceDialog';
+import { HeadedSection } from './HeadedSection';
+import { AddButton } from './AddButton';
+import { BookCampingSpaceDialog } from './BookCampingSpaceDialog';
 import { CampBooking } from './CampBooking';
 
 type CampBookingProps = {
@@ -13,7 +13,7 @@ type CampBookingProps = {
   setCampBooking: (campBooking: CampBooking) => void;
 };
 
-function Camping({
+export function Camping({
   campBooking,
   setCampBooking,
 }: CampBookingProps): JSX.Element {
@@ -69,5 +69,3 @@ function Camping({
     </>
   );
 }
-
-export default Camping;

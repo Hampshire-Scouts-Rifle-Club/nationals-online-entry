@@ -2,19 +2,19 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
-import ShooterSummary from './ShooterSummary';
+import { ShooterSummary } from './ShooterSummary';
 
-type ShootersGroupCardProps = {
+type ShootersGroupProps = {
   scoutGroupName: string;
   shootersInGroup: IndividualEntry[];
   handleEdit: (entry: IndividualEntry) => void;
 };
 
-function ShootersGroupCard({
+export function ShootersGroup({
   scoutGroupName,
   shootersInGroup,
   handleEdit,
-}: ShootersGroupCardProps): JSX.Element {
+}: ShootersGroupProps): JSX.Element {
   function buildSummaryOfShooters() {
     const allShooterSummaries = shootersInGroup.map((individualEntry) => (
       <ShooterSummary
@@ -63,5 +63,3 @@ function ShootersGroupCard({
     </>
   );
 }
-
-export default ShootersGroupCard;

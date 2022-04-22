@@ -1,8 +1,7 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { airRifle6yd, beginnersSmallBore, knockout } from './AllEvents';
-import EventDescription from './EventDescription';
-
+import { EventDescription } from './EventDescription';
 
 export default {
   title: 'Event Description',
@@ -16,20 +15,20 @@ const Template: Story<ComponentProps<typeof EventDescription>> = (args) => (
 
 export const Knockout = Template.bind({});
 Knockout.args = {
-    event: knockout,
-    showAddButton: false,
-    showRemoveButton: false,
-}
+  event: knockout,
+  showAddButton: false,
+  showRemoveButton: false,
+};
 export const AirRifle6yd = Template.bind({});
 AirRifle6yd.args = {
-    event: airRifle6yd,
-    showAddButton: false,
-    showRemoveButton: true,
-}
+  event: airRifle6yd,
+  showAddButton: false,
+  showRemoveButton: true,
+};
 
 export const BeginnersSmallBore = Template.bind({});
 BeginnersSmallBore.args = {
-    event: beginnersSmallBore,
-    showAddButton: true,
-    showRemoveButton: false,
-}
+  event: beginnersSmallBore,
+  showAddButton: true,
+  showRemoveButton: false,
+};

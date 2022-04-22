@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import LoggedInUser from './LoggedInUser';
+// import { LoggedInUser } from './LoggedInUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +33,7 @@ type TopBarProps = {
   resetHandler: () => void;
 };
 
-export default function TopBar({ resetHandler }: TopBarProps): JSX.Element {
+export function TopBar({ resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
 
   return (

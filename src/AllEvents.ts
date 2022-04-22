@@ -1,4 +1,4 @@
-import ShootingEvent from './ShootingEvent';
+import { ShootingEvent } from './ShootingEvent';
 
 export const knockout: ShootingEvent = {
   id: 'knockout',

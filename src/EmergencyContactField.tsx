@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import AddEmergencyContactDialog from './AddEmergencyContactDialog';
+import { AddEmergencyContactDialog } from './AddEmergencyContactDialog';
 import { EmergencyContact } from './EmergencyContact';
 
 type EmergencyContactFieldProps = {
@@ -10,7 +10,7 @@ type EmergencyContactFieldProps = {
   setEmergencyContact: (emergencyContact: EmergencyContact) => void;
 };
 
-function EmergencyContactField({
+export function EmergencyContactField({
   emergencyContact,
   setEmergencyContact,
 }: EmergencyContactFieldProps): JSX.Element {
@@ -63,5 +63,3 @@ function EmergencyContactField({
     </div>
   );
 }
-
-export default EmergencyContactField;

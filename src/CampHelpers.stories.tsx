@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import CampHelpers from './CampHelpers';
+import { CampHelpers } from './CampHelpers';
 
 export default {
   title: 'Camp Helpers',
@@ -14,15 +14,15 @@ const Template: Story<ComponentProps<typeof CampHelpers>> = (args) => (
 
 export const Empty = Template.bind({});
 Empty.args = {
-    campHelpers: [],
-    setCampHelpers: () => {}
+  campHelpers: [],
+  setCampHelpers: () => {},
 };
 
 export const Populated = Template.bind({});
 Populated.args = {
-    campHelpers: [
-        {firstName: 'Joe', lastName: 'Bloggs', scoutAssociationId:'123456'},
-        {firstName: 'Jane', lastName: 'Doe', scoutAssociationId:''},
-    ],
-    setCampHelpers: () => {}
+  campHelpers: [
+    { firstName: 'Joe', lastName: 'Bloggs', scoutAssociationId: '123456' },
+    { firstName: 'Jane', lastName: 'Doe', scoutAssociationId: '' },
+  ],
+  setCampHelpers: () => {},
 };

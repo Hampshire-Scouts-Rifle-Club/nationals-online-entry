@@ -1,4 +1,4 @@
-import ShootingEvent from './ShootingEvent';
+import { ShootingEvent } from './ShootingEvent';
 
 const noDecimalsFormatter = new Intl.NumberFormat('en-GB', {
   style: 'currency',

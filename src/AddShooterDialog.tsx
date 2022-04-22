@@ -77,7 +77,7 @@ export function AddShooterDialog({
         scoutGroup: shooter.scoutGroup,
       },
     });
-  }, [shooter]);
+  }, [formik, shooter]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -195,5 +195,3 @@ export function AddShooterDialog({
     </Dialog>
   );
 }
-
-export default AddShooterDialog;

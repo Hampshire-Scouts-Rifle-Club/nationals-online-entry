@@ -11,8 +11,8 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HelpIcon from '@material-ui/icons/Help';
 import CheckIcon from '@material-ui/icons/Check';
-import ShootingEvent from './ShootingEvent';
-import InfoDialog from './InfoDialog';
+import { ShootingEvent } from './ShootingEvent';
+import { InfoDialog } from './InfoDialog';
 import { AllEventsInCategories } from './AllEvents';
 import { getCostString } from './EventsSummaryBuilder';
 
@@ -195,5 +195,3 @@ export function EventsSelector({
     </>
   );
 }
-
-export default EventsSelector;

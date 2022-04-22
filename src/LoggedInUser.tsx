@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 import { Button } from '@material-ui/core';
 import { useUserContext } from './UserContext';
 
-function LoggedInUser(): JSX.Element {
+export function LoggedInUser(): JSX.Element {
   // const { user } = useUserContext();
 
   const signIn = (
@@ -32,5 +32,3 @@ function LoggedInUser(): JSX.Element {
 
   return uiElement;
 }
-
-export default LoggedInUser;

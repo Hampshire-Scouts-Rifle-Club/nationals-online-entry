@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import Camping from './Camping';
+import { Camping } from './Camping';
 import { EmptyCampBooking } from './CampBooking';
 
 export default {
@@ -15,12 +15,16 @@ const Template: Story<ComponentProps<typeof Camping>> = (args) => (
 
 export const Empty = Template.bind({});
 Empty.args = {
-    campBooking: EmptyCampBooking,
-    setCampBooking: () => {}
+  campBooking: EmptyCampBooking,
+  setCampBooking: () => {},
 };
 
 export const Populated = Template.bind({});
 Populated.args = {
-    campBooking: {numberOfCampers: 8, estimatedArrivalTime: "9pm", anyOtherInfo: "Will be camping with 7th Woking"},
-    setCampBooking: () => {}
+  campBooking: {
+    numberOfCampers: 8,
+    estimatedArrivalTime: '9pm',
+    anyOtherInfo: 'Will be camping with 7th Woking',
+  },
+  setCampBooking: () => {},
 };

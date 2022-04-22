@@ -4,5 +4,3 @@ export function calculateAge(dateOfBirth: Date, onDate = Date.now()): number {
 
   return Math.abs(ageAsDate.getUTCFullYear() - 1970);
 }
-
-export default calculateAge;

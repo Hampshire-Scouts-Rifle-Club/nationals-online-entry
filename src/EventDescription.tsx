@@ -1,7 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import React from 'react';
-import InfoDialog from './InfoDialog';
-import ShootingEvent from './ShootingEvent';
+import { InfoDialog } from './InfoDialog';
+import { ShootingEvent } from './ShootingEvent';
 
 // The content for a card, but not the card.
 // Title: event
@@ -41,7 +41,7 @@ function getSlotsString(slots: number): string {
   return `${slots} ${slotOrSlots}`;
 }
 
-function EventDescription({
+export function EventDescription({
   event,
   showAddButton,
   // addEvent,
@@ -96,5 +96,3 @@ EventsDescriptionProps): JSX.Element {
     </>
   );
 }
-
-export default EventDescription;

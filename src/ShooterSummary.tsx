@@ -5,7 +5,7 @@ import { calculateAge } from './AgeUtils';
 import { AllEvents } from './AllEvents';
 import { getCostString, sumCost } from './EventsSummaryBuilder';
 import { Shooter } from './Shooter';
-import ShootingEvent from './ShootingEvent';
+import { ShootingEvent } from './ShootingEvent';
 
 type ShooterSummaryProps = {
   shooter: Shooter;
@@ -31,7 +31,7 @@ function getEventsEntered(eventsEntered: ShootingEvent[]): string {
   return allEventTitles.join(', ');
 }
 
-function ShooterSummary({
+export function ShooterSummary({
   shooter,
   enteredEventIds,
   handleEdit,
@@ -83,5 +83,3 @@ function ShooterSummary({
     </div>
   );
 }
-
-export default ShooterSummary;

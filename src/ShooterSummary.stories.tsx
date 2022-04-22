@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import ShooterSummary from './ShooterSummary';
+import { ShooterSummary } from './ShooterSummary';
 
 import { Shooter } from './Shooter';
 import {

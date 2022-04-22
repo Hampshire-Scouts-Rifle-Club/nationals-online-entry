@@ -5,7 +5,7 @@ type HeadedSectionProps = {
   title: string;
 };
 
-function HeadedSection({
+export function HeadedSection({
   title,
   children,
 }: PropsWithChildren<HeadedSectionProps>): JSX.Element {
@@ -25,5 +25,3 @@ function HeadedSection({
     </div>
   );
 }
-
-export default HeadedSection;

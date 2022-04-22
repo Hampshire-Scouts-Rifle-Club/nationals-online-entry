@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import HeadedSection from './HeadedSection';
+import { HeadedSection } from './HeadedSection';
 import { EmergencyContact } from './EmergencyContact';
-import EmergencyContactField from './EmergencyContactField';
+import { EmergencyContactField } from './EmergencyContactField';
 
 type EmergencyContactsPropsType = {
   onSiteEmergencyContact: EmergencyContact;
@@ -10,7 +10,8 @@ type EmergencyContactsPropsType = {
   offSiteEmergencyContact: EmergencyContact;
   setOffSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
 };
-function EmergencyContacts({
+
+export function EmergencyContacts({
   onSiteEmergencyContact,
   setOnSiteEmergencyContact,
   offSiteEmergencyContact,
@@ -42,5 +43,3 @@ function EmergencyContacts({
     // </Card>
   );
 }
-
-export default EmergencyContacts;

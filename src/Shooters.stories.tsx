@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Meta, Story } from '@storybook/react/types-6-0';
-import Shooters from './Shooters';
+import { Shooters } from './Shooters';
 import {
   entryJonCulshaw,
   entryJohnHolcroft,

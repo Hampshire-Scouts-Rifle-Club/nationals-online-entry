@@ -33,7 +33,9 @@ function buildCampHelperElement(campHelper: CampHelper) {
   );
 }
 
-function CampHelpersList({ campHelpers }: CampHelpersListProps): JSX.Element {
+export function CampHelpersList({
+  campHelpers,
+}: CampHelpersListProps): JSX.Element {
   const campHelperElements = campHelpers.map(
     (campHelper) => buildCampHelperElement(campHelper)
     // eslint-disable-next-line function-paren-newline
@@ -51,5 +53,3 @@ function CampHelpersList({ campHelpers }: CampHelpersListProps): JSX.Element {
     </>
   );
 }
-
-export default CampHelpersList;

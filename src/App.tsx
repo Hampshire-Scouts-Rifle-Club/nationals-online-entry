@@ -6,18 +6,21 @@ import { Auth, Hub } from 'aws-amplify';
 import { Button } from '@material-ui/core';
 // eslint-disable-next-line
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import Shooters from './Shooters';
-import Camping from './Camping';
-import EmergencyContacts from './EmergencyContacts';
-import Permissions from './Permissions';
-import TopBar from './TopBar';
+import { Shooters } from './Shooters';
+import { Camping } from './Camping';
+import { EmergencyContacts } from './EmergencyContacts';
+import { Permissions } from './Permissions';
+import { TopBar } from './TopBar';
 import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
-import SaveState from './SaveState';
-import CodeParamRemover from './CodeParamRemover';
+import { SaveState } from './SaveState';
+import { CodeParamRemover } from './CodeParamRemover';
 
-function App(): JSX.Element {
+export const isDev = () =>
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
     'scoutnationalsentries'
   );
@@ -48,8 +51,14 @@ function App(): JSX.Element {
     setCampBooking(EmptyCampBooking);
     setOnSiteEmergencyContact(EmptyEmergencyContact);
     setOffSiteEmergencyContact(EmptyEmergencyContact);
-  }, []);
+  }, [
+    setAllEntries,
+    setCampBooking,
+    setOnSiteEmergencyContact,
+    setOffSiteEmergencyContact,
+  ]);
 
+  const [authUserData, setUserData] = useState<any>();
   const [user, setUser] = useState<any>(null);
   const [userToken, setUserToken] = useState<any>();
   const [customState, setCustomState] = useState<any>(null);
@@ -75,6 +84,7 @@ function App(): JSX.Element {
     });
 
     getUser().then((userData) => {
+      setUserData(userData);
       setUser(extractUserEmail(userData));
       setUserToken(extractUserToken(userData));
     });
@@ -122,23 +132,35 @@ function App(): JSX.Element {
   const appElement = (
     <div className="App">
       <CodeParamRemover />
-      <Button onClick={handleSignIn}>Open Hosted UI</Button>
-      <Button href="https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=5vl121hntrlpc8veeo43so2m7q&response_type=code&scope=email+openid&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk">
-        Open Hosted UI
-      </Button>
-      {user && <Button onClick={handleSignOut}>Sign Out</Button>}
+      {isDev() && (
+        <>
+          <Button onClick={handleSignIn}>Open Hosted UI (API)</Button>
+          <Button href="https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=5vl121hntrlpc8veeo43so2m7q&response_type=code&scope=email+openid&redirect_uri=https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk">
+            Open Hosted UI (URL)
+          </Button>
+        </>
+      )}
+      {user && <Button onClick={handleSignOut}>Sign Out (API)</Button>}
       <TopBar resetHandler={handleReset} />
       <Container maxWidth="sm">
-        <pre>
-          {user ? JSON.stringify(user, null, 2) : 'No authenticated user'}
-          {userToken
-            ? JSON.stringify(userToken, null, 2)
-            : 'No authenticated user'}
-        </pre>
-        <Button onClick={() => navigator.clipboard.writeText(userToken)}>
-          Copy JWT Token
-        </Button>
-        <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
+        {isDev() && (
+          <>
+            <pre>
+              {user ? JSON.stringify(user, null, 2) : 'No authenticated user'}
+              {userToken
+                ? JSON.stringify(userToken, null, 2)
+                : 'No authenticated user'}
+            </pre>
+            <Button
+              onClick={() =>
+                navigator.clipboard.writeText(JSON.stringify(authUserData))
+              }
+            >
+              Copy Authenticated User Data
+            </Button>
+            <pre>{customState && JSON.stringify(customState, null, 2)}</pre>
+          </>
+        )}
         <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
         <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
         <EmergencyContacts
@@ -148,12 +170,14 @@ function App(): JSX.Element {
           setOffSiteEmergencyContact={setOffSiteEmergencyContact}
         />
         <Permissions />
-        <SaveState
-          allEntries={allEntries}
-          campBooking={campBooking}
-          onSiteEmergencyContact={onSiteEmergencyContact}
-          offSiteEmergencyContact={offSiteEmergencyContact}
-        />
+        {isDev() && (
+          <SaveState
+            allEntries={allEntries}
+            campBooking={campBooking}
+            onSiteEmergencyContact={onSiteEmergencyContact}
+            offSiteEmergencyContact={offSiteEmergencyContact}
+          />
+        )}
       </Container>
     </div>
   );
@@ -161,11 +185,9 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<>{appElement}</>} />
+        <Route path="/" element={appElement} />
         <Route path="/logout" element={<Navigate replace to="/" />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,21 +1,29 @@
 import React, { useCallback } from 'react';
 import './Shooters.css';
-import HeadedSection from './HeadedSection';
-import AddButton from './AddButton';
-import ShootersList from './ShootersList';
-import AddShooterDialog from './AddShooterDialog';
+import { HeadedSection } from './HeadedSection';
+import { AddButton } from './AddButton';
+import { ShootersList } from './ShootersList';
+import { AddShooterDialog } from './AddShooterDialog';
 import { EmptyShooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
-import EventsSelectorDialog from './EventsSelectorDialog';
+import { EventsSelectorDialog } from './EventsSelectorDialog';
 import { MainEventIds } from './AllEvents';
 import { calculateAge } from './AgeUtils';
+
+const EmptyEntry = {
+  shooter: EmptyShooter,
+  enteredEventIds: MainEventIds,
+} as IndividualEntry;
 
 type ShootersProps = {
   allEntries: IndividualEntry[];
   setAllEntries: (allEntries: IndividualEntry[]) => void;
 };
 
-function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
+export function Shooters({
+  allEntries,
+  setAllEntries,
+}: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
   const [isEditShooterOpen, setIsEditShooterOpen] = React.useState(false);
@@ -23,41 +31,62 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
     React.useState(false);
   const [isMainEventLocked, setIsMainEventLocked] = React.useState(true);
 
-  const EmptyEntry = {
-    shooter: EmptyShooter,
-    enteredEventIds: MainEventIds,
-  } as IndividualEntry;
-
   const [shooter, setShooter] = React.useState(EmptyShooter);
   const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
 
   const [entryToEdit, setEntryToEdit] = React.useState(EmptyEntry);
 
-  const handleEditEntry = useCallback((entry: IndividualEntry) => {
-    setEntryToEdit(entry);
-    resetDialogs(entry);
-    setIsEditShooterOpen(true);
+  const resetDialogs = useCallback((to = EmptyEntry) => {
+    setShooter(to.shooter);
+    setEnteredEventIds(to.enteredEventIds);
   }, []);
+
+  const handleEditEntry = useCallback(
+    (entry: IndividualEntry) => {
+      setEntryToEdit(entry);
+      resetDialogs(entry);
+      setIsEditShooterOpen(true);
+    },
+    [resetDialogs]
+  );
 
   const handleClickAddShooter = useCallback(() => {
     resetDialogs();
     setIsAddShooterOpen(true);
-  }, []);
+  }, [resetDialogs]);
 
-  function lockOrUnlockMainEvents() {
+  const lockOrUnlockMainEvents = useCallback(() => {
     const isAdult = calculateAge(new Date(shooter.dateOfBirth)) >= 18;
     setIsMainEventLocked(!isAdult);
-  }
+  }, [shooter.dateOfBirth]);
 
   const handleAddShooterSubmit = useCallback(() => {
     lockOrUnlockMainEvents();
     setIsEventsSelectorOpen(true);
-  }, []);
+  }, [lockOrUnlockMainEvents]);
 
   const handleEditShooterSubmit = useCallback(() => {
     lockOrUnlockMainEvents();
     setIsEditEventsSelectorOpen(true);
-  }, []);
+  }, [lockOrUnlockMainEvents]);
+
+  const addNewEntrant = useCallback(
+    (newEntry: IndividualEntry) => {
+      setAllEntries(allEntries.concat(newEntry));
+    },
+    [allEntries, setAllEntries]
+  );
+
+  const editEntrant = useCallback(
+    (newEntry: IndividualEntry) => {
+      const allEntriesWithoutChanged = allEntries.filter(
+        (entry) => entry !== entryToEdit
+      );
+      const newAllEntries = allEntriesWithoutChanged.concat(newEntry);
+      setAllEntries(newAllEntries);
+    },
+    [allEntries, entryToEdit, setAllEntries]
+  );
 
   const addNewEntrantWithEventIds = useCallback(
     (newEnteredEventIds: string[]) => {
@@ -70,7 +99,7 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
         enteredEventIds: newEnteredEventIds,
       });
     },
-    []
+    [addNewEntrant, shooter]
   );
 
   const editEntrantWithEventIds = useCallback(
@@ -84,25 +113,8 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
         enteredEventIds: newEnteredEventIds,
       });
     },
-    []
+    [editEntrant, shooter]
   );
-
-  function addNewEntrant(newEntry: IndividualEntry) {
-    setAllEntries(allEntries.concat(newEntry));
-  }
-
-  function editEntrant(newEntry: IndividualEntry) {
-    const allEntriesWithoutChanged = allEntries.filter(
-      (entry) => entry !== entryToEdit
-    );
-    const newAllEntries = allEntriesWithoutChanged.concat(newEntry);
-    setAllEntries(newAllEntries);
-  }
-
-  function resetDialogs(to = EmptyEntry) {
-    setShooter(to.shooter);
-    setEnteredEventIds(to.enteredEventIds);
-  }
 
   return (
     <>
@@ -149,5 +161,3 @@ function Shooters({ allEntries, setAllEntries }: ShootersProps): JSX.Element {
     </>
   );
 }
-
-export default Shooters;

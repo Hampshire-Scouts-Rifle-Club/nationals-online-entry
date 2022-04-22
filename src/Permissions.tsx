@@ -9,32 +9,27 @@ import {
   Link,
   Typography,
 } from '@material-ui/core';
-import InfoDialog from './InfoDialog';
+import { InfoDialog } from './InfoDialog';
 
-export default function Permissions(): JSX.Element {
+export function Permissions(): JSX.Element {
   const [state, setState] = useState({
     haveSection21Permission: false,
     havePorPermission: false,
     haveGdprPermission: false,
   });
 
-  const [isSection21InfoDialogOpen, setIsSection21InfoDialogOpen] = useState(
-    false
-  );
+  const [isSection21InfoDialogOpen, setIsSection21InfoDialogOpen] =
+    useState(false);
 
   const [isPorInfoDialogOpen, setIsPorInfoDialogOpen] = useState(false);
 
-  const handleChange = (name: string) => (event: {
-    target: { checked: boolean };
-  }) => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+  const handleChange =
+    (name: string) => (event: { target: { checked: boolean } }) => {
+      setState({ ...state, [name]: event.target.checked });
+    };
 
-  const {
-    haveSection21Permission,
-    havePorPermission,
-    haveGdprPermission,
-  } = state;
+  const { haveSection21Permission, havePorPermission, haveGdprPermission } =
+    state;
 
   const preventDefault = (event: SyntheticEvent) => event.preventDefault();
 

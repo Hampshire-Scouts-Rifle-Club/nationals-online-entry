@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-function AddButton({
+export function AddButton({
   children,
   onClick,
 }: {
@@ -21,5 +21,3 @@ function AddButton({
     </Button>
   );
 }
-
-export default AddButton;

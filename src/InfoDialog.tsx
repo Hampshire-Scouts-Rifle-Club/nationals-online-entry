@@ -15,7 +15,7 @@ type InfoDialogProps = {
   handleClose: () => void;
 };
 
-function InfoDialog({
+export function InfoDialog({
   title,
   paragraphs,
   isOpen,
@@ -44,5 +44,3 @@ function InfoDialog({
     </Dialog>
   );
 }
-
-export default InfoDialog;

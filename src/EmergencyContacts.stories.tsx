@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import EmergencyContacts from './EmergencyContacts';
+import { EmergencyContacts } from './EmergencyContacts';
 import { EmptyEmergencyContact } from './EmergencyContact';
 
 export default {
@@ -23,7 +23,7 @@ Empty.args = {
 
 export const OnSiteOnly = Template.bind({});
 OnSiteOnly.args = {
-  onSiteEmergencyContact: {name: 'Joe Bloggs', contactNumber: '07123 456789'},
+  onSiteEmergencyContact: { name: 'Joe Bloggs', contactNumber: '07123 456789' },
   setOnSiteEmergencyContact: () => {},
   offSiteEmergencyContact: EmptyEmergencyContact,
   setOffSiteEmergencyContact: () => {},
@@ -31,8 +31,8 @@ OnSiteOnly.args = {
 
 export const OnSiteAndOffSite = Template.bind({});
 OnSiteAndOffSite.args = {
-  onSiteEmergencyContact: {name: 'Joe Bloggs', contactNumber: '07123 456789'},
+  onSiteEmergencyContact: { name: 'Joe Bloggs', contactNumber: '07123 456789' },
   setOnSiteEmergencyContact: () => {},
-  offSiteEmergencyContact: {name: 'Jane Doe', contactNumber: '07234 567890'},
+  offSiteEmergencyContact: { name: 'Jane Doe', contactNumber: '07234 567890' },
   setOffSiteEmergencyContact: () => {},
 };

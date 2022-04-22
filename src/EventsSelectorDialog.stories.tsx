@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
-import EventsSelectorDialog from './EventsSelectorDialog';
+import { EventsSelectorDialog } from './EventsSelectorDialog';
 import { MainEventIds } from './AllEvents';
 import { entryBillyBloggs, entryLukeHolcroft } from './MockEntryData';
 

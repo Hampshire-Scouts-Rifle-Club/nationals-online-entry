@@ -104,5 +104,3 @@ export function BookCampingSpaceDialog({
     </Dialog>
   );
 }
-
-export default BookCampingSpaceDialog;

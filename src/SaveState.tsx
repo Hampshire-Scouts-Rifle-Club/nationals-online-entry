@@ -11,7 +11,7 @@ type SaveStateProps = {
   offSiteEmergencyContact: EmergencyContact;
 };
 
-function SaveState({
+export function SaveState({
   allEntries,
   campBooking,
   onSiteEmergencyContact,
@@ -27,5 +27,3 @@ function SaveState({
 
   return <pre>{teamEntryJson}</pre>;
 }
-
-export default SaveState;

@@ -92,5 +92,3 @@ export function AddEmergencyContactDialog({
     </Dialog>
   );
 }
-
-export default AddEmergencyContactDialog;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
-import ShootersGroup from './ShootersGroup';
+import { ShootersGroup } from './ShootersGroup';
 
 type ShootersProps = {
   shooters: IndividualEntry[];
@@ -24,7 +24,10 @@ function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
   return competitorsByScoutGroup;
 }
 
-function ShootersList({ shooters, handleEdit }: ShootersProps): JSX.Element {
+export function ShootersList({
+  shooters,
+  handleEdit,
+}: ShootersProps): JSX.Element {
   const competitorsByScoutGroup = buildShootersByScoutGroup(shooters);
 
   const elementsToReturn: JSX.Element[] = [];
@@ -41,7 +44,6 @@ function ShootersList({ shooters, handleEdit }: ShootersProps): JSX.Element {
     );
   });
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{elementsToReturn}</>;
 }
-
-export default ShootersList;
