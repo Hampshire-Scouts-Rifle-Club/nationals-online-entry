@@ -1,11 +1,11 @@
 import React from "react";
 
 import '../src/index.css';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
 
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
 
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme(adaptV4Theme({
     palette: {
       primary: {
         light: '#4862b2',
@@ -20,14 +20,16 @@ const muiTheme = createMuiTheme({
         contrastText: '#fff',
       },
     },
-  });
+  }));
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider theme={ muiTheme } >
-      <CssBaseline />
-      <Story />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={ muiTheme } >
+        <CssBaseline />
+        <Story />
+      </ThemeProvider>
+    </StyledEngineProvider>
   ),
 ];
 

@@ -1,5 +1,5 @@
-import { Box, Grid, Typography } from '@material-ui/core';
-import ErrorIcon from '@material-ui/icons/Error';
+import { Box, Grid, Typography } from '@mui/material';
+import ErrorIcon from '@mui/icons-material/Error';
 
 const errorBoxStyle = {
   flex: 1,
@@ -25,7 +25,7 @@ export function ErrorBox({ error }: ErrorBoxProps): JSX.Element {
           <ErrorIcon color="error" />
         </Grid>
         <Grid item>
-          <Typography>{error}</Typography>
+          <Typography>{error.message}</Typography>
         </Grid>
       </Grid>
     </Box>

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
+import { Button, Grid, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import { AddEmergencyContactDialog } from './AddEmergencyContactDialog';
 import { EmergencyContact } from './EmergencyContact';
 

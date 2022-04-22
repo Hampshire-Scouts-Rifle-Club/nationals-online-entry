@@ -9,7 +9,7 @@ import {
   DialogActions,
   Button,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useFormik } from 'formik';
 import { EmergencyContact } from './EmergencyContact';
 
@@ -41,7 +41,7 @@ export function AddEmergencyContactDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   return (
     <Dialog
@@ -58,7 +58,7 @@ export function AddEmergencyContactDialog({
           <Grid
             container
             direction="column"
-            justify="space-around"
+            justifyContent="space-around"
             alignItems="stretch"
             wrap="wrap"
           >

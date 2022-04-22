@@ -7,7 +7,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useCallback } from 'react';
 import { AllEvents } from './AllEvents';
 import { EventsSelector } from './EventsSelector';
@@ -29,7 +29,7 @@ export function EventsSelectorDialog({
   isMainEventLocked,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   const [workingEnteredEventIds, setWorkingEnteredEventIds] =
     React.useState(enteredEventIds);

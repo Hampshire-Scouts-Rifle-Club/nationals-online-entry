@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box } from '@mui/material';
 
 type HeadedSectionProps = {
   title: string;
@@ -14,7 +14,7 @@ export function HeadedSection({
       <Typography variant="h5">{title}</Typography>
       <Box
         borderColor="grey.500"
-        borderRadius="borderRadius"
+        borderRadius="1px"
         bgcolor="background.paper"
         border={1}
         padding={1}

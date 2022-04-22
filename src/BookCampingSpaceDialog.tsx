@@ -8,7 +8,7 @@ import {
   Button,
   TextField,
   DialogContentText,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import { useFormik } from 'formik';
 import { CampBooking } from './CampBooking';
@@ -43,7 +43,7 @@ export function BookCampingSpaceDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   return (
     <Dialog

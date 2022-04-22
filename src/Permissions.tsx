@@ -8,7 +8,7 @@ import {
   Checkbox,
   Link,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { InfoDialog } from './InfoDialog';
 
 export function Permissions(): JSX.Element {

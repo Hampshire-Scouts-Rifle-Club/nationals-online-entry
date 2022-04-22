@@ -11,7 +11,7 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -81,7 +81,7 @@ export function AddShooterDialog({
   }, []);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   return (
     <Dialog
@@ -96,14 +96,14 @@ export function AddShooterDialog({
           <Grid
             container
             direction="column"
-            justify="space-around"
+            justifyContent="space-around"
             alignItems="stretch"
             wrap="wrap"
           >
             <Grid
               container
               direction="row"
-              justify="flex-start"
+              justifyContent="flex-start"
               alignItems="baseline"
             >
               <Grid item>

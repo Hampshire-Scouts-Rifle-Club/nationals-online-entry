@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 export function AddButton({
   children,

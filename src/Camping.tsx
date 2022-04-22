@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 import React, { useCallback } from 'react';
-import { Button } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import { Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import { HeadedSection } from './HeadedSection';
 import { AddButton } from './AddButton';
 import { BookCampingSpaceDialog } from './BookCampingSpaceDialog';

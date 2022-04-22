@@ -1,5 +1,5 @@
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
 import { ShooterSummary } from './ShooterSummary';

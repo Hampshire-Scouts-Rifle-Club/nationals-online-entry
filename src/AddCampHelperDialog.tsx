@@ -9,7 +9,7 @@ import {
   DialogActions,
   Button,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useFormik } from 'formik';
 import { CampHelper } from './CampHelper';
 
@@ -43,7 +43,7 @@ export function AddCampHelperDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   return (
     <Dialog
@@ -58,7 +58,7 @@ export function AddCampHelperDialog({
           <Grid
             container
             direction="column"
-            justify="space-around"
+            justifyContent="space-around"
             alignItems="stretch"
             wrap="wrap"
           >

@@ -1,5 +1,5 @@
-import { Button, Typography } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import { Button, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import * as React from 'react';
 import { calculateAge } from './AgeUtils';
 import { AllEvents } from './AllEvents';

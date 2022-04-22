@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@material-ui/core';
+import { Divider, Typography } from '@mui/material';
 import * as React from 'react';
 import { CampHelper } from './CampHelper';
 

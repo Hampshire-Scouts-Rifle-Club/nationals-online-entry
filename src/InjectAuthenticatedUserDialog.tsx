@@ -7,7 +7,7 @@ import {
   TextField,
   useMediaQuery,
   useTheme,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useState, useCallback, ChangeEvent } from 'react';
 
 interface InjectAuthenticatedUserDialogProps {
@@ -28,11 +28,13 @@ export function InjectAuthenticatedUserDialog({
   }, [setUserData, workingText]);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
   return (
     <Dialog
       fullScreen={fullScreen}
+      fullWidth
+      maxWidth="md"
       open={open}
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
@@ -43,9 +45,7 @@ export function InjectAuthenticatedUserDialog({
           setWorkingText('');
         }}
       >
-        <DialogTitle id="responsive-dialog-title">
-          Inject Authenticated User Data
-        </DialogTitle>
+        <DialogTitle>Inject User Data</DialogTitle>
         <DialogContent>
           <TextField
             id="authUserData"
@@ -53,7 +53,7 @@ export function InjectAuthenticatedUserDialog({
             variant="outlined"
             fullWidth
             multiline
-            rows={4}
+            rows={10}
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
               setWorkingText(event.target.value)
             }
