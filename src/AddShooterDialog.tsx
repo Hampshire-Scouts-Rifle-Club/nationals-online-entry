@@ -12,12 +12,10 @@ import {
   FormControlLabel,
   Grid,
 } from '@mui/material';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { useFormik } from 'formik';
+import { DatePicker } from '@mui/lab';
 import { Shooter } from './Shooter';
 
 type ShooterPropsType = {
@@ -124,14 +122,14 @@ export function AddShooterDialog({
               </Grid>
             </Grid>
             <Grid item>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  renderInput={(props) => <TextField {...props} />}
                   className="date-of-birth"
                   disableFuture
-                  variant="inline"
-                  format="dd/MM/yyyy"
+                  inputFormat="dd/MM/yyyy"
                   label="Date of birth"
-                  views={['year', 'month', 'date']}
+                  views={['year', 'month', 'day']}
                   value={
                     formik.values.dateOfBirth &&
                     new Date(formik.values.dateOfBirth)
@@ -139,11 +137,8 @@ export function AddShooterDialog({
                   onChange={(date) => {
                     formik.setFieldValue('dateOfBirth', date);
                   }}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
                 />
-              </MuiPickersUtilsProvider>
+              </LocalizationProvider>
             </Grid>
             <Grid item>
               <FormControlLabel

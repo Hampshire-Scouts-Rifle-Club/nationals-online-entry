@@ -8,6 +8,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
+    "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",
     "@mui/styles": "^5.6.2",
     "@testing-library/jest-dom": "^5.16.2",
@@ -24,7 +25,6 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2",
     "react-scripts": "^5.0.0",
     "rxjs": "^7.5.5",
@@ -55,12 +55,6 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.4.19",
-    "@storybook/addon-essentials": "^6.4.19",
-    "@storybook/addon-links": "^6.4.19",
-    "@storybook/node-logger": "^6.4.19",
-    "@storybook/preset-create-react-app": "^4.1.0",
-    "@storybook/react": "^6.4.19",
     "@types/node": "^17.0.21",
     "@types/prop-types": "^15.7.4",
     "@types/use-persisted-state": "^0.3.1",
@@ -75,6 +69,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
-    "prettier": "^2.6.0"
+    "eslint-plugin-storybook": "^0.5.11",
+    "prettier": "^2.6.0",
+    "webpack": "^5.72.0"
   }
 }
