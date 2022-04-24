@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import {
+  createTheme,
+  ThemeProvider,
+  StyledEngineProvider,
+  Theme,
+} from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import { Amplify } from 'aws-amplify';
@@ -10,30 +15,10 @@ import awsExports from './aws-exports';
 import * as serviceWorker from './serviceWorker';
 import { AppRoutes } from './AppRoutes';
 
-
-
-
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
-
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
-
 const correctRedirectUris = () => {
   const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
@@ -70,7 +55,7 @@ const correctRedirectUris = () => {
 };
 
 // Create a theme instance.
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
   palette: {
     primary: {
       light: '#4862b2',
@@ -85,7 +70,7 @@ const theme = createTheme(adaptV4Theme({
       contrastText: '#fff',
     },
   },
-}));
+});
 
 Amplify.configure(awsExports);
 correctRedirectUris();

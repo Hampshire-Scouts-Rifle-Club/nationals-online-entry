@@ -16,10 +16,9 @@ import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
-import { fakeUserData } from './FakeUserData';
 
-const isDev = () =>
-  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+// const isDev = () =>
+//   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -36,6 +35,9 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact'
     );
+  const usePersistedFakeUserDataState = createPersistedState<any>(
+    'scoutnationalsfakeuserdata'
+  );
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
@@ -46,6 +48,7 @@ export function App(): JSX.Element {
     usePersistedOnSiteEmergencyContactState(EmptyEmergencyContact);
   const [offSiteEmergencyContact, setOffSiteEmergencyContact] =
     usePersistedOffSiteEmergencyContactState(EmptyEmergencyContact);
+  const [fakeUserData, setFakeUserData] = usePersistedFakeUserDataState();
 
   const handleReset = useCallback(() => {
     setAllEntries([]);
@@ -62,8 +65,21 @@ export function App(): JSX.Element {
   const [authUserData, setUserData] = useState<any>();
   const [error, setError] = useState<Error>();
 
-  const [searchParams] = useSearchParams();
-  const showDevControls = searchParams.get('dev') !== null;
+  // const [searchParams] = useSearchParams();
+  // const showDevControls = searchParams.get('dev') !== null;
+
+  const getUser = useCallback(async () => {
+    if (fakeUserData) return fakeUserData;
+
+    try {
+      const userData = await Auth.currentAuthenticatedUser({
+        bypassCache: true,
+      });
+      return userData;
+    } catch (reason: any) {
+      throw new Error(reason);
+    }
+  }, [fakeUserData]);
 
   useEffect(() => {
     Hub.listen('auth', async ({ payload: { event, data } }) => {
@@ -87,30 +103,27 @@ export function App(): JSX.Element {
       try {
         setUserData(await getUser());
       } catch (reason: any) {
-        // setError(reason);
-        if (isDev()) {
-          setUserData(JSON.parse(fakeUserData));
-        }
+        setError(reason);
+        // if (isDev()) {
+        //   setUserData(JSON.parse(fakeUserData));
+        // }
       }
     };
     initialiseUser();
-  }, []);
+  }, [getUser]);
 
-  async function getUser() {
-    try {
-      const userData = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-      return userData;
-    } catch (reason: any) {
-      throw new Error(reason);
-    }
-  }
+  const handleSetUserData = useCallback(
+    (userData: any) => {
+      setFakeUserData(userData);
+      // setError(undefined);
+    },
+    [setFakeUserData]
+  );
 
-  const handleSetUserData = useCallback((userData: any) => {
-    setError(undefined);
-    setUserData(userData);
-  }, []);
+  const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
+  const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
+
+  console.log('Rendering App');
 
   return (
     <div className="App">
@@ -119,7 +132,7 @@ export function App(): JSX.Element {
         resetHandler={handleReset}
         userData={authUserData}
         setUserData={handleSetUserData}
-        errorHandler={setError}
+        errorHandler={(newError: any) => setError(newError)}
       />
       {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
@@ -132,14 +145,14 @@ export function App(): JSX.Element {
           setOffSiteEmergencyContact={setOffSiteEmergencyContact}
         />
         <Permissions />
-        {showDevControls && (
-          <SaveState
-            allEntries={allEntries}
-            campBooking={campBooking}
-            onSiteEmergencyContact={onSiteEmergencyContact}
-            offSiteEmergencyContact={offSiteEmergencyContact}
-          />
-        )}
+        <SaveState
+          allEntries={allEntries}
+          campBooking={campBooking}
+          onSiteEmergencyContact={onSiteEmergencyContact}
+          offSiteEmergencyContact={offSiteEmergencyContact}
+          authToken={authToken}
+          ownerEmail={ownerEmail}
+        />
       </Container>
     </div>
   );

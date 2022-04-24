@@ -36,7 +36,7 @@ export function InjectAuthenticatedUserDialog({
       fullWidth
       maxWidth="md"
       open={open}
-      onClose={handleClose}
+      onClose={() => handleClose()}
       aria-labelledby="responsive-dialog-title"
     >
       <form
