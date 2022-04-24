@@ -1,6 +1,6 @@
-import { Typography } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CampBooking } from './CampBooking';
 import { EmergencyContact } from './EmergencyContact';
 import { ErrorBox } from './ErrorBox';
@@ -35,12 +35,16 @@ export function SaveState({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<Error>();
 
+  const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+  const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
+
   const haveAuthToken = authToken !== undefined && authToken.trim().length > 0;
   const haveOwnerEmail =
     ownerEmail !== undefined && ownerEmail.trim().length > 0;
   const canSaveToApi = haveAuthToken && haveOwnerEmail;
 
-  const [savedEntryRecord, setSavedEntryRecord] = useState('');
+  const savedEntryRecord = useRef('');
+  const savingEntryRecord = useRef('');
 
   const writeStateToApi = useCallback(
     async (
@@ -56,39 +60,49 @@ export function SaveState({
       };
 
       try {
+        savingEntryRecord.current = entryRecordJson;
+        setIsSaving(true);
+
         await axios.put(putUrl, entryRecordJson, {
           headers,
           signal: abortController.signal,
+          timeout: 3000,
         });
 
-        setSavedEntryRecord(entryRecordJson);
+        savedEntryRecord.current = entryRecordJson;
         setError(undefined);
+        setIsSuccessAlertOpen(true);
       } catch (reason: any) {
-        setError(reason);
+        if (reason.message !== 'canceled') {
+          setError(reason);
+          setIsErrorAlertOpen(true);
+        }
       } finally {
+        savingEntryRecord.current = '';
         setIsSaving(false);
       }
     },
     []
   );
 
-  // Will run on every render
+  const entryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
+
+  // Will run every time entryRecordJson changes
   useEffect(() => {
     if (!canSaveToApi) return () => {};
 
-    const entryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
-
     const writeOut = async () => {
-      if (savedEntryRecord !== entryRecordJson) {
+      if (
+        savedEntryRecord.current !== entryRecordJson &&
+        savingEntryRecord.current !== entryRecordJson
+      ) {
         await writeStateToApi(entryRecordJson, authToken);
       }
     };
     writeOut();
 
     return () => abortController.abort();
-  });
-
-  const teamEntryJson = JSON.stringify(teamEntry, null, 2);
+  }, [authToken, canSaveToApi, entryRecordJson, writeStateToApi]);
 
   const saveStateText = isSaving ? 'Saving...' : 'Saved';
   const saveStateElement = error ? (
@@ -97,11 +111,39 @@ export function SaveState({
     <Typography>{saveStateText}</Typography>
   );
 
+  const handleSuccessAlertClose = () => setIsSuccessAlertOpen(false);
+  const handleErrorAlertClose = () => setIsErrorAlertOpen(false);
+
   return (
     <>
+      <Snackbar
+        open={isSuccessAlertOpen}
+        autoHideDuration={1000}
+        onClose={handleSuccessAlertClose}
+      >
+        <Alert
+          onClose={handleSuccessAlertClose}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Saved
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={isErrorAlertOpen}
+        autoHideDuration={3000}
+        onClose={handleErrorAlertClose}
+      >
+        <Alert
+          onClose={handleErrorAlertClose}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {error?.message}
+        </Alert>
+      </Snackbar>
       {canSaveToApi && saveStateElement}
       {!canSaveToApi && <Typography>Log in to save</Typography>}
-      <pre>{teamEntryJson}</pre>;
     </>
   );
 }
