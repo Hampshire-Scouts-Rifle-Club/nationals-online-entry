@@ -28,7 +28,7 @@ export function InjectAuthenticatedUserDialog({
   }, [setUserData, workingText]);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Dialog
@@ -57,6 +57,7 @@ export function InjectAuthenticatedUserDialog({
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
               setWorkingText(event.target.value)
             }
+            sx={{ marginTop: 1 }}
           />
         </DialogContent>
         <DialogActions>

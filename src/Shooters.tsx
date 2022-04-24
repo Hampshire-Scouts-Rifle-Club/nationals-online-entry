@@ -146,7 +146,7 @@ export function Shooters({
         open={isEditShooterOpen}
         handleClose={() => setIsEditShooterOpen(false)}
         shooter={shooter}
-        setShooter={setShooter}
+        setShooter={(newShooter) => setShooter(newShooter)}
         actionButtonTitle="Next"
         submitHandler={handleEditShooterSubmit}
         title="Edit Shooter"

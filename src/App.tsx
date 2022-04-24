@@ -17,8 +17,8 @@ import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
 
-// const isDev = () =>
-//   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const isDev = () =>
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -69,7 +69,7 @@ export function App(): JSX.Element {
   // const showDevControls = searchParams.get('dev') !== null;
 
   const getUser = useCallback(async () => {
-    if (fakeUserData) return fakeUserData;
+    if (isDev() && fakeUserData) return fakeUserData;
 
     try {
       const userData = await Auth.currentAuthenticatedUser({
@@ -136,13 +136,23 @@ export function App(): JSX.Element {
       />
       {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
-        <Shooters allEntries={allEntries} setAllEntries={setAllEntries} />
-        <Camping campBooking={campBooking} setCampBooking={setCampBooking} />
+        <Shooters
+          allEntries={allEntries}
+          setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
+        />
+        <Camping
+          campBooking={campBooking}
+          setCampBooking={(newCampBooking) => setCampBooking(newCampBooking)}
+        />
         <EmergencyContacts
           onSiteEmergencyContact={onSiteEmergencyContact}
-          setOnSiteEmergencyContact={setOnSiteEmergencyContact}
+          setOnSiteEmergencyContact={(newOnSitEmergencyContact) =>
+            setOnSiteEmergencyContact(newOnSitEmergencyContact)
+          }
           offSiteEmergencyContact={offSiteEmergencyContact}
-          setOffSiteEmergencyContact={setOffSiteEmergencyContact}
+          setOffSiteEmergencyContact={(newOffSitEmergencyContact) =>
+            setOffSiteEmergencyContact(newOffSitEmergencyContact)
+          }
         />
         <Permissions />
         <SaveState

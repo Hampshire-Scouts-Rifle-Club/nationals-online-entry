@@ -11,6 +11,7 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
+  Stack,
 } from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -76,33 +77,29 @@ export function AddShooterDialog({
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shooter]);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Dialog
       fullScreen={fullScreen}
       open={open}
       onClose={handleClose}
+      maxWidth="md"
       aria-labelledby="responsive-dialog-title"
     >
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <Grid
-            container
-            direction="column"
-            justifyContent="space-around"
-            alignItems="stretch"
-            wrap="wrap"
-          >
+          <Stack spacing={1} marginTop={1}>
             <Grid
               container
               direction="row"
               justifyContent="flex-start"
               alignItems="baseline"
+              spacing={1}
             >
               <Grid item>
                 <TextField
@@ -172,7 +169,7 @@ export function AddShooterDialog({
                 onChange={formik.handleChange}
               />
             </Grid>
-          </Grid>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button type="reset" onClick={handleClose} color="primary">

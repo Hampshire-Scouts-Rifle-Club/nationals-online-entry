@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
   DialogContentText,
+  Stack,
 } from '@mui/material';
 import React from 'react';
 import { useFormik } from 'formik';
@@ -43,7 +44,7 @@ export function BookCampingSpaceDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Dialog
@@ -57,40 +58,42 @@ export function BookCampingSpaceDialog({
           Book Camping Space
         </DialogTitle>
         <DialogContent>
-          <TextField
-            id="numberOfPeopleCamping"
-            label="How many people are camping?"
-            type="number"
-            fullWidth
-            InputProps={{
-              inputProps: {
-                min: 0,
-              },
-            }}
-            value={formik.values.numberOfPeopleCamping}
-            onChange={formik.handleChange}
-          />
-          <TextField
-            id="estimatedArrivalTime"
-            label="Estimated arrival time"
-            value={formik.values.estimatedArrivalTime}
-            onChange={formik.handleChange}
-          />
-          <TextField
-            id="otherInformation"
-            label="Any other information?"
-            variant="outlined"
-            fullWidth
-            multiline
-            style={{ marginTop: '1rem' }}
-            rows={4}
-            value={formik.values.otherInformation}
-            onChange={formik.handleChange}
-          />
-          <DialogContentText variant="caption" style={{ marginTop: '1rem' }}>
-            All adult camp helpers must be listed on the main page to show Scout
-            DBS check.
-          </DialogContentText>
+          <Stack spacing={1} marginTop={1}>
+            <TextField
+              id="numberOfPeopleCamping"
+              label="How many people are camping?"
+              type="number"
+              fullWidth
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                },
+              }}
+              value={formik.values.numberOfPeopleCamping}
+              onChange={formik.handleChange}
+            />
+            <TextField
+              id="estimatedArrivalTime"
+              label="Estimated arrival time"
+              value={formik.values.estimatedArrivalTime}
+              onChange={formik.handleChange}
+            />
+            <TextField
+              id="otherInformation"
+              label="Any other information?"
+              variant="outlined"
+              fullWidth
+              multiline
+              style={{ marginTop: '1rem' }}
+              rows={4}
+              value={formik.values.otherInformation}
+              onChange={formik.handleChange}
+            />
+            <DialogContentText variant="caption" style={{ marginTop: '1rem' }}>
+              All adult camp helpers must be listed on the main page to show
+              Scout DBS check.
+            </DialogContentText>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button type="reset" onClick={handleClose} color="primary">

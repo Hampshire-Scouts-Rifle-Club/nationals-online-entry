@@ -9,6 +9,7 @@ import {
   DialogActions,
   Button,
   Grid,
+  Stack,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { CampHelper } from './CampHelper';
@@ -43,7 +44,7 @@ export function AddCampHelperDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Dialog
@@ -55,13 +56,7 @@ export function AddCampHelperDialog({
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">Camp Helper</DialogTitle>
         <DialogContent>
-          <Grid
-            container
-            direction="column"
-            justifyContent="space-around"
-            alignItems="stretch"
-            wrap="wrap"
-          >
+          <Stack spacing={1} marginTop={1}>
             <Grid item>
               <TextField
                 id="firstName"
@@ -86,7 +81,7 @@ export function AddCampHelperDialog({
                 onChange={formik.handleChange}
               />
             </Grid>
-          </Grid>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button type="reset" onClick={handleClose} color="primary">
@@ -100,5 +95,3 @@ export function AddCampHelperDialog({
     </Dialog>
   );
 }
-
-export default AddCampHelperDialog;

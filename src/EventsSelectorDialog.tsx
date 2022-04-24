@@ -29,7 +29,7 @@ export function EventsSelectorDialog({
   isMainEventLocked,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const [workingEnteredEventIds, setWorkingEnteredEventIds] =
     React.useState(enteredEventIds);

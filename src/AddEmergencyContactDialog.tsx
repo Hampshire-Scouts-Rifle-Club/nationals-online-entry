@@ -9,6 +9,7 @@ import {
   DialogActions,
   Button,
   Grid,
+  Stack,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { EmergencyContact } from './EmergencyContact';
@@ -41,7 +42,7 @@ export function AddEmergencyContactDialog({
   });
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Dialog
@@ -55,13 +56,7 @@ export function AddEmergencyContactDialog({
           Emergency Contact
         </DialogTitle>
         <DialogContent>
-          <Grid
-            container
-            direction="column"
-            justifyContent="space-around"
-            alignItems="stretch"
-            wrap="wrap"
-          >
+          <Stack spacing={1} marginTop={1}>
             <Grid item>
               <TextField
                 id="name"
@@ -78,7 +73,7 @@ export function AddEmergencyContactDialog({
                 value={formik.values.contactNumber}
               />
             </Grid>
-          </Grid>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button type="reset" onClick={handleClose} color="primary">
