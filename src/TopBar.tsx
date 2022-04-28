@@ -1,14 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Auth } from 'aws-amplify';
 import { useSearchParams } from 'react-router-dom';
-import { InjectAuthenticatedUserDialog } from './InjectAuthenticatedUserDialog';
-// import { LoggedInUser } from './LoggedInUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,8 +33,6 @@ const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 function extractUserEmail(userData: any): string {
-  // Google email path: x.signInUserSession.idToken.payload.email
-  // Cognito email path: x.signInUserSession.idToken.payload.email
   const email =
     userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
 
@@ -47,36 +41,24 @@ function extractUserEmail(userData: any): string {
 
 type TopBarProps = {
   userData: any;
-  setUserData: (userData: any) => void;
+  handleSignOut: () => void;
   resetHandler: () => void;
-  errorHandler: (error: any) => void;
 };
 
 export function TopBar({
   userData,
-  setUserData,
+  handleSignOut,
   resetHandler,
-  errorHandler,
 }: TopBarProps): JSX.Element {
   const classes = useStyles();
-  const [
-    isInjectAuthenticatedUserDialogOpen,
-    setIsInjectAuthenticatedUserDialogOpen,
-  ] = useState(false);
-
-  const handleSignOut = useCallback(async () => {
-    try {
-      await Auth.signOut();
-      setUserData(undefined);
-    } catch (error) {
-      errorHandler(error);
-    }
-  }, [errorHandler, setUserData]);
 
   const redirectUri = isDev()
     ? 'http%3A%2F%2Flocalhost%3A3000'
     : 'https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk';
-  const loginUrl = `https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=5vl121hntrlpc8veeo43so2m7q&response_type=code&scope=email+openid&redirect_uri=${redirectUri}`;
+  const clientId = isDev()
+    ? '5ofjg01kui3ue7a137qicdtgri'
+    : '5vl121hntrlpc8veeo43so2m7q';
+  const loginUrl = `https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=${clientId}&response_type=code&scope=email+openid&redirect_uri=${redirectUri}`;
 
   const [searchParams] = useSearchParams();
   const showDevControls = searchParams.get('dev') !== null;
@@ -87,28 +69,12 @@ export function TopBar({
 
   return (
     <div className={classes.root}>
-      <InjectAuthenticatedUserDialog
-        open={isInjectAuthenticatedUserDialogOpen}
-        handleClose={() => setIsInjectAuthenticatedUserDialogOpen(false)}
-        setUserData={setUserData}
-      />
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             {titleBarText}
           </Typography>
           <div className={classes.grow} />
-          {!userData && isDev() && (
-            <Button
-              variant="outlined"
-              size="small"
-              color="inherit"
-              className={classes.button}
-              onClick={() => setIsInjectAuthenticatedUserDialogOpen(true)}
-            >
-              Inject User
-            </Button>
-          )}
           {!userData && (
             <Button
               variant="outlined"
@@ -126,7 +92,6 @@ export function TopBar({
               onClick={() =>
                 navigator.clipboard.writeText(JSON.stringify(userData))
               }
-              // startIcon={<ContentCopyIcon />}
             >
               Copy User Data
             </Button>

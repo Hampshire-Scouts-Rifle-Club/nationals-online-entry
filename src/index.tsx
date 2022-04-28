@@ -19,35 +19,26 @@ declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-const correctRedirectUris = () => {
-  const isLocalhost = Boolean(
-    window.location.hostname === 'localhost' ||
-      // [::1] is the IPv6 localhost address.
-      window.location.hostname === '[::1]' ||
-      // 127.0.0.1/8 is considered localhost for IPv4.
-      window.location.hostname.match(
-        /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-      )
-  );
 
-  // Assuming you have two redirect URIs, and the first is for
-  // localhost and second is for production
-  const [localRedirectSignIn, productionRedirectSignIn] =
-    awsExports.oauth.redirectSignIn.split(',');
+const configureAmplify = () => {
+  const isDev = () =>
+    !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
-  const [localRedirectSignOut, productionRedirectSignOut] =
-    awsExports.oauth.redirectSignOut.split(',');
+  const localRedirectSignIn = 'http://localhost:3000';
+  const localClientId = '5ofjg01kui3ue7a137qicdtgri';
+  const redirectSignIn = isDev()
+    ? localRedirectSignIn
+    : awsExports.oauth.redirectSignIn;
+  const clientId = isDev()
+    ? localClientId
+    : awsExports.aws_user_pools_web_client_id;
 
   const updatedAwsConfig = {
     ...awsExports,
+    aws_user_pools_web_client_id: clientId,
     oauth: {
       ...awsExports.oauth,
-      redirectSignIn: isLocalhost
-        ? localRedirectSignIn
-        : productionRedirectSignIn,
-      redirectSignOut: isLocalhost
-        ? localRedirectSignOut
-        : productionRedirectSignOut,
+      redirectSignIn,
     },
   };
 
@@ -72,9 +63,7 @@ const theme = createTheme({
   },
 });
 
-Amplify.configure(awsExports);
-correctRedirectUris();
-// console.log(JSON.stringify(Auth.configure()));
+configureAmplify();
 
 ReactDOM.render(
   <StyledEngineProvider injectFirst>

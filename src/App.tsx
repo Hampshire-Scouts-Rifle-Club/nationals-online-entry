@@ -16,9 +16,10 @@ import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
+import { readEntryState } from './ServerState';
+import { buildEntryId, EntryDatabaseRecord } from './EntryDatabaseRecord';
 
-const isDev = () =>
-  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const abortController = new AbortController();
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -35,9 +36,6 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact'
     );
-  const usePersistedFakeUserDataState = createPersistedState<any>(
-    'scoutnationalsfakeuserdata'
-  );
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
@@ -48,7 +46,6 @@ export function App(): JSX.Element {
     usePersistedOnSiteEmergencyContactState(EmptyEmergencyContact);
   const [offSiteEmergencyContact, setOffSiteEmergencyContact] =
     usePersistedOffSiteEmergencyContactState(EmptyEmergencyContact);
-  const [fakeUserData, setFakeUserData] = usePersistedFakeUserDataState();
 
   const handleReset = useCallback(() => {
     setAllEntries([]);
@@ -64,13 +61,9 @@ export function App(): JSX.Element {
 
   const [authUserData, setUserData] = useState<any>();
   const [error, setError] = useState<Error>();
-
-  // const [searchParams] = useSearchParams();
-  // const showDevControls = searchParams.get('dev') !== null;
+  const [isReadyToSaveState, setIsReadyToSaveState] = useState(false);
 
   const getUser = useCallback(async () => {
-    if (isDev() && fakeUserData) return fakeUserData;
-
     try {
       const userData = await Auth.currentAuthenticatedUser({
         bypassCache: true,
@@ -79,7 +72,7 @@ export function App(): JSX.Element {
     } catch (reason: any) {
       throw new Error(reason);
     }
-  }, [fakeUserData]);
+  }, []);
 
   useEffect(() => {
     Hub.listen('auth', async ({ payload: { event, data } }) => {
@@ -104,26 +97,81 @@ export function App(): JSX.Element {
         setUserData(await getUser());
       } catch (reason: any) {
         setError(reason);
-        // if (isDev()) {
-        //   setUserData(JSON.parse(fakeUserData));
-        // }
       }
     };
     initialiseUser();
   }, [getUser]);
 
-  const handleSetUserData = useCallback(
-    (userData: any) => {
-      setFakeUserData(userData);
-      // setError(undefined);
-    },
-    [setFakeUserData]
-  );
+  const handleLogOut = useCallback(async () => {
+    // This next line automatically redirects to a log out URL, so
+    // everything could get unmounted and we start from fresh.
+    await Auth.signOut();
+    // TODO: if google or facebook login then also call their logout URLs
+  }, []);
 
   const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
   const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
 
-  console.log('Rendering App');
+  useEffect(() => {
+    if (
+      !ownerEmail ||
+      !authToken ||
+      ownerEmail.length === 0 ||
+      authToken.length === 0
+    ) {
+      return () => {};
+    }
+    // If we get here then ownerEmail and authToken have been populated,
+    // or changed. (I'll not worry about changed for now) We read the data
+    // from the server, populate the local state, and enable saving the state
+    // on the server.
+
+    const getInitialState = async () => {
+      try {
+        const id = buildEntryId(ownerEmail, 'draft');
+        const entryRecordJson = await readEntryState(
+          authToken,
+          id,
+          abortController.signal
+        );
+
+        const foundEntry = entryRecordJson && entryRecordJson.length > 0;
+        if (foundEntry) {
+          const entryRecord = JSON.parse(
+            entryRecordJson
+          ) as EntryDatabaseRecord;
+
+          setAllEntries(entryRecord.teamEntry.allEntries);
+          setCampBooking(entryRecord.teamEntry.campBooking);
+          setOnSiteEmergencyContact(
+            entryRecord.teamEntry.onSiteEmergencyContact
+          );
+          setOffSiteEmergencyContact(
+            entryRecord.teamEntry.offSiteEmergencyContact
+          );
+        }
+        setIsReadyToSaveState(true);
+      } catch (readError: any) {
+        if (readError.message !== 'canceled') {
+          const moreDescriptiveError = new Error(
+            `getInitialState: ${readError.message}`
+          );
+          setError(moreDescriptiveError);
+        }
+      }
+    };
+    getInitialState();
+
+    // If we get unmounted we need to abort the API call
+    return () => abortController.abort();
+  }, [
+    ownerEmail,
+    authToken,
+    setAllEntries,
+    setCampBooking,
+    setOnSiteEmergencyContact,
+    setOffSiteEmergencyContact,
+  ]);
 
   return (
     <div className="App">
@@ -131,8 +179,7 @@ export function App(): JSX.Element {
       <TopBar
         resetHandler={handleReset}
         userData={authUserData}
-        setUserData={handleSetUserData}
-        errorHandler={(newError: any) => setError(newError)}
+        handleSignOut={handleLogOut}
       />
       {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
@@ -155,14 +202,16 @@ export function App(): JSX.Element {
           }
         />
         <Permissions />
-        <SaveState
-          allEntries={allEntries}
-          campBooking={campBooking}
-          onSiteEmergencyContact={onSiteEmergencyContact}
-          offSiteEmergencyContact={offSiteEmergencyContact}
-          authToken={authToken}
-          ownerEmail={ownerEmail}
-        />
+        {isReadyToSaveState && (
+          <SaveState
+            allEntries={allEntries}
+            campBooking={campBooking}
+            onSiteEmergencyContact={onSiteEmergencyContact}
+            offSiteEmergencyContact={offSiteEmergencyContact}
+            authToken={authToken}
+            ownerEmail={ownerEmail}
+          />
+        )}
       </Container>
     </div>
   );
