@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'react-router-dom';
+import { Amplify, Auth } from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const isDev = () =>
-  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-
 function extractUserEmail(userData: any): string {
   const email =
     userData?.signInUserSession?.idToken?.payload?.email ?? 'email not found';
@@ -41,24 +39,24 @@ function extractUserEmail(userData: any): string {
 
 type TopBarProps = {
   userData: any;
-  handleSignOut: () => void;
   resetHandler: () => void;
 };
 
-export function TopBar({
-  userData,
-  handleSignOut,
-  resetHandler,
-}: TopBarProps): JSX.Element {
+export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
 
-  const redirectUri = isDev()
-    ? 'http%3A%2F%2Flocalhost%3A3000'
-    : 'https%3A%2F%2Fentry.nationalscoutriflechampionships.org.uk';
-  const clientId = isDev()
-    ? '5ofjg01kui3ue7a137qicdtgri'
-    : '5vl121hntrlpc8veeo43so2m7q';
-  const loginUrl = `https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=${clientId}&response_type=code&scope=email+openid&redirect_uri=${redirectUri}`;
+  const currentAmplifyConfiguration = Amplify.configure() as any;
+  const redirectSignIn = encodeURIComponent(
+    currentAmplifyConfiguration.oauth.redirectSignIn
+  );
+  const clientId = currentAmplifyConfiguration.aws_user_pools_web_client_id;
+  const loginUrl = `https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=${clientId}&response_type=code&scope=email+openid&redirect_uri=${redirectSignIn}`;
+  // Signing out by URL doesn't seem to work
+  // const redirectSignOut = encodeURIComponent(
+  //   currentAmplifyConfiguration.oauth.redirectSignOut
+  // );
+  // const authDomain = currentAmplifyConfiguration.oauth.domain;
+  // const logOutUrl = `https://${authDomain}/logout?client_id=${clientId}&logout_uri=${redirectSignOut}`;
 
   const [searchParams] = useSearchParams();
   const showDevControls = searchParams.get('dev') !== null;
@@ -97,8 +95,12 @@ export function TopBar({
             </Button>
           )}
           {userData && (
-            <Button color="inherit" onClick={handleSignOut}>
-              Sign Out (API)
+            // Does not work - I don't know why
+            // <Button color="inherit" href={logOutUrl}>
+            //   Sign Out
+            // </Button>
+            <Button color="inherit" onClick={() => Auth.signOut()}>
+              Sign Out
             </Button>
           )}
 

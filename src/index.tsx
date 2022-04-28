@@ -25,10 +25,15 @@ const configureAmplify = () => {
     !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
   const localRedirectSignIn = 'http://localhost:3000';
+  const localRedirectSignOut = 'http://localhost:3000/logout';
   const localClientId = '5ofjg01kui3ue7a137qicdtgri';
+
   const redirectSignIn = isDev()
     ? localRedirectSignIn
     : awsExports.oauth.redirectSignIn;
+  const redirectSignOut = isDev()
+    ? localRedirectSignOut
+    : awsExports.oauth.redirectSignOut;
   const clientId = isDev()
     ? localClientId
     : awsExports.aws_user_pools_web_client_id;
@@ -39,6 +44,7 @@ const configureAmplify = () => {
     oauth: {
       ...awsExports.oauth,
       redirectSignIn,
+      redirectSignOut,
     },
   };
 

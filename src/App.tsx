@@ -3,8 +3,6 @@ import './App.css';
 import Container from '@mui/material/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
-// eslint-disable-next-line
-import { useSearchParams } from 'react-router-dom';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
@@ -18,6 +16,7 @@ import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
 import { readEntryState } from './ServerState';
 import { buildEntryId } from './EntryDatabaseRecord';
+import { TeamEntry } from './TeamEntry';
 
 const abortController = new AbortController();
 
@@ -62,7 +61,8 @@ export function App(): JSX.Element {
   const [authUserData, setUserData] = useState<any>();
   const [error, setError] = useState<Error>();
   const [isReadyToSaveState, setIsReadyToSaveState] = useState(false);
-
+  const [initialServerTeamEntry, setInitialServerTeamEntry] =
+    useState<TeamEntry>();
   const getUser = useCallback(async () => {
     try {
       const userData = await Auth.currentAuthenticatedUser({
@@ -79,9 +79,11 @@ export function App(): JSX.Element {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
+        case 'tokenRefresh':
           setUserData(await getUser());
           break;
         case 'signOut':
+        case 'oAuthSignOut':
           setUserData(undefined);
           break;
         case 'signIn_failure':
@@ -101,13 +103,6 @@ export function App(): JSX.Element {
     };
     initialiseUser();
   }, [getUser]);
-
-  const handleLogOut = useCallback(async () => {
-    // This next line automatically redirects to a log out URL, so
-    // everything could get unmounted and we start from fresh.
-    await Auth.signOut();
-    // TODO: if google or facebook login then also call their logout URLs
-  }, []);
 
   const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
   const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
@@ -155,6 +150,7 @@ export function App(): JSX.Element {
             setOffSiteEmergencyContact(serverOffSiteEmergencyContact);
           }
         }
+        setInitialServerTeamEntry(entryRecord.teamEntry);
         setIsReadyToSaveState(true);
       } catch (readError: any) {
         if (readError.message !== 'canceled') {
@@ -181,11 +177,7 @@ export function App(): JSX.Element {
   return (
     <div className="App">
       <CodeParamRemover />
-      <TopBar
-        resetHandler={handleReset}
-        userData={authUserData}
-        handleSignOut={handleLogOut}
-      />
+      <TopBar resetHandler={handleReset} userData={authUserData} />
       {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
         <Shooters
@@ -207,7 +199,7 @@ export function App(): JSX.Element {
           }
         />
         <Permissions />
-        {isReadyToSaveState && (
+        {isReadyToSaveState && initialServerTeamEntry && (
           <SaveState
             allEntries={allEntries}
             campBooking={campBooking}
@@ -215,6 +207,7 @@ export function App(): JSX.Element {
             offSiteEmergencyContact={offSiteEmergencyContact}
             authToken={authToken}
             ownerEmail={ownerEmail}
+            initialServerState={initialServerTeamEntry}
           />
         )}
       </Container>

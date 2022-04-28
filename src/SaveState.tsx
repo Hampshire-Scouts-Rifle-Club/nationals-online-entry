@@ -14,6 +14,7 @@ type SaveStateProps = {
   offSiteEmergencyContact: EmergencyContact;
   authToken?: string;
   ownerEmail?: string;
+  initialServerState: TeamEntry;
 };
 
 const abortController = new AbortController();
@@ -25,6 +26,7 @@ export function SaveState({
   offSiteEmergencyContact,
   authToken,
   ownerEmail,
+  initialServerState,
 }: SaveStateProps): JSX.Element {
   const teamEntry: TeamEntry = {
     allEntries,
@@ -32,6 +34,7 @@ export function SaveState({
     onSiteEmergencyContact,
     offSiteEmergencyContact,
   };
+
   const errorRef = useRef<Error>();
 
   const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
@@ -42,7 +45,12 @@ export function SaveState({
     ownerEmail !== undefined && ownerEmail.trim().length > 0;
   const canSaveToApi = haveAuthToken && haveOwnerEmail;
 
-  const savedEntryRecord = useRef('');
+  const newEntryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
+  const initialServerEntryRecordJson = buildEntryRecord(
+    ownerEmail ?? '',
+    initialServerState
+  );
+  const savedEntryRecord = useRef(initialServerEntryRecordJson);
 
   const writeStateToApi = useCallback(
     async (
@@ -69,16 +77,14 @@ export function SaveState({
     []
   );
 
-  const entryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
-
   // This will run on every render, but only write to the API if
   // the entry has changed. We do not abort a write on an unmount.
   useEffect(() => {
-    const upToDate = savedEntryRecord.current === entryRecordJson;
+    const upToDate = savedEntryRecord.current === newEntryRecordJson;
     if (!canSaveToApi || upToDate) return;
 
     const writeOut = async () => {
-      await writeStateToApi(entryRecordJson, authToken);
+      await writeStateToApi(newEntryRecordJson, authToken);
     };
     writeOut();
   });
