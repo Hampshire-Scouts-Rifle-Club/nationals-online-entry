@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'react-router-dom';
-import { Amplify, Auth } from 'aws-amplify';
+import { getSignInOut } from './SignInSignOut';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,18 +45,7 @@ type TopBarProps = {
 export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
 
-  const currentAmplifyConfiguration = Amplify.configure() as any;
-  const redirectSignIn = encodeURIComponent(
-    currentAmplifyConfiguration.oauth.redirectSignIn
-  );
-  const clientId = currentAmplifyConfiguration.aws_user_pools_web_client_id;
-  const loginUrl = `https://auth.nationalscoutriflechampionships.org.uk/oauth2/authorize?client_id=${clientId}&response_type=code&scope=email+openid&redirect_uri=${redirectSignIn}`;
-  // Signing out by URL doesn't seem to work
-  // const redirectSignOut = encodeURIComponent(
-  //   currentAmplifyConfiguration.oauth.redirectSignOut
-  // );
-  // const authDomain = currentAmplifyConfiguration.oauth.domain;
-  // const logOutUrl = `https://${authDomain}/logout?client_id=${clientId}&logout_uri=${redirectSignOut}`;
+  const { signInUrl, signOut } = getSignInOut();
 
   const [searchParams] = useSearchParams();
   const showDevControls = searchParams.get('dev') !== null;
@@ -79,9 +68,9 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
               size="small"
               color="inherit"
               className={classes.button}
-              href={loginUrl}
+              href={signInUrl}
             >
-              Login
+              Sign In
             </Button>
           )}
           {userData && showDevControls && (
@@ -95,11 +84,7 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
             </Button>
           )}
           {userData && (
-            // Does not work - I don't know why
-            // <Button color="inherit" href={logOutUrl}>
-            //   Sign Out
-            // </Button>
-            <Button color="inherit" onClick={() => Auth.signOut()}>
+            <Button color="inherit" onClick={() => signOut()}>
               Sign Out
             </Button>
           )}

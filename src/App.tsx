@@ -3,6 +3,7 @@ import './App.css';
 import Container from '@mui/material/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
+import { Alert, Collapse } from '@mui/material';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
@@ -13,12 +14,14 @@ import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
-import { ErrorBox } from './ErrorBox';
 import { readEntryState } from './ServerState';
 import { buildEntryId } from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
+import { SignInPrompt } from './SignInPrompt';
 
 const abortController = new AbortController();
+const isDev = () =>
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -63,6 +66,7 @@ export function App(): JSX.Element {
   const [isReadyToSaveState, setIsReadyToSaveState] = useState(false);
   const [initialServerTeamEntry, setInitialServerTeamEntry] =
     useState<TeamEntry>();
+
   const getUser = useCallback(async () => {
     try {
       const userData = await Auth.currentAuthenticatedUser({
@@ -178,8 +182,17 @@ export function App(): JSX.Element {
     <div className="App">
       <CodeParamRemover />
       <TopBar resetHandler={handleReset} userData={authUserData} />
-      {error !== undefined && <ErrorBox error={error} />}
       <Container maxWidth="sm">
+        {isDev() && error !== undefined && (
+          <Alert severity="error" onClose={() => setError(undefined)}>
+            {error.message}
+          </Alert>
+        )}
+        <Collapse
+          in={error && error.message === 'The user is not authenticated'}
+        >
+          <SignInPrompt />
+        </Collapse>
         <Shooters
           allEntries={allEntries}
           setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
