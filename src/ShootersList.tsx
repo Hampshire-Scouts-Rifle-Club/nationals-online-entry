@@ -10,7 +10,16 @@ type ShootersProps = {
 function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
   const competitorsByScoutGroup: Map<string, IndividualEntry[]> = new Map();
 
-  shooters.forEach((entry) => {
+  const entryToComparableShooterName = (entry: IndividualEntry) =>
+    `${entry.shooter.lastName},${entry.shooter.firstName}`;
+
+  const orderedShooters = shooters.sort((entryA, entryB) => {
+    const nameA = entryToComparableShooterName(entryA);
+    const nameB = entryToComparableShooterName(entryB);
+    return nameA.localeCompare(nameB);
+  });
+
+  orderedShooters.forEach((entry) => {
     const { scoutGroup } = entry.shooter;
     const isScoutGroupInMap = competitorsByScoutGroup.has(scoutGroup);
     if (!isScoutGroupInMap) {
@@ -44,6 +53,14 @@ export function ShootersList({
     );
   });
 
+  const elementsToReturnSortedByGroup = elementsToReturn.sort(
+    (elementA, elementB) => {
+      const keyA = elementA.key?.toString() ?? '';
+      const keyB = elementB.key?.toString() ?? '';
+      return keyA.localeCompare(keyB);
+    }
+  );
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <>{elementsToReturn}</>;
+  return <>{elementsToReturnSortedByGroup}</>;
 }
