@@ -193,10 +193,11 @@ export function App(): JSX.Element {
    * initialServerTeamEntry has been populated.
    */
   useEffect(() => {
-    if (initialServerTeamEntry) {
+    const isInitialLoadOfData = !isReadyToSaveState && initialServerTeamEntry;
+    if (isInitialLoadOfData) {
       populateInitialState(initialServerTeamEntry);
     }
-  }, [initialServerTeamEntry, populateInitialState]);
+  }, [initialServerTeamEntry, isReadyToSaveState, populateInitialState]);
 
   return (
     <div className="App">
