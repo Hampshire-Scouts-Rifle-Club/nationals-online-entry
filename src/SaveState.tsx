@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CampBooking } from './CampBooking';
 import { EmergencyContact } from './EmergencyContact';
 import { buildEntryRecord } from './EntryDatabaseRecord';
-import { ErrorBox } from './ErrorBox';
 import { IndividualEntry } from './IndividualEntry';
 import { writeEntryState } from './ServerState';
 import { TeamEntry } from './TeamEntry';
@@ -33,8 +32,7 @@ export function SaveState({
     onSiteEmergencyContact,
     offSiteEmergencyContact,
   };
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState<Error>();
+  const errorRef = useRef<Error>();
 
   const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
   const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
@@ -45,7 +43,6 @@ export function SaveState({
   const canSaveToApi = haveAuthToken && haveOwnerEmail;
 
   const savedEntryRecord = useRef('');
-  const savingEntryRecord = useRef('');
 
   const writeStateToApi = useCallback(
     async (
@@ -53,26 +50,20 @@ export function SaveState({
       authorizationToken: string
     ): Promise<void> => {
       try {
-        savingEntryRecord.current = entryRecordJson;
-        setIsSaving(true);
-
-        writeEntryState(
+        const success = await writeEntryState(
           entryRecordJson,
           authorizationToken,
           abortController.signal
         );
 
-        savedEntryRecord.current = entryRecordJson;
-        setError(undefined);
-        setIsSuccessAlertOpen(true);
-      } catch (reason: any) {
-        if (reason.message !== 'canceled') {
-          setError(reason);
-          setIsErrorAlertOpen(true);
+        if (success) {
+          savedEntryRecord.current = entryRecordJson;
+          errorRef.current = undefined;
+          setIsSuccessAlertOpen(true);
         }
-      } finally {
-        savingEntryRecord.current = '';
-        setIsSaving(false);
+      } catch (reason: any) {
+        errorRef.current = reason;
+        setIsErrorAlertOpen(true);
       }
     },
     []
@@ -80,29 +71,17 @@ export function SaveState({
 
   const entryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
 
-  // Will run every time entryRecordJson changes
+  // This will run on every render, but only write to the API if
+  // the entry has changed. We do not abort a write on an unmount.
   useEffect(() => {
-    if (!canSaveToApi) return () => {};
+    const upToDate = savedEntryRecord.current === entryRecordJson;
+    if (!canSaveToApi || upToDate) return;
 
     const writeOut = async () => {
-      if (
-        savedEntryRecord.current !== entryRecordJson &&
-        savingEntryRecord.current !== entryRecordJson
-      ) {
-        await writeStateToApi(entryRecordJson, authToken);
-      }
+      await writeStateToApi(entryRecordJson, authToken);
     };
     writeOut();
-
-    return () => abortController.abort();
-  }, [authToken, canSaveToApi, entryRecordJson, writeStateToApi]);
-
-  const saveStateText = isSaving ? 'Saving...' : 'Saved';
-  const saveStateElement = error ? (
-    <ErrorBox error={error} />
-  ) : (
-    <Typography>{saveStateText}</Typography>
-  );
+  });
 
   const handleSuccessAlertClose = () => setIsSuccessAlertOpen(false);
   const handleErrorAlertClose = () => setIsErrorAlertOpen(false);
@@ -132,10 +111,9 @@ export function SaveState({
           severity="error"
           sx={{ width: '100%' }}
         >
-          {error?.message}
+          {errorRef.current?.message}
         </Alert>
       </Snackbar>
-      {canSaveToApi && saveStateElement}
       {!canSaveToApi && <Typography>Log in to save</Typography>}
     </>
   );

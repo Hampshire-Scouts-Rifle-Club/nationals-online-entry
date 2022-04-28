@@ -17,7 +17,7 @@ import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
 import { ErrorBox } from './ErrorBox';
 import { readEntryState } from './ServerState';
-import { buildEntryId, EntryDatabaseRecord } from './EntryDatabaseRecord';
+import { buildEntryId } from './EntryDatabaseRecord';
 
 const abortController = new AbortController();
 
@@ -129,26 +129,31 @@ export function App(): JSX.Element {
     const getInitialState = async () => {
       try {
         const id = buildEntryId(ownerEmail, 'draft');
-        const entryRecordJson = await readEntryState(
+        const entryRecord = await readEntryState(
           authToken,
           id,
           abortController.signal
         );
 
-        const foundEntry = entryRecordJson && entryRecordJson.length > 0;
-        if (foundEntry) {
-          const entryRecord = JSON.parse(
-            entryRecordJson
-          ) as EntryDatabaseRecord;
-
-          setAllEntries(entryRecord.teamEntry.allEntries);
-          setCampBooking(entryRecord.teamEntry.campBooking);
-          setOnSiteEmergencyContact(
-            entryRecord.teamEntry.onSiteEmergencyContact
-          );
-          setOffSiteEmergencyContact(
-            entryRecord.teamEntry.offSiteEmergencyContact
-          );
+        if (entryRecord && entryRecord.teamEntry) {
+          const {
+            allEntries: serverAllEntries,
+            campBooking: serverCampBooking,
+            onSiteEmergencyContact: serverOnSiteEmergencyContact,
+            offSiteEmergencyContact: serverOffSiteEmergencyContact,
+          } = entryRecord.teamEntry;
+          if (serverAllEntries) {
+            setAllEntries(serverAllEntries);
+          }
+          if (serverCampBooking) {
+            setCampBooking(serverCampBooking);
+          }
+          if (serverOnSiteEmergencyContact) {
+            setOnSiteEmergencyContact(serverOnSiteEmergencyContact);
+          }
+          if (serverOffSiteEmergencyContact) {
+            setOffSiteEmergencyContact(serverOffSiteEmergencyContact);
+          }
         }
         setIsReadyToSaveState(true);
       } catch (readError: any) {

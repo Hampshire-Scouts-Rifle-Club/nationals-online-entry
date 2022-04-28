@@ -1,10 +1,15 @@
 import axios from 'axios';
+import { EntryDatabaseRecord } from './EntryDatabaseRecord';
+
+interface ServerEntryDatabaseRecord extends EntryDatabaseRecord {
+  teamEntryJson: string;
+}
 
 export async function writeEntryState(
   entryRecordJson: string,
   authorizationToken: string,
   abortSignal: AbortSignal
-): Promise<void> {
+): Promise<boolean> {
   const putUrl = 'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
 
   const headers = {
@@ -12,11 +17,13 @@ export async function writeEntryState(
     'Content-Type': 'application/json',
   };
 
-  await axios.put(putUrl, entryRecordJson, {
+  const response = await axios.put(putUrl, entryRecordJson, {
     headers,
     signal: abortSignal,
     timeout: 3000,
   });
+
+  return response.status === 200;
 }
 
 /**
@@ -32,7 +39,7 @@ export async function readEntryState(
   authorizationToken: string,
   id: string,
   abortSignal: AbortSignal
-): Promise<string> {
+): Promise<EntryDatabaseRecord> {
   const baseUrl =
     'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
   const safeId = encodeURIComponent(id);
@@ -48,5 +55,11 @@ export async function readEntryState(
     timeout: 3000,
   });
 
-  return response.data;
+  const entryRecord = response.data.Item as ServerEntryDatabaseRecord;
+  const teamEntry = JSON.parse(entryRecord.teamEntryJson);
+  const entryDatabaseRecord = {
+    ...entryRecord,
+    teamEntry,
+  } as EntryDatabaseRecord;
+  return entryDatabaseRecord;
 }
