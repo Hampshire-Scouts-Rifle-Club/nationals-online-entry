@@ -1,10 +1,11 @@
 import { Alert, Snackbar, Typography } from '@mui/material';
-import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CampBooking } from './CampBooking';
 import { EmergencyContact } from './EmergencyContact';
+import { buildEntryRecord } from './EntryDatabaseRecord';
 import { ErrorBox } from './ErrorBox';
 import { IndividualEntry } from './IndividualEntry';
+import { writeEntryState } from './ServerState';
 import { TeamEntry } from './TeamEntry';
 
 type SaveStateProps = {
@@ -51,23 +52,15 @@ export function SaveState({
       entryRecordJson: string,
       authorizationToken: string
     ): Promise<void> => {
-      const putUrl =
-        'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
-
-      const headers = {
-        Authorization: authorizationToken,
-        'Content-Type': 'application/json',
-      };
-
       try {
         savingEntryRecord.current = entryRecordJson;
         setIsSaving(true);
 
-        await axios.put(putUrl, entryRecordJson, {
-          headers,
-          signal: abortController.signal,
-          timeout: 3000,
-        });
+        writeEntryState(
+          entryRecordJson,
+          authorizationToken,
+          abortController.signal
+        );
 
         savedEntryRecord.current = entryRecordJson;
         setError(undefined);
@@ -146,27 +139,4 @@ export function SaveState({
       {!canSaveToApi && <Typography>Log in to save</Typography>}
     </>
   );
-}
-
-interface EntryDatabaseRecord {
-  id: string;
-  owner: string;
-  state: 'draft' | 'submitted' | 'amending' | 'superseded';
-  updatedAt?: Date; // This is populated by the server
-  teamEntry: TeamEntry;
-}
-
-function buildEntryRecord(email: string, teamEntry: TeamEntry) {
-  const state = 'draft';
-  const year = '2022';
-  const id = `${email}-${state}-${year}`;
-
-  const entryRecord: EntryDatabaseRecord = {
-    id,
-    owner: email,
-    state,
-    teamEntry,
-  };
-  const entryRecordJson = JSON.stringify(entryRecord);
-  return entryRecordJson;
 }
