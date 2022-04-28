@@ -108,54 +108,15 @@ export function App(): JSX.Element {
     initialiseUser();
   }, [getUser]);
 
-  const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
-  const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
-
-  useEffect(() => {
-    if (
-      !ownerEmail ||
-      !authToken ||
-      ownerEmail.length === 0 ||
-      authToken.length === 0
-    ) {
-      return () => {};
-    }
-    // If we get here then ownerEmail and authToken have been populated,
-    // or changed. (I'll not worry about changed for now) We read the data
-    // from the server, populate the local state, and enable saving the state
-    // on the server.
-
-    const getInitialState = async () => {
+  const readInitialState = useCallback(
+    async (ownerEmail: string, authToken: string, abortSignal: AbortSignal) => {
       try {
-        const id = buildEntryId(ownerEmail, 'draft');
-        const entryRecord = await readEntryState(
+        const initialTeamEntry = await getInitialState(
+          ownerEmail,
           authToken,
-          id,
-          abortController.signal
+          abortSignal
         );
-
-        if (entryRecord && entryRecord.teamEntry) {
-          const {
-            allEntries: serverAllEntries,
-            campBooking: serverCampBooking,
-            onSiteEmergencyContact: serverOnSiteEmergencyContact,
-            offSiteEmergencyContact: serverOffSiteEmergencyContact,
-          } = entryRecord.teamEntry;
-          if (serverAllEntries) {
-            setAllEntries(serverAllEntries);
-          }
-          if (serverCampBooking) {
-            setCampBooking(serverCampBooking);
-          }
-          if (serverOnSiteEmergencyContact) {
-            setOnSiteEmergencyContact(serverOnSiteEmergencyContact);
-          }
-          if (serverOffSiteEmergencyContact) {
-            setOffSiteEmergencyContact(serverOffSiteEmergencyContact);
-          }
-        }
-        setInitialServerTeamEntry(entryRecord.teamEntry);
-        setIsReadyToSaveState(true);
+        setInitialServerTeamEntry(initialTeamEntry);
       } catch (readError: any) {
         if (readError.message !== 'canceled') {
           const moreDescriptiveError = new Error(
@@ -164,19 +125,78 @@ export function App(): JSX.Element {
           setError(moreDescriptiveError);
         }
       }
-    };
-    getInitialState();
+    },
+    []
+  );
+
+  const populateInitialState = useCallback(
+    (teamEntry: TeamEntry) => {
+      const {
+        allEntries: serverAllEntries,
+        campBooking: serverCampBooking,
+        onSiteEmergencyContact: serverOnSiteEmergencyContact,
+        offSiteEmergencyContact: serverOffSiteEmergencyContact,
+      } = teamEntry;
+
+      if (serverAllEntries) {
+        setAllEntries(serverAllEntries);
+      }
+      if (serverCampBooking) {
+        setCampBooking(serverCampBooking);
+      }
+      if (serverOnSiteEmergencyContact) {
+        setOnSiteEmergencyContact(serverOnSiteEmergencyContact);
+      }
+      if (serverOffSiteEmergencyContact) {
+        setOffSiteEmergencyContact(serverOffSiteEmergencyContact);
+      }
+
+      setIsReadyToSaveState(true);
+    },
+    [
+      setAllEntries,
+      setCampBooking,
+      setOffSiteEmergencyContact,
+      setOnSiteEmergencyContact,
+    ]
+  );
+
+  const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
+  const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
+
+  /**
+   * Gets the initial data from the server. Will run on every render,
+   * so exits early if not authenticated or we've already got the data.
+   */
+  useEffect(() => {
+    if (
+      !ownerEmail ||
+      !authToken ||
+      ownerEmail.length === 0 ||
+      authToken.length === 0 ||
+      initialServerTeamEntry !== undefined
+    ) {
+      return () => {};
+    }
+
+    // It is important that readInitialState only has one side
+    // effect, which is calling setInitialServerTeamEntry, which
+    // calling will prevent this effect from running again.
+    readInitialState(ownerEmail, authToken, abortController.signal);
 
     // If we get unmounted we need to abort the API call
     return () => abortController.abort();
-  }, [
-    ownerEmail,
-    authToken,
-    setAllEntries,
-    setCampBooking,
-    setOnSiteEmergencyContact,
-    setOffSiteEmergencyContact,
-  ]);
+  });
+
+  /**
+   * Populates the state of the react components, after
+   * initialServerTeamEntry has been populated.
+   */
+  useEffect(() => {
+    if (initialServerTeamEntry) {
+      populateInitialState(initialServerTeamEntry);
+    }
+  }, [initialServerTeamEntry, populateInitialState]);
 
   return (
     <div className="App">
@@ -226,4 +246,25 @@ export function App(): JSX.Element {
       </Container>
     </div>
   );
+}
+
+async function getInitialState(
+  ownerEmail: string,
+  authToken: string,
+  abortSignal: AbortSignal
+): Promise<TeamEntry | undefined> {
+  try {
+    const id = buildEntryId(ownerEmail, 'draft');
+    const entryRecord = await readEntryState(authToken, id, abortSignal);
+
+    if (entryRecord && entryRecord.teamEntry) {
+      return entryRecord.teamEntry;
+    }
+  } catch (error: any) {
+    if (error.message !== 'canceled') {
+      throw error;
+    }
+  }
+
+  return undefined;
 }
