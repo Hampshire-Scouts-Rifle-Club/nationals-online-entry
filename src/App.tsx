@@ -18,6 +18,7 @@ import { readEntryState } from './ServerState';
 import { buildEntryId } from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
 import { SignInPrompt } from './SignInPrompt';
+import { SubmitEntry } from './SubmitEntry';
 
 const abortController = new AbortController();
 const isDev = () =>
@@ -233,6 +234,7 @@ export function App(): JSX.Element {
           }
         />
         <Permissions />
+        <SubmitEntry />
         {isReadyToSaveState && initialServerTeamEntry && (
           <SaveState
             allEntries={allEntries}
