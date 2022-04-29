@@ -79,7 +79,12 @@ export function AddEmergencyContactDialog({
           <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button type="submit" onClick={handleClose} color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleClose}
+            color="primary"
+          >
             Save
           </Button>
         </DialogActions>
