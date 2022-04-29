@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -88,6 +89,15 @@ export function EventsSelectorDialog({
         />
       </DialogContent>
       <DialogActions>
+        <Button
+          target="_blank"
+          component="a"
+          color="secondary"
+          href="https://www.nationalscoutriflechampionships.org.uk/competitioneventshttps://www.nationalscoutriflechampionships.org.uk/competitionevents"
+        >
+          About the events
+        </Button>
+        <Box flexGrow={1} />
         {buildSummary()}
         <Button onClick={handleReset} color="primary">
           Cancel

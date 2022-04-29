@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,10 +9,8 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HelpIcon from '@mui/icons-material/Help';
 import CheckIcon from '@mui/icons-material/Check';
 import { ShootingEvent } from './ShootingEvent';
-import { InfoDialog } from './InfoDialog';
 import { AllEventsInCategories } from './AllEvents';
 import { getCostString } from './EventsSummaryBuilder';
 
@@ -32,10 +30,6 @@ export function EventsSelector({
   setEnteredEventIds,
   isMainEventLocked,
 }: EventsSelectorProps): JSX.Element {
-  const [infoDialogTitle, setInfoDialogTitle] = useState('');
-  const [infoDialogParagraphs, setInfoDialogParagraphs] = useState(['']);
-  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
-
   function buildEventsTable(
     events: ShootingEvent[],
     showCost: boolean,
@@ -65,21 +59,6 @@ export function EventsSelector({
                     {getCostString(event.cost)}
                   </TableCell>
                 )}
-                <TableCell>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<HelpIcon />}
-                    onClick={() => {
-                      setInfoDialogTitle(event.title);
-                      setInfoDialogParagraphs(event.description);
-                      setIsInfoDialogOpen(true);
-                    }}
-                  >
-                    Info
-                  </Button>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -182,16 +161,7 @@ export function EventsSelector({
   });
 
   return (
-    <>
-      {categorisedEventElements}
-      <InfoDialog
-        title={infoDialogTitle}
-        paragraphs={infoDialogParagraphs}
-        isOpen={isInfoDialogOpen}
-        handleClose={() => {
-          setIsInfoDialogOpen(false);
-        }}
-      />
-    </>
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>{categorisedEventElements}</>
   );
 }
