@@ -5,6 +5,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'react-router-dom';
+import { Divider, Menu, MenuItem } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getSignInOut } from './SignInSignOut';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,12 +19,6 @@ const useStyles = makeStyles((theme) => ({
   email: {
     flexGrow: 0,
     marginRight: theme.spacing(1),
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
   },
   button: {
     marginLeft: theme.spacing(1),
@@ -44,6 +40,7 @@ type TopBarProps = {
 
 export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const { signInUrl, signOut } = getSignInOut();
 
@@ -54,14 +51,40 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
 
   const email = userData ? extractUserEmail(userData) : '';
 
+  const handleShowMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const devMenuItems = [
+    <MenuItem key="reset" onClick={() => resetHandler()}>
+      Reset
+    </MenuItem>,
+    <Divider />,
+  ];
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             {titleBarText}
           </Typography>
-          <div className={classes.grow} />
+          {userData && (
+            <Button
+              variant="text"
+              color="inherit"
+              // size="small"
+              sx={{ textTransform: 'none' }}
+              onClick={handleShowMenu}
+              endIcon={<ExpandMoreIcon />}
+            >
+              {email}
+            </Button>
+          )}
           {!userData && (
             <Button
               variant="outlined"
@@ -73,34 +96,32 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
               Sign In
             </Button>
           )}
-          {userData && showDevControls && (
-            <Button
-              color="inherit"
-              onClick={() =>
-                navigator.clipboard.writeText(JSON.stringify(userData))
-              }
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            {showDevControls && devMenuItems}
+            <MenuItem
+              key="signout"
+              onClick={() => {
+                signOut();
+                handleCloseMenu();
+              }}
             >
-              Copy User Data
-            </Button>
-          )}
-          {userData && (
-            <Button color="inherit" onClick={() => signOut()}>
               Sign Out
-            </Button>
-          )}
-
-          {showDevControls && (
-            <Button
-              variant="outlined"
-              size="small"
-              color="inherit"
-              onClick={() => resetHandler()}
-              className={classes.button}
-            >
-              Reset
-            </Button>
-          )}
-          <Typography color="inherit">{email}</Typography>
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </div>
