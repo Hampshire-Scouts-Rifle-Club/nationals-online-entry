@@ -52,7 +52,7 @@ export async function readEntryState(
   const response = await axios.get(getUrl, {
     headers,
     signal: abortSignal,
-    timeout: 3000,
+    timeout: 5000,
   });
 
   const entryRecord = response.data.Item as ServerEntryDatabaseRecord;
