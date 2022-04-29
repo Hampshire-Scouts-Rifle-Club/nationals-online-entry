@@ -19,6 +19,7 @@ import { buildEntryId } from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
 import { SignInPrompt } from './SignInPrompt';
 import { SubmitEntry } from './SubmitEntry';
+import { useInterval } from './useInterval';
 
 const abortController = new AbortController();
 const isDev = () =>
@@ -79,6 +80,14 @@ export function App(): JSX.Element {
     }
   }, []);
 
+  const initialiseUser = useCallback(async () => {
+    try {
+      setUserData(await getUser());
+    } catch (reason: any) {
+      setError(reason);
+    }
+  }, [getUser]);
+
   useEffect(() => {
     Hub.listen('auth', async ({ payload: { event, data } }) => {
       switch (event) {
@@ -99,15 +108,12 @@ export function App(): JSX.Element {
       }
     });
 
-    const initialiseUser = async () => {
-      try {
-        setUserData(await getUser());
-      } catch (reason: any) {
-        setError(reason);
-      }
-    };
     initialiseUser();
-  }, [getUser]);
+  }, [getUser, initialiseUser]);
+
+  // Refresh our auth token every 10 minutes
+  const authTokenRefreshIntervalMs = 10 * 60 * 1000; // 10 minutes
+  useInterval(() => initialiseUser(), authTokenRefreshIntervalMs);
 
   const readInitialState = useCallback(
     async (ownerEmail: string, authToken: string, abortSignal: AbortSignal) => {
