@@ -130,7 +130,7 @@ export function Shooters({
         handleClose={() => setIsAddShooterOpen(false)}
         shooter={shooter}
         setShooter={setShooter}
-        actionButtonTitle="Next"
+        actionButtonTitle="Choose Events"
         submitHandler={handleAddShooterSubmit}
         title="Add Shooter"
       />
@@ -147,7 +147,7 @@ export function Shooters({
         handleClose={() => setIsEditShooterOpen(false)}
         shooter={shooter}
         setShooter={(newShooter) => setShooter(newShooter)}
-        actionButtonTitle="Next"
+        actionButtonTitle="Choose Events"
         submitHandler={handleEditShooterSubmit}
         title="Edit Shooter"
       />

@@ -5,7 +5,7 @@ export type Shooter = {
   dateOfBirth: string;
   scoutGroup: string;
   county: string;
-  didEnterLastYear: boolean;
+  previousCompetitorNumber: string;
   isRangeOfficer: boolean;
   rangeOfficerProofUrl: string;
 };
@@ -17,7 +17,7 @@ export const EmptyShooter: Shooter = {
   dateOfBirth: new Date('January 1, 1900 00:00:01').toISOString(),
   scoutGroup: '',
   county: '',
-  didEnterLastYear: false,
+  previousCompetitorNumber: '',
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',
 };

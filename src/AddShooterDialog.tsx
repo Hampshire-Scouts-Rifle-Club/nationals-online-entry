@@ -12,6 +12,8 @@ import {
   FormControlLabel,
   Grid,
   Stack,
+  Divider,
+  Typography,
 } from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -43,7 +45,7 @@ export function AddShooterDialog({
       firstName: shooter.firstName,
       lastName: shooter.lastName,
       dateOfBirth: shooter.dateOfBirth,
-      didEnterLastYear: shooter.didEnterLastYear,
+      previousCompetitorNumber: shooter.previousCompetitorNumber,
       isRangeOfficer: shooter.isRangeOfficer,
       scoutGroup: shooter.scoutGroup,
     },
@@ -52,7 +54,7 @@ export function AddShooterDialog({
         id: `${values.firstName}-${values.lastName}-${values.scoutGroup}`,
         firstName: values.firstName,
         lastName: values.lastName,
-        didEnterLastYear: values.didEnterLastYear,
+        previousCompetitorNumber: values.previousCompetitorNumber,
         dateOfBirth: values.dateOfBirth,
         scoutGroup: values.scoutGroup,
         county: '',
@@ -71,7 +73,7 @@ export function AddShooterDialog({
         firstName: shooter.firstName,
         lastName: shooter.lastName,
         dateOfBirth: shooter.dateOfBirth,
-        didEnterLastYear: shooter.didEnterLastYear,
+        previousCompetitorNumber: shooter.previousCompetitorNumber,
         isRangeOfficer: shooter.isRangeOfficer,
         scoutGroup: shooter.scoutGroup,
       },
@@ -93,7 +95,7 @@ export function AddShooterDialog({
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <Stack spacing={1} marginTop={1}>
+          <Stack spacing={2} marginTop={1}>
             <Grid
               container
               direction="row"
@@ -119,49 +121,6 @@ export function AddShooterDialog({
               </Grid>
             </Grid>
             <Grid item>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  renderInput={(props) => <TextField {...props} />}
-                  className="date-of-birth"
-                  disableFuture
-                  inputFormat="dd/MM/yyyy"
-                  label="Date of birth"
-                  views={['year', 'month', 'day']}
-                  value={
-                    formik.values.dateOfBirth &&
-                    new Date(formik.values.dateOfBirth)
-                  }
-                  onChange={(date) => {
-                    formik.setFieldValue('dateOfBirth', date);
-                  }}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="didEnterLastYear"
-                    checked={formik.values.didEnterLastYear}
-                    onChange={formik.handleChange}
-                  />
-                }
-                label="Entered last year"
-              />
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="isRangeOfficer"
-                    checked={formik.values.isRangeOfficer}
-                    onChange={formik.handleChange}
-                  />
-                }
-                label="Range officer"
-              />
-            </Grid>
-            <Grid item>
               <TextField
                 id="scoutGroup"
                 label="Scout group"
@@ -169,6 +128,65 @@ export function AddShooterDialog({
                 onChange={formik.handleChange}
               />
             </Grid>
+            <div>
+              <Typography variant="subtitle1">
+                <strong>Under 18</strong>
+              </Typography>
+              <Divider />
+            </div>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                renderInput={(props) => <TextField {...props} />}
+                className="date-of-birth"
+                disableFuture
+                inputFormat="dd/MM/yyyy"
+                label="Date of birth"
+                views={['year', 'month', 'day']}
+                value={
+                  formik.values.dateOfBirth &&
+                  new Date(formik.values.dateOfBirth)
+                }
+                onChange={(date) => {
+                  formik.setFieldValue('dateOfBirth', date);
+                }}
+              />
+            </LocalizationProvider>
+            <TextField
+              id="previousCompetitorNumber"
+              label="2019 Competitor Number"
+              value={formik.values.previousCompetitorNumber}
+              onChange={formik.handleChange}
+              helperText="For 'most improved' prize"
+            />
+            <div>
+              <Typography variant="subtitle1">
+                <strong>Over 18</strong>
+              </Typography>
+              <Divider />
+            </div>
+            <div>
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="isRangeOfficer"
+                      checked={formik.values.isRangeOfficer}
+                      onChange={formik.handleChange}
+                    />
+                  }
+                  label="Range officer (£10 discount - TBD)"
+                />
+              </Grid>
+              <Typography variant="caption" maxWidth="sm">
+                We need range officers to be able to run the competition.
+              </Typography>
+              <Button
+                size="small"
+                href="https://www.nationalscoutriflechampionships.org.uk/rangeofficer"
+              >
+                Learn more
+              </Button>
+            </div>
           </Stack>
         </DialogContent>
         <DialogActions>
