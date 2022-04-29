@@ -9,6 +9,7 @@ import {
   TextField,
   DialogContentText,
   Stack,
+  Box,
 } from '@mui/material';
 import React from 'react';
 import { useFormik } from 'formik';
@@ -96,10 +97,24 @@ export function BookCampingSpaceDialog({
           </Stack>
         </DialogContent>
         <DialogActions>
+          <Button
+            target="_blank"
+            component="a"
+            color="secondary"
+            href="https://www.nationalscoutriflechampionships.org.uk/competitioneventshttps://www.nationalscoutriflechampionships.org.uk/camping"
+          >
+            About camping
+          </Button>
+          <Box flexGrow={1} />
           <Button type="reset" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button type="submit" onClick={handleClose} color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleClose}
+            color="primary"
+          >
             Save
           </Button>
         </DialogActions>
