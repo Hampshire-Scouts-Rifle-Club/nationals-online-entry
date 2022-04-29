@@ -201,6 +201,9 @@ export function AddShooterDialog({
                 </Typography>
                 <Button
                   size="small"
+                  color="secondary"
+                  target="_blank"
+                  component="a"
                   href="https://www.nationalscoutriflechampionships.org.uk/rangeofficer"
                 >
                   Learn more
