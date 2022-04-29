@@ -4,7 +4,7 @@ import { HeadedSection } from './HeadedSection';
 import { AddButton } from './AddButton';
 import { ShootersList } from './ShootersList';
 import { AddShooterDialog } from './AddShooterDialog';
-import { EmptyShooter } from './Shooter';
+import { EmptyShooter, Shooter } from './Shooter';
 import { IndividualEntry } from './IndividualEntry';
 import { EventsSelectorDialog } from './EventsSelectorDialog';
 import { MainEventIds } from './AllEvents';
@@ -116,6 +116,16 @@ export function Shooters({
     [editEntrant, shooter]
   );
 
+  const handleDeleteShooter = useCallback(
+    (shooterToDelete: Shooter) => {
+      const allEntriesWithoutPassedShooter = allEntries.filter(
+        (entry) => entry.shooter !== shooterToDelete
+      );
+      setAllEntries(allEntriesWithoutPassedShooter);
+    },
+    [allEntries, setAllEntries]
+  );
+
   return (
     <>
       <HeadedSection title="Shooters">
@@ -150,6 +160,8 @@ export function Shooters({
         actionButtonTitle="Choose Events"
         submitHandler={handleEditShooterSubmit}
         title="Edit Shooter"
+        showDelete
+        deleteShooter={handleDeleteShooter}
       />
       <EventsSelectorDialog
         open={isEditEventsSelectorOpen}
