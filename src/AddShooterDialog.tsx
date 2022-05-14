@@ -99,6 +99,15 @@ export function AddShooterDialog({
     handleClose();
   }, [deleteShooter, handleClose, shooter]);
 
+  const numbersOnlyTextChangeHandler = useCallback(
+    (event) => {
+      const target = event.currentTarget;
+      target.value = target.value.replace(/[^0-9]/, '');
+      formik.handleChange(event);
+    },
+    [formik]
+  );
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -174,8 +183,9 @@ export function AddShooterDialog({
                 id="previousCompetitorNumber"
                 label="2019 Competitor Number"
                 value={formik.values.previousCompetitorNumber}
-                onChange={formik.handleChange}
+                onChange={numbersOnlyTextChangeHandler}
                 helperText="For 'most improved' prize"
+                inputProps={{ inputMode: 'numeric', maxlength: '3' }}
               />
               <div>
                 <Typography variant="subtitle1">
