@@ -53,6 +53,8 @@ export function BookCampingSpaceDialog({
       open={open}
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
+      maxWidth="sm"
+      fullWidth
     >
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
         <DialogTitle id="responsive-dialog-title">
@@ -91,8 +93,15 @@ export function BookCampingSpaceDialog({
               onChange={formik.handleChange}
             />
             <DialogContentText variant="caption" style={{ marginTop: '1rem' }}>
-              All adult camp helpers must be listed on the main page to show
-              Scout DBS check.
+              Remember to submit a{' '}
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.google.com/search?q=scouts+nights+away+notification"
+              >
+                NAN
+              </a>{' '}
+              for this event.
             </DialogContentText>
           </Stack>
         </DialogContent>
