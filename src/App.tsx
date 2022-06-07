@@ -176,14 +176,18 @@ export function App(): JSX.Element {
    * so exits early if not authenticated or we've already got the data.
    */
   useEffect(() => {
-    if (
+    const isNotAuthenticated =
       !ownerEmail ||
       !authToken ||
       ownerEmail.length === 0 ||
-      authToken.length === 0 ||
-      initialServerTeamEntry !== undefined
-    ) {
-      return () => {};
+      authToken.length === 0;
+    if (isNotAuthenticated) {
+      return;
+    }
+
+    const isAlreadyInitialised = initialServerTeamEntry !== undefined;
+    if (isAlreadyInitialised) {
+      return;
     }
 
     // It is important that readInitialState only has one side
@@ -191,8 +195,11 @@ export function App(): JSX.Element {
     // calling will prevent this effect from running again.
     readInitialState(ownerEmail, authToken, abortController.signal);
 
-    // If we get unmounted we need to abort the API call
-    return () => abortController.abort();
+    // We are not returning a clean-up function that allows readInitialState to be aborted.
+    // The initialisation goes wrong when we do.
+    // return () => {
+    //   abortController.abort();
+    // };
   });
 
   /**
