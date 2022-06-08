@@ -23,6 +23,33 @@ interface ShootersProps {
   showPlaceHolder?: Boolean;
 }
 
+const placeholderShooter = (
+  <Fade in style={{ transitionDelay: '300ms' }}>
+    <Stack>
+      <Skeleton
+        variant="rectangular"
+        width="auto"
+        height={32}
+        style={{
+          marginLeft: '-0.5rem',
+          marginRight: '-0.5rem',
+          marginBottom: '1rem',
+        }}
+      />
+      <Skeleton
+        variant="rectangular"
+        width={125}
+        height={24}
+        style={{ marginBottom: '0.6rem' }}
+      />
+      <>
+        <Skeleton variant="text" width="80%" />
+        <Skeleton variant="text" width="10%" />
+      </>
+    </Stack>
+  </Fade>
+);
+
 export function Shooters({
   allEntries,
   setAllEntries,
@@ -130,45 +157,19 @@ export function Shooters({
     [allEntries, setAllEntries]
   );
 
-  const placeholderShooter = (
-    <Fade in style={{ transitionDelay: '300ms' }}>
-      <Stack>
-        <Skeleton
-          variant="rectangular"
-          width="auto"
-          height={32}
-          style={{
-            marginLeft: '-0.5rem',
-            marginRight: '-0.5rem',
-            marginBottom: '1rem',
-          }}
-        />
-        <Skeleton
-          variant="rectangular"
-          width={125}
-          height={24}
-          style={{ marginBottom: '1rem' }}
-        />
-        <>
-          <Skeleton variant="text" width="80%" />
-          <Skeleton variant="text" width="10%" />
-        </>
-      </Stack>
-    </Fade>
-  );
-
   return (
     <>
       <HeadedSection title="Shooters">
-        {!showPlaceHolder && (
+        {!showPlaceHolder ? (
           <>
             <ShootersList shooters={allEntries} handleEdit={handleEditEntry} />
             <AddButton onClick={() => handleClickAddShooter()}>
               Add Shooter
             </AddButton>
           </>
+        ) : (
+          placeholderShooter
         )}
-        {showPlaceHolder && placeholderShooter}
       </HeadedSection>
 
       <AddShooterDialog
