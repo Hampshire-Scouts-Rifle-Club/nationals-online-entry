@@ -185,7 +185,7 @@ export function AddShooterDialog({
                 value={formik.values.previousCompetitorNumber}
                 onChange={numbersOnlyTextChangeHandler}
                 helperText="For 'most improved' prize"
-                inputProps={{ inputMode: 'numeric', maxlength: '3' }}
+                inputProps={{ inputMode: 'numeric', maxLength: '3' }}
               />
               <div>
                 <Typography variant="subtitle1">
