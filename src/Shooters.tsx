@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import './Shooters.css';
+import { Fade, Skeleton, Stack } from '@mui/material';
 import { HeadedSection } from './HeadedSection';
 import { AddButton } from './AddButton';
 import { ShootersList } from './ShootersList';
@@ -13,16 +14,19 @@ import { calculateAge } from './AgeUtils';
 const EmptyEntry = {
   shooter: EmptyShooter,
   enteredEventIds: MainEventIds,
+  showPlaceHolder: false,
 } as IndividualEntry;
 
-type ShootersProps = {
+interface ShootersProps {
   allEntries: IndividualEntry[];
   setAllEntries: (allEntries: IndividualEntry[]) => void;
-};
+  showPlaceHolder?: Boolean;
+}
 
 export function Shooters({
   allEntries,
   setAllEntries,
+  showPlaceHolder = false,
 }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
@@ -126,13 +130,45 @@ export function Shooters({
     [allEntries, setAllEntries]
   );
 
+  const placeholderShooter = (
+    <Fade in style={{ transitionDelay: '300ms' }}>
+      <Stack>
+        <Skeleton
+          variant="rectangular"
+          width="auto"
+          height={32}
+          style={{
+            marginLeft: '-0.5rem',
+            marginRight: '-0.5rem',
+            marginBottom: '1rem',
+          }}
+        />
+        <Skeleton
+          variant="rectangular"
+          width={125}
+          height={24}
+          style={{ marginBottom: '1rem' }}
+        />
+        <>
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="10%" />
+        </>
+      </Stack>
+    </Fade>
+  );
+
   return (
     <>
       <HeadedSection title="Shooters">
-        <ShootersList shooters={allEntries} handleEdit={handleEditEntry} />
-        <AddButton onClick={() => handleClickAddShooter()}>
-          Add Shooter
-        </AddButton>
+        {!showPlaceHolder && (
+          <>
+            <ShootersList shooters={allEntries} handleEdit={handleEditEntry} />
+            <AddButton onClick={() => handleClickAddShooter()}>
+              Add Shooter
+            </AddButton>
+          </>
+        )}
+        {showPlaceHolder && placeholderShooter}
       </HeadedSection>
 
       <AddShooterDialog

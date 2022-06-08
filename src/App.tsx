@@ -170,23 +170,20 @@ export function App(): JSX.Element {
 
   const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
   const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
+  const isNotAuthenticated =
+    !ownerEmail ||
+    !authToken ||
+    ownerEmail.length === 0 ||
+    authToken.length === 0;
+  const isAlreadyInitialised = initialServerTeamEntry !== undefined;
+  const isWaitingForData = !isNotAuthenticated && !isAlreadyInitialised;
 
   /**
    * Gets the initial data from the server. Will run on every render,
    * so exits early if not authenticated or we've already got the data.
    */
   useEffect(() => {
-    const isNotAuthenticated =
-      !ownerEmail ||
-      !authToken ||
-      ownerEmail.length === 0 ||
-      authToken.length === 0;
-    if (isNotAuthenticated) {
-      return;
-    }
-
-    const isAlreadyInitialised = initialServerTeamEntry !== undefined;
-    if (isAlreadyInitialised) {
+    if (isNotAuthenticated || isAlreadyInitialised) {
       return;
     }
 
@@ -231,6 +228,7 @@ export function App(): JSX.Element {
         <Shooters
           allEntries={allEntries}
           setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
+          showPlaceHolder={isWaitingForData}
         />
         <Camping
           campBooking={campBooking}
