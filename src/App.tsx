@@ -41,6 +41,8 @@ export function App(): JSX.Element {
       'scoutnationalsoffsitemergencycontact'
     );
 
+  const [isEntryLocked] = useState(false);
+
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
   );
@@ -229,10 +231,13 @@ export function App(): JSX.Element {
           allEntries={allEntries}
           setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
           showPlaceHolder={isWaitingForData}
+          isEntryLocked={isEntryLocked}
         />
         <Camping
           campBooking={campBooking}
           setCampBooking={(newCampBooking) => setCampBooking(newCampBooking)}
+          showPlaceHolder={isWaitingForData}
+          isEntryLocked={isEntryLocked}
         />
         <EmergencyContacts
           onSiteEmergencyContact={onSiteEmergencyContact}
@@ -243,6 +248,8 @@ export function App(): JSX.Element {
           setOffSiteEmergencyContact={(newOffSitEmergencyContact) =>
             setOffSiteEmergencyContact(newOffSitEmergencyContact)
           }
+          showPlaceHolder={isWaitingForData}
+          isEntryLocked={isEntryLocked}
         />
         <Permissions />
         <SubmitEntry />

@@ -2,10 +2,11 @@ import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
 import { ShootersGroup } from './ShootersGroup';
 
-type ShootersProps = {
+interface ShootersProps {
   shooters: IndividualEntry[];
   handleEdit: (entry: IndividualEntry) => void;
-};
+  isReadOnly: Boolean;
+}
 
 function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
   const competitorsByScoutGroup: Map<string, IndividualEntry[]> = new Map();
@@ -36,6 +37,7 @@ function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
 export function ShootersList({
   shooters,
   handleEdit,
+  isReadOnly,
 }: ShootersProps): JSX.Element {
   const competitorsByScoutGroup = buildShootersByScoutGroup(shooters);
 
@@ -49,6 +51,7 @@ export function ShootersList({
         shootersInGroup={shootersInGroup}
         key={groupKey}
         handleEdit={handleEdit}
+        isReadOnly={isReadOnly}
       />
     );
   });

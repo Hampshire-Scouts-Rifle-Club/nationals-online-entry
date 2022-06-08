@@ -4,16 +4,18 @@ import * as React from 'react';
 import { IndividualEntry } from './IndividualEntry';
 import { ShooterSummary } from './ShooterSummary';
 
-type ShootersGroupProps = {
+interface ShootersGroupProps {
   scoutGroupName: string;
   shootersInGroup: IndividualEntry[];
   handleEdit: (entry: IndividualEntry) => void;
-};
+  isReadOnly: Boolean;
+}
 
 export function ShootersGroup({
   scoutGroupName,
   shootersInGroup,
   handleEdit,
+  isReadOnly,
 }: ShootersGroupProps): JSX.Element {
   function buildSummaryOfShooters() {
     const allShooterSummaries = shootersInGroup.map((individualEntry) => (
@@ -22,6 +24,7 @@ export function ShootersGroup({
         shooter={individualEntry.shooter}
         enteredEventIds={individualEntry.enteredEventIds}
         handleEdit={() => handleEdit(individualEntry)}
+        isReadOnly={isReadOnly}
       />
     ));
     const withDividers = allShooterSummaries.map((summaryElement, index) => [

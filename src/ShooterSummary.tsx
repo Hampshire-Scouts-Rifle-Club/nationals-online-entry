@@ -7,11 +7,12 @@ import { getCostString, sumCost } from './EventsSummaryBuilder';
 import { Shooter } from './Shooter';
 import { ShootingEvent } from './ShootingEvent';
 
-type ShooterSummaryProps = {
+interface ShooterSummaryProps {
   shooter: Shooter;
   enteredEventIds: string[];
   handleEdit: () => void;
-};
+  isReadOnly: Boolean;
+}
 
 function getShooterAgeAndStatusString(shooter: Shooter): string {
   const shooterAge = calculateAge(new Date(shooter.dateOfBirth));
@@ -35,6 +36,7 @@ export function ShooterSummary({
   shooter,
   enteredEventIds,
   handleEdit,
+  isReadOnly,
 }: ShooterSummaryProps): JSX.Element {
   const eventsEntered = AllEvents.filter((event) =>
     enteredEventIds.includes(event.id)
@@ -56,16 +58,18 @@ export function ShooterSummary({
       >
         {getShooterAgeAndStatusString(shooter)}
       </Typography>
-      <Button
-        color="secondary"
-        size="small"
-        // variant="outlined"
-        style={{ float: 'right' }}
-        startIcon={<EditIcon />}
-        onClick={() => handleEdit()}
-      >
-        Edit
-      </Button>
+      {!isReadOnly && (
+        <Button
+          color="secondary"
+          size="small"
+          // variant="outlined"
+          style={{ float: 'right' }}
+          startIcon={<EditIcon />}
+          onClick={() => handleEdit()}
+        >
+          Edit
+        </Button>
+      )}
       <Typography
         variant="body2"
         color="textSecondary"

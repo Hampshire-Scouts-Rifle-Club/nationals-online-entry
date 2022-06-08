@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import './Shooters.css';
-import { Fade, Skeleton, Stack } from '@mui/material';
+import { Skeleton, Stack } from '@mui/material';
 import { HeadedSection } from './HeadedSection';
 import { AddButton } from './AddButton';
 import { ShootersList } from './ShootersList';
@@ -14,46 +14,45 @@ import { calculateAge } from './AgeUtils';
 const EmptyEntry = {
   shooter: EmptyShooter,
   enteredEventIds: MainEventIds,
-  showPlaceHolder: false,
 } as IndividualEntry;
 
 interface ShootersProps {
   allEntries: IndividualEntry[];
   setAllEntries: (allEntries: IndividualEntry[]) => void;
   showPlaceHolder?: Boolean;
+  isEntryLocked?: Boolean;
 }
 
 const placeholderShooter = (
-  <Fade in style={{ transitionDelay: '300ms' }}>
-    <Stack>
-      <Skeleton
-        variant="rectangular"
-        width="auto"
-        height={32}
-        style={{
-          marginLeft: '-0.5rem',
-          marginRight: '-0.5rem',
-          marginBottom: '1rem',
-        }}
-      />
-      <Skeleton
-        variant="rectangular"
-        width={125}
-        height={24}
-        style={{ marginBottom: '0.6rem' }}
-      />
-      <>
-        <Skeleton variant="text" width="80%" />
-        <Skeleton variant="text" width="10%" />
-      </>
-    </Stack>
-  </Fade>
+  <Stack>
+    <Skeleton
+      variant="rectangular"
+      width="auto"
+      height={32}
+      style={{
+        marginLeft: '-0.5rem',
+        marginRight: '-0.5rem',
+        marginBottom: '1rem',
+      }}
+    />
+    <Skeleton
+      variant="rectangular"
+      width={125}
+      height={24}
+      style={{ marginBottom: '0.6rem' }}
+    />
+    <>
+      <Skeleton variant="text" width="80%" />
+      <Skeleton variant="text" width="10%" />
+    </>
+  </Stack>
 );
 
 export function Shooters({
   allEntries,
   setAllEntries,
   showPlaceHolder = false,
+  isEntryLocked = false,
 }: ShootersProps): JSX.Element {
   const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
   const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
@@ -162,10 +161,16 @@ export function Shooters({
       <HeadedSection title="Shooters">
         {!showPlaceHolder ? (
           <>
-            <ShootersList shooters={allEntries} handleEdit={handleEditEntry} />
-            <AddButton onClick={() => handleClickAddShooter()}>
-              Add Shooter
-            </AddButton>
+            <ShootersList
+              shooters={allEntries}
+              handleEdit={handleEditEntry}
+              isReadOnly={isEntryLocked}
+            />
+            {!isEntryLocked && (
+              <AddButton onClick={() => handleClickAddShooter()}>
+                Add Shooter
+              </AddButton>
+            )}
           </>
         ) : (
           placeholderShooter

@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { AddEmergencyContactDialog } from './AddEmergencyContactDialog';
 import { EmergencyContact } from './EmergencyContact';
 
-type EmergencyContactFieldProps = {
+interface EmergencyContactFieldProps {
   emergencyContact: EmergencyContact;
   setEmergencyContact: (emergencyContact: EmergencyContact) => void;
-};
+  isReadOnly: Boolean;
+}
 
 export function EmergencyContactField({
   emergencyContact,
   setEmergencyContact,
+  isReadOnly,
 }: EmergencyContactFieldProps): JSX.Element {
   const [isAddEmergencyContactDialogOpen, setIsAddEmergencyContactDialogOpen] =
     React.useState(false);
@@ -25,10 +27,20 @@ export function EmergencyContactField({
     emergencyContact.name.trim().length !== 0 &&
     emergencyContact.contactNumber.trim().length !== 0;
 
+  if (isReadOnly) {
+    return (
+      <Box marginLeft="1rem" marginBottom="0.5rem">
+        <Typography variant="body2" style={{ display: 'inline', flex: 1 }}>
+          {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <div style={{ marginLeft: '1rem' }}>
+    <Box marginLeft="1rem">
       <div style={{ display: hasEmergencyContact ? '' : 'none' }}>
-        <Grid container>
+        <Stack direction="row">
           <Typography variant="body2" style={{ display: 'inline', flex: 1 }}>
             {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
           </Typography>
@@ -41,7 +53,7 @@ export function EmergencyContactField({
           >
             Edit
           </Button>
-        </Grid>
+        </Stack>
       </div>
       <div style={{ display: hasEmergencyContact ? 'none' : '' }}>
         <Button
@@ -60,6 +72,6 @@ export function EmergencyContactField({
         handleClose={handleClose}
         addEmergencyContact={setEmergencyContact}
       />
-    </div>
+    </Box>
   );
 }

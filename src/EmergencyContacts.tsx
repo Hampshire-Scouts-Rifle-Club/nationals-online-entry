@@ -1,21 +1,25 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { HeadedSection } from './HeadedSection';
 import { EmergencyContact } from './EmergencyContact';
 import { EmergencyContactField } from './EmergencyContactField';
 
-type EmergencyContactsPropsType = {
+interface EmergencyContactsPropsType {
   onSiteEmergencyContact: EmergencyContact;
   setOnSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
   offSiteEmergencyContact: EmergencyContact;
   setOffSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
-};
+  showPlaceHolder: Boolean;
+  isEntryLocked: Boolean;
+}
 
 export function EmergencyContacts({
   onSiteEmergencyContact,
   setOnSiteEmergencyContact,
   offSiteEmergencyContact,
   setOffSiteEmergencyContact,
+  showPlaceHolder,
+  isEntryLocked,
 }: EmergencyContactsPropsType): JSX.Element {
   return (
     // <Card>
@@ -27,17 +31,27 @@ export function EmergencyContacts({
       <Typography variant="body2" color="textSecondary">
         On-site:
       </Typography>
-      <EmergencyContactField
-        emergencyContact={onSiteEmergencyContact}
-        setEmergencyContact={setOnSiteEmergencyContact}
-      />
+      {showPlaceHolder ? (
+        <Skeleton variant="text" />
+      ) : (
+        <EmergencyContactField
+          emergencyContact={onSiteEmergencyContact}
+          setEmergencyContact={setOnSiteEmergencyContact}
+          isReadOnly={isEntryLocked}
+        />
+      )}
       <Typography variant="body2" color="textSecondary">
         Off-site:
       </Typography>
-      <EmergencyContactField
-        emergencyContact={offSiteEmergencyContact}
-        setEmergencyContact={setOffSiteEmergencyContact}
-      />
+      {showPlaceHolder ? (
+        <Skeleton variant="text" />
+      ) : (
+        <EmergencyContactField
+          emergencyContact={offSiteEmergencyContact}
+          setEmergencyContact={setOffSiteEmergencyContact}
+          isReadOnly={isEntryLocked}
+        />
+      )}
     </HeadedSection>
     //   </CardContent>
     // </Card>
