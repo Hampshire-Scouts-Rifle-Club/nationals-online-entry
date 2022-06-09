@@ -47,7 +47,9 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const showDevControls = searchParams.get('dev') !== null;
 
-  const titleBarText = showDevControls ? 'Team Entry - DEV' : 'Team Entry';
+  const titleBarText = showDevControls
+    ? 'Competition Entry - DEV'
+    : 'Competition Entry';
 
   const email = userData ? extractUserEmail(userData) : '';
 

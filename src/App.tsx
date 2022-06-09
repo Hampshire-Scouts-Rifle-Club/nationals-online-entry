@@ -3,7 +3,7 @@ import './App.css';
 import Container from '@mui/material/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
-import { Alert, Collapse } from '@mui/material';
+import { Alert, Box, Collapse } from '@mui/material';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
@@ -321,8 +321,15 @@ export function App(): JSX.Element {
   return (
     <div className="App">
       <CodeParamRemover />
-      <TopBar resetHandler={handleReset} userData={authUserData} />
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
+        <TopBar resetHandler={handleReset} userData={authUserData} />
+        <Box textAlign="center">
+          <img
+            src="NSRC 2022 Logo.svg"
+            alt="National Scout Rifle Competition 15-16 October 2022"
+            style={{ width: '192px' }}
+          />
+        </Box>
         {isDev() && error !== undefined && (
           <Alert severity="error" onClose={() => setError(undefined)}>
             {error.message}
