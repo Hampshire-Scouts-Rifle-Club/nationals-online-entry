@@ -7,19 +7,29 @@ import { Alert, Collapse } from '@mui/material';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
-import { Permissions } from './Permissions';
 import { TopBar } from './TopBar';
 import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
-import { readEntryState } from './ServerState';
-import { buildEntryId } from './EntryDatabaseRecord';
+import {
+  amendSubmittedEntry,
+  deleteEntry,
+  readEntry,
+  writeEntry,
+} from './ServerState';
+import {
+  buildEntryId,
+  buildEntryRecord,
+  EntryState,
+} from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
 import { SignInPrompt } from './SignInPrompt';
 import { SubmitEntry } from './SubmitEntry';
 import { useInterval } from './useInterval';
+import { SubmittedInfoAlert } from './SubmittedInfoAlert';
+import { AmendingInfoAlert } from './AmendingInfoAlert';
 
 const abortController = new AbortController();
 const isDev = () =>
@@ -40,8 +50,6 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact'
     );
-
-  const [isEntryLocked] = useState(false);
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
@@ -70,6 +78,12 @@ export function App(): JSX.Element {
   const [isReadyToSaveState, setIsReadyToSaveState] = useState(false);
   const [initialServerTeamEntry, setInitialServerTeamEntry] =
     useState<TeamEntry>();
+  const [entryStatus, setEntryStatus] = useState<EntryState>('draft');
+  const [initialServerEntryStatus, setInitialServerEntryStatus] =
+    useState<EntryState>();
+  const [submittedEntryDate, setSubmittedEntryDate] = useState<Date>();
+
+  const isEntryLocked = entryStatus === 'submitted';
 
   const getUser = useCallback(async () => {
     try {
@@ -120,12 +134,48 @@ export function App(): JSX.Element {
   const readInitialState = useCallback(
     async (ownerEmail: string, authToken: string, abortSignal: AbortSignal) => {
       try {
-        const initialTeamEntry = await getInitialState(
+        const [amendingTeamEntry] = await getEntryFromServer(
           ownerEmail,
           authToken,
+          'amending',
           abortSignal
         );
+        const [submittedTeamEntry, submittedDateUpdated] =
+          await getEntryFromServer(
+            ownerEmail,
+            authToken,
+            'submitted',
+            abortSignal
+          );
+        const [draftTeamEntry] = await getEntryFromServer(
+          ownerEmail,
+          authToken,
+          'draft',
+          abortSignal
+        );
+
+        const emptyTeamEntry: TeamEntry = {
+          allEntries: [],
+          campBooking: EmptyCampBooking,
+          onSiteEmergencyContact: EmptyEmergencyContact,
+          offSiteEmergencyContact: EmptyEmergencyContact,
+        };
+        const initialTeamEntry =
+          amendingTeamEntry ??
+          submittedTeamEntry ??
+          draftTeamEntry ??
+          emptyTeamEntry;
         setInitialServerTeamEntry(initialTeamEntry);
+
+        let newEntryStatus: EntryState = 'draft';
+        const isSubmitted = Boolean(submittedTeamEntry);
+        newEntryStatus = isSubmitted ? 'submitted' : newEntryStatus;
+        const isAmending = Boolean(amendingTeamEntry);
+        newEntryStatus = isAmending ? 'amending' : newEntryStatus;
+
+        setEntryStatus(newEntryStatus);
+        setInitialServerEntryStatus(newEntryStatus);
+        setSubmittedEntryDate(submittedDateUpdated);
       } catch (readError: any) {
         if (readError.message !== 'canceled') {
           const moreDescriptiveError = new Error(
@@ -180,6 +230,62 @@ export function App(): JSX.Element {
   const isAlreadyInitialised = initialServerTeamEntry !== undefined;
   const isWaitingForData = !isNotAuthenticated && !isAlreadyInitialised;
 
+  const discardEntryChanges = useCallback(async () => {
+    try {
+      const amendingEntryId = buildEntryId(ownerEmail, 'amending');
+      await deleteEntry(authToken, amendingEntryId);
+      window.location.reload();
+    } catch (deleteError: any) {
+      setError(deleteError);
+    }
+  }, [authToken, ownerEmail]);
+
+  const amendEntry = useCallback(async () => {
+    const teamEntry: TeamEntry = {
+      allEntries,
+      campBooking,
+      onSiteEmergencyContact,
+      offSiteEmergencyContact,
+    };
+    const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
+    try {
+      await amendSubmittedEntry(entryRecord, authToken, abortController.signal);
+      window.location.reload();
+    } catch (amendEntryError: any) {
+      setError(amendEntryError);
+    }
+  }, [
+    allEntries,
+    authToken,
+    campBooking,
+    offSiteEmergencyContact,
+    onSiteEmergencyContact,
+    ownerEmail,
+  ]);
+
+  const submitEntry = useCallback(async () => {
+    const teamEntry: TeamEntry = {
+      allEntries,
+      campBooking,
+      onSiteEmergencyContact,
+      offSiteEmergencyContact,
+    };
+    const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
+    try {
+      await writeEntry(entryRecord, authToken, abortController.signal);
+      window.location.reload();
+    } catch (submitError: any) {
+      setError(submitError);
+    }
+  }, [
+    allEntries,
+    authToken,
+    campBooking,
+    offSiteEmergencyContact,
+    onSiteEmergencyContact,
+    ownerEmail,
+  ]);
+
   /**
    * Gets the initial data from the server. Will run on every render,
    * so exits early if not authenticated or we've already got the data.
@@ -227,6 +333,18 @@ export function App(): JSX.Element {
         >
           <SignInPrompt />
         </Collapse>
+        {entryStatus === 'submitted' && (
+          <SubmittedInfoAlert
+            date={submittedEntryDate}
+            onAmend={() => setEntryStatus('amending')}
+          />
+        )}
+        {entryStatus === 'amending' && (
+          <AmendingInfoAlert
+            date={submittedEntryDate}
+            onDiscardChanges={discardEntryChanges}
+          />
+        )}
         <Shooters
           allEntries={allEntries}
           setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
@@ -251,8 +369,18 @@ export function App(): JSX.Element {
           showPlaceHolder={isWaitingForData}
           isEntryLocked={isEntryLocked}
         />
-        <Permissions />
-        <SubmitEntry />
+        <SubmitEntry
+          entryStatus={entryStatus}
+          onSubmitEntry={submitEntry}
+          onAmendEntry={amendEntry}
+          onDiscardChanges={discardEntryChanges}
+          teamEntry={{
+            allEntries,
+            campBooking,
+            onSiteEmergencyContact,
+            offSiteEmergencyContact,
+          }}
+        />
         {isReadyToSaveState && initialServerTeamEntry && (
           <SaveState
             allEntries={allEntries}
@@ -262,6 +390,8 @@ export function App(): JSX.Element {
             authToken={authToken}
             ownerEmail={ownerEmail}
             initialServerState={initialServerTeamEntry}
+            entryStatus={entryStatus}
+            initialServerEntryStatus={initialServerEntryStatus}
           />
         )}
       </Container>
@@ -269,23 +399,28 @@ export function App(): JSX.Element {
   );
 }
 
-async function getInitialState(
+async function getEntryFromServer(
   ownerEmail: string,
   authToken: string,
+  state: EntryState,
   abortSignal: AbortSignal
-): Promise<TeamEntry | undefined> {
+): Promise<[TeamEntry, Date] | [undefined, undefined]> {
   try {
-    const id = buildEntryId(ownerEmail, 'draft');
-    const entryRecord = await readEntryState(authToken, id, abortSignal);
+    const id = buildEntryId(ownerEmail, state);
+    const entryRecord = await readEntry(authToken, id, abortSignal);
 
-    if (entryRecord && entryRecord.teamEntry) {
-      return entryRecord.teamEntry;
+    if (entryRecord && entryRecord.teamEntry && entryRecord.updated) {
+      const updatedDate = new Date(entryRecord.updated);
+      return [entryRecord.teamEntry, updatedDate];
     }
   } catch (error: any) {
-    if (error.message !== 'canceled') {
+    const isBadRequest = error.response.status === 400;
+    const wasCancelled = error.message === 'canceled';
+    const shouldIgnoreError = isBadRequest || wasCancelled;
+    if (!shouldIgnoreError) {
       throw error;
     }
   }
 
-  return undefined;
+  return [undefined, undefined];
 }

@@ -1,17 +1,22 @@
 import { TeamEntry } from './TeamEntry';
 
+export type EntryState = 'draft' | 'submitted' | 'amending' | 'superseded';
+
 export interface EntryDatabaseRecord {
   id: string;
   owner: string;
-  state: 'draft' | 'submitted' | 'amending' | 'superseded';
-  updatedAt?: Date; // This is populated by the server
+  state: EntryState;
+  updated?: Date; // This is populated by the server
   teamEntry: TeamEntry;
 }
 
 export const currentCompetitionYear = '2022';
 
-export function buildEntryRecord(email: string, teamEntry: TeamEntry) {
-  const state = 'draft';
+export function buildEntryRecord(
+  email: string,
+  state: EntryState,
+  teamEntry: TeamEntry
+) {
   const id = buildEntryId(email, state);
   const entryRecord: EntryDatabaseRecord = {
     id,
@@ -25,7 +30,7 @@ export function buildEntryRecord(email: string, teamEntry: TeamEntry) {
 
 export function buildEntryId(
   email: string,
-  state: string,
+  state: EntryState,
   year = currentCompetitionYear
 ) {
   return `${email}-${state}-${year}`;

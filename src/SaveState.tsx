@@ -2,20 +2,22 @@ import { Alert, Snackbar, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CampBooking } from './CampBooking';
 import { EmergencyContact } from './EmergencyContact';
-import { buildEntryRecord } from './EntryDatabaseRecord';
+import { buildEntryRecord, EntryState } from './EntryDatabaseRecord';
 import { IndividualEntry } from './IndividualEntry';
-import { writeEntryState } from './ServerState';
+import { writeEntry } from './ServerState';
 import { TeamEntry } from './TeamEntry';
 
-type SaveStateProps = {
+interface SaveStateProps {
   allEntries: IndividualEntry[];
   campBooking: CampBooking;
   onSiteEmergencyContact: EmergencyContact;
   offSiteEmergencyContact: EmergencyContact;
   authToken?: string;
   ownerEmail?: string;
+  entryStatus: EntryState;
   initialServerState: TeamEntry;
-};
+  initialServerEntryStatus?: EntryState;
+}
 
 const abortController = new AbortController();
 
@@ -27,6 +29,8 @@ export function SaveState({
   authToken,
   ownerEmail,
   initialServerState,
+  entryStatus,
+  initialServerEntryStatus,
 }: SaveStateProps): JSX.Element {
   const teamEntry: TeamEntry = {
     allEntries,
@@ -44,10 +48,16 @@ export function SaveState({
   const haveOwnerEmail =
     ownerEmail !== undefined && ownerEmail.trim().length > 0;
   const canSaveToApi = haveAuthToken && haveOwnerEmail;
+  const shouldSaveToApi = entryStatus === 'draft' || entryStatus === 'amending';
 
-  const newEntryRecordJson = buildEntryRecord(ownerEmail ?? '', teamEntry);
+  const newEntryRecordJson = buildEntryRecord(
+    ownerEmail ?? '',
+    entryStatus,
+    teamEntry
+  );
   const initialServerEntryRecordJson = buildEntryRecord(
     ownerEmail ?? '',
+    initialServerEntryStatus ?? 'draft',
     initialServerState
   );
   const savedEntryRecord = useRef(initialServerEntryRecordJson);
@@ -58,7 +68,7 @@ export function SaveState({
       authorizationToken: string
     ): Promise<void> => {
       try {
-        const success = await writeEntryState(
+        const success = await writeEntry(
           entryRecordJson,
           authorizationToken,
           abortController.signal
@@ -81,7 +91,7 @@ export function SaveState({
   // the entry has changed. We do not abort a write on an unmount.
   useEffect(() => {
     const upToDate = savedEntryRecord.current === newEntryRecordJson;
-    if (!canSaveToApi || upToDate) return;
+    if (!canSaveToApi || !shouldSaveToApi || upToDate) return;
 
     const writeOut = async () => {
       await writeStateToApi(newEntryRecordJson, authToken);

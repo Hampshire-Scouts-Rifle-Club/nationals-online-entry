@@ -11,13 +11,21 @@ import {
 } from '@mui/material';
 import { InfoDialog } from './InfoDialog';
 
-export function Permissions(): JSX.Element {
-  const [state, setState] = useState({
-    haveSection21Permission: false,
-    havePorPermission: false,
-    haveGdprPermission: false,
-  });
+interface PermissionsState {
+  haveSection21Permission: boolean;
+  havePorPermission: boolean;
+  haveGdprPermission: boolean;
+}
 
+interface PermissionsProps {
+  permissionsState: PermissionsState;
+  setPermissionsState: (permissionsState: PermissionsState) => void;
+}
+
+export function Permissions({
+  permissionsState,
+  setPermissionsState,
+}: PermissionsProps): JSX.Element {
   const [isSection21InfoDialogOpen, setIsSection21InfoDialogOpen] =
     useState(false);
 
@@ -25,11 +33,14 @@ export function Permissions(): JSX.Element {
 
   const handleChange =
     (name: string) => (event: { target: { checked: boolean } }) => {
-      setState({ ...state, [name]: event.target.checked });
+      setPermissionsState({
+        ...permissionsState,
+        [name]: event.target.checked,
+      });
     };
 
   const { haveSection21Permission, havePorPermission, haveGdprPermission } =
-    state;
+    permissionsState;
 
   const preventDefault = (event: SyntheticEvent) => event.preventDefault();
 
