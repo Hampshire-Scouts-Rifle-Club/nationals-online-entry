@@ -183,6 +183,15 @@ export const fullBore: ShootingEvent = {
   cost: 16.5,
 };
 
+export const turningTarget: ShootingEvent = {
+  id: 'turningTarget',
+  title: 'Turning target - 30 shot live fire',
+  summary: '',
+  description: ['Description for Full bore rifle experience'],
+  slots: 2,
+  cost: 14.5,
+};
+
 export const advancedFieldTarget: ShootingEvent = {
   id: 'advancedfieldtarget',
   title: 'Advanced field target',
@@ -215,7 +224,7 @@ export const MainEventIds = MainEvents.map((event) => event.id);
 export const OptionalEventsRifleSupplied = [
   beginnersSmallBore,
   smallBore,
-  fullBore,
+  turningTarget,
   beginnersTargetSprint,
   targetSprint,
 ];
