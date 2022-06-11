@@ -169,7 +169,6 @@ export function EventsSelector({
     <>{categorisedEventElements}</>
   );
 }
-
 function findExcludedEventIds(enteredEventIds: string[]) {
   const enteredEventIdsWithExclusions = enteredEventIds.filter((eventId) =>
     Boolean(AllEvents.find((event) => event.id === eventId)?.excludes)
