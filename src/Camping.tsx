@@ -53,18 +53,20 @@ export function Camping({
 
     return (
       <div key="campbooking">
-        <p>{`Camping for ${campBooking.numberOfCampers}`}</p>
-        <p>{`Estimated arrival time ${campBooking.estimatedArrivalTime}`}</p>
-        <p>{campBooking.anyOtherInfo}</p>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => handleClickOpen()}
-          style={{ margin: 1 }}
-        >
-          <EditIcon />
-          Edit
-        </Button>
+        <Typography variant="body2">{`Number of campers: ${campBooking.numberOfCampers}`}</Typography>
+        <Typography variant="body2">{`Estimated arrival time ${campBooking.estimatedArrivalTime}`}</Typography>
+        <Typography variant="body2">{`Other info: ${campBooking.anyOtherInfo}`}</Typography>
+        {!isEntryLocked && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleClickOpen()}
+            style={{ margin: 1 }}
+          >
+            <EditIcon />
+            Edit
+          </Button>
+        )}
       </div>
     );
   }
