@@ -6,10 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-// import HelpIcon from '@mui/icons-material/Help';
+import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import { ShootingEvent } from './ShootingEvent';
 import { AllEvents, AllEventsInCategories } from './AllEvents';
@@ -38,6 +37,9 @@ export function EventsSelector({
   const [infoDialogTitle, setInfoDialogTitle] = useState('');
   const [infoDialogParagraphs, setInfoDialogParagraphs] = useState(['']);
   const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
+
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('md'));
 
   function buildEventsTable(
     events: ShootingEvent[],
@@ -106,21 +108,38 @@ export function EventsSelector({
     const isEventEntered = enteredEventIds.includes(eventId);
     const isEventExcluded = excludedEventIds.includes(eventId);
 
+    const removeButton = isSmall ? (
+      <IconButton
+        size="small"
+        color="secondary"
+        onClick={() => {
+          const newEnteredEventIds = enteredEventIds.filter(
+            (eventIdToRemove) => eventIdToRemove !== eventId
+          );
+          setEnteredEventIds(newEnteredEventIds);
+        }}
+      >
+        <ClearIcon fontSize="small" />
+      </IconButton>
+    ) : (
+      <Button
+        size="small"
+        color="secondary"
+        startIcon={<ClearIcon />}
+        onClick={() => {
+          const newEnteredEventIds = enteredEventIds.filter(
+            (eventIdToRemove) => eventIdToRemove !== eventId
+          );
+          setEnteredEventIds(newEnteredEventIds);
+        }}
+      >
+        Remove
+      </Button>
+    );
     if (isEventEntered && showAddRemove) {
       return (
         <TableCell component="th" scope="row" sx={{ textAlign: 'center' }}>
-          <IconButton
-            size="small"
-            color="secondary"
-            onClick={() => {
-              const newEnteredEventIds = enteredEventIds.filter(
-                (eventIdToRemove) => eventIdToRemove !== eventId
-              );
-              setEnteredEventIds(newEnteredEventIds);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          {removeButton}
         </TableCell>
       );
     }
