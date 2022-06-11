@@ -6,10 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HelpIcon from '@mui/icons-material/Help';
+// import HelpIcon from '@mui/icons-material/Help';
 import CheckIcon from '@mui/icons-material/Check';
 import { ShootingEvent } from './ShootingEvent';
 import { AllEvents, AllEventsInCategories } from './AllEvents';
@@ -45,7 +45,7 @@ export function EventsSelector({
     key: string
   ) {
     return (
-      <TableContainer style={{ marginBottom: '1rem' }} key={key}>
+      <TableContainer sx={{ marginBottom: '1rem' }} key={key}>
         <Table size="small" aria-label="Events entered">
           <TableHead>
             <TableRow>
@@ -70,9 +70,9 @@ export function EventsSelector({
                 <TableCell>
                   <Button
                     size="small"
-                    variant="outlined"
+                    // variant="outlined"
                     color="secondary"
-                    startIcon={<HelpIcon />}
+                    // startIcon={<HelpIcon />}
                     onClick={() => {
                       setInfoDialogTitle(event.title);
                       setInfoDialogParagraphs(event.description);
@@ -107,11 +107,10 @@ export function EventsSelector({
 
     if (isEventEntered && showAddRemove) {
       return (
-        <TableCell component="th" scope="row">
-          <Button
+        <TableCell component="th" scope="row" sx={{ textAlign: 'center' }}>
+          <IconButton
             size="small"
             color="secondary"
-            startIcon={<DeleteIcon />}
             onClick={() => {
               const newEnteredEventIds = enteredEventIds.filter(
                 (eventIdToRemove) => eventIdToRemove !== eventId
@@ -119,8 +118,8 @@ export function EventsSelector({
               setEnteredEventIds(newEnteredEventIds);
             }}
           >
-            Remove
-          </Button>
+            <DeleteIcon />
+          </IconButton>
         </TableCell>
       );
     }
@@ -174,7 +173,13 @@ export function EventsSelector({
   AllEventsInCategories.forEach((eventsInCategory, categoryName) => {
     const titleKey = `${categoryName}Title`;
     categorisedEventElements.push(
-      <Typography gutterBottom variant="h6" component="h2" key={titleKey}>
+      <Typography
+        gutterBottom
+        variant="h6"
+        component="h2"
+        key={titleKey}
+        paddingX="24px"
+      >
         {categoryName}
       </Typography>
     );
@@ -196,7 +201,7 @@ export function EventsSelector({
 
   return (
     <>
-      {categorisedEventElements}{' '}
+      {categorisedEventElements}
       <InfoDialog
         title={infoDialogTitle}
         paragraphs={infoDialogParagraphs}

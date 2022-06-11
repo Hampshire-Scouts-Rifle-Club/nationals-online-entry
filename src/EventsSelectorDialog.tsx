@@ -87,7 +87,7 @@ export function EventsSelectorDialog({
       scroll="paper"
     >
       <DialogTitle id="responsive-dialog-title">Choose Events</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent dividers sx={{ paddingLeft: 0, paddingRight: 0 }}>
         <EventsSelector
           enteredEventIds={workingEnteredEventIds}
           setEnteredEventIds={setWorkingEnteredEventIds}
