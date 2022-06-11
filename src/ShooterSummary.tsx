@@ -6,6 +6,7 @@ import { AllEvents } from './AllEvents';
 import { getCostString, sumCost } from './EventsSummaryBuilder';
 import { Shooter } from './Shooter';
 import { ShootingEvent } from './ShootingEvent';
+import { BaseEntryCost, RoDiscount } from './CompetitionConstants';
 
 interface ShooterSummaryProps {
   shooter: Shooter;
@@ -41,6 +42,8 @@ export function ShooterSummary({
   const eventsEntered = AllEvents.filter((event) =>
     enteredEventIds.includes(event.id)
   );
+  const discount = shooter.isRangeOfficer ? RoDiscount : 0;
+
   return (
     <div>
       <Typography
@@ -82,7 +85,7 @@ export function ShooterSummary({
         color="textSecondary"
         // style={{ marginLeft: '1rem' }}
       >
-        {getCostString(22 + sumCost(eventsEntered))}
+        {getCostString(BaseEntryCost + sumCost(eventsEntered) - discount)}
       </Typography>
     </div>
   );

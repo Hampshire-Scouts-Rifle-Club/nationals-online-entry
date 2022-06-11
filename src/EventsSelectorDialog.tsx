@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { useCallback } from 'react';
 import { AllEvents } from './AllEvents';
+import { BaseEntryCost } from './CompetitionConstants';
 import { EventsSelector } from './EventsSelector';
 import { getCostString, sumCost, sumSlots } from './EventsSummaryBuilder';
 
@@ -67,7 +68,7 @@ export function EventsSelectorDialog({
 
   function buildSummary() {
     const extrasCost = sumCost(eventsEntered) - discount;
-    const totalCostString = `${getCostString(22 + extrasCost)}`;
+    const totalCostString = `${getCostString(BaseEntryCost + extrasCost)}`;
 
     return (
       <>
