@@ -243,23 +243,9 @@ export const OptionalEventsOwnRifle = [
   threePositionSporter,
 ];
 export const AllEvents = [
-  knockout,
-  airRifle6yd,
-  airPistol6yd,
-  fieldTarget,
-  ownRifle6yd,
-  ownRifle10mOpen,
-  ownRifle10mSporter,
-  ownPistol,
-  vintageRifle,
-  beginnersSmallBore,
-  smallBore,
-  beginnersTargetSprint,
-  targetSprint,
-  fullBore,
-  advancedFieldTarget,
-  threePositionOpen,
-  threePositionSporter,
+  ...MainEvents,
+  ...OptionalEventsRifleSupplied,
+  ...OptionalEventsOwnRifle,
 ];
 
 function buildCategorisedEvents(): Map<string, ShootingEvent[]> {
