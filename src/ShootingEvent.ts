@@ -5,4 +5,5 @@ export interface ShootingEvent {
   description: string[];
   slots: number;
   cost: number;
+  excludes?: string;
 }

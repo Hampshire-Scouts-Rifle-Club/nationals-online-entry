@@ -145,6 +145,7 @@ export const beginnersSmallBore: ShootingEvent = {
   description: ['Description for beginners small bore experience'],
   slots: 1,
   cost: 8,
+  excludes: 'smallbore',
 };
 
 export const smallBore: ShootingEvent = {
@@ -154,6 +155,7 @@ export const smallBore: ShootingEvent = {
   description: [''],
   slots: 1,
   cost: 9.5,
+  excludes: 'beginnerssmallbore',
 };
 
 export const beginnersTargetSprint: ShootingEvent = {
@@ -163,6 +165,7 @@ export const beginnersTargetSprint: ShootingEvent = {
   description: ['Description for Beginners target sprint experience'],
   slots: 1,
   cost: 4,
+  excludes: 'targetsprint',
 };
 
 export const targetSprint: ShootingEvent = {
@@ -172,6 +175,7 @@ export const targetSprint: ShootingEvent = {
   description: ['Description for Target sprint - Class A or X'],
   slots: 1,
   cost: 4,
+  excludes: 'beginnerstargetsprint',
 };
 
 export const fullBore: ShootingEvent = {
@@ -222,9 +226,9 @@ export const threePositionSporter: ShootingEvent = {
 export const MainEvents = [knockout, airRifle6yd, airPistol6yd, fieldTarget];
 export const MainEventIds = MainEvents.map((event) => event.id);
 export const OptionalEventsRifleSupplied = [
+  turningTarget,
   beginnersSmallBore,
   smallBore,
-  turningTarget,
   beginnersTargetSprint,
   targetSprint,
 ];
