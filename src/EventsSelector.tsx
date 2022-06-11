@@ -15,6 +15,7 @@ import { ShootingEvent } from './ShootingEvent';
 import { AllEvents, AllEventsInCategories } from './AllEvents';
 import { getCostString, sumSlots } from './EventsSummaryBuilder';
 import { InfoDialog } from './InfoDialog';
+import './EventsSelector.css';
 
 interface EventsSelectorProps {
   enteredEventIds: string[];
