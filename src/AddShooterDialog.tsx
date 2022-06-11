@@ -25,7 +25,7 @@ import { DatePicker } from '@mui/lab';
 import { Shooter } from './Shooter';
 import { ConfirmDialog } from './ConfirmDialog';
 import { calculateAge } from './AgeUtils';
-import { CompetitionDate } from './CompetitionConstants';
+import { CompetitionDate, RoDiscount } from './CompetitionConstants';
 
 type ShooterPropsType = {
   open: boolean;
@@ -242,7 +242,7 @@ export function AddShooterDialog({
                         onChange={formik.handleChange}
                       />
                     }
-                    label="Range officer (£10 discount - TBD)"
+                    label={`Range officer (£${RoDiscount} discount)`}
                   />
                 </Grid>
                 <Typography variant="caption" maxWidth="sm">

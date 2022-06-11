@@ -10,7 +10,12 @@ import { IndividualEntry } from './IndividualEntry';
 import { EventsSelectorDialog } from './EventsSelectorDialog';
 import { MainEventIds } from './AllEvents';
 import { calculateAge } from './AgeUtils';
-import { CompetitionDate } from './CompetitionConstants';
+import {
+  CompetitionDate,
+  MaxEventSlots,
+  MaxRoEventSlots,
+  RoDiscount,
+} from './CompetitionConstants';
 
 const EmptyEntry = {
   shooter: EmptyShooter,
@@ -194,6 +199,8 @@ export function Shooters({
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
+        maxSlots={shooter.isRangeOfficer ? MaxRoEventSlots : MaxEventSlots}
+        discount={shooter.isRangeOfficer ? RoDiscount : 0}
       />
 
       <AddShooterDialog
@@ -213,6 +220,8 @@ export function Shooters({
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={editEntrantWithEventIds}
+        maxSlots={shooter.isRangeOfficer ? MaxRoEventSlots : MaxEventSlots}
+        discount={shooter.isRangeOfficer ? RoDiscount : 0}
       />
     </>
   );

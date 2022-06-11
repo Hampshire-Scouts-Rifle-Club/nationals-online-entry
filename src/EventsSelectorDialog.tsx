@@ -20,6 +20,8 @@ type EventSelectorDialogProps = {
   enteredEventIds: string[];
   setEnteredEventIds: (eventIds: string[]) => void;
   isMainEventLocked: boolean;
+  maxSlots: number;
+  discount: number;
 };
 
 export function EventsSelectorDialog({
@@ -28,6 +30,8 @@ export function EventsSelectorDialog({
   enteredEventIds,
   setEnteredEventIds,
   isMainEventLocked,
+  maxSlots,
+  discount,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -55,19 +59,20 @@ export function EventsSelectorDialog({
     setWorkingEnteredEventIds(enteredEventIds);
   }, [enteredEventIds, handleClose]);
 
+  const eventsEntered = AllEvents.filter(
+    (event) => workingEnteredEventIds.includes(event.id)
+    // eslint-disable-next-line function-paren-newline
+  );
+  const totalSlots = sumSlots(eventsEntered);
+
   function buildSummary() {
-    const eventsEntered = AllEvents.filter(
-      (event) => workingEnteredEventIds.includes(event.id)
-      // eslint-disable-next-line function-paren-newline
-    );
-    const totalSlots = sumSlots(eventsEntered);
-    const extrasCost = sumCost(eventsEntered);
+    const extrasCost = sumCost(eventsEntered) - discount;
     const totalCostString = `${getCostString(22 + extrasCost)}`;
 
     return (
       <>
         <Typography variant="subtitle2">{totalCostString}</Typography>
-        <Typography variant="subtitle2">{`(${totalSlots} slots of 9)`}</Typography>
+        <Typography variant="subtitle2">{`(${totalSlots} slots of ${maxSlots})`}</Typography>
       </>
     );
   }
@@ -86,6 +91,7 @@ export function EventsSelectorDialog({
           enteredEventIds={workingEnteredEventIds}
           setEnteredEventIds={setWorkingEnteredEventIds}
           isMainEventLocked={isMainEventLocked}
+          maxSlots={maxSlots}
         />
       </DialogContent>
       <DialogActions>

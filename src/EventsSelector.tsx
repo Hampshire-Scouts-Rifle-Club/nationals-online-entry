@@ -12,13 +12,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import { ShootingEvent } from './ShootingEvent';
 import { AllEvents, AllEventsInCategories } from './AllEvents';
-import { getCostString } from './EventsSummaryBuilder';
+import { getCostString, sumSlots } from './EventsSummaryBuilder';
 
-type EventsSelectorProps = {
+interface EventsSelectorProps {
   enteredEventIds: string[];
   setEnteredEventIds: (eventIds: string[]) => void;
   isMainEventLocked: boolean;
-};
+  maxSlots: number;
+}
 
 const eventTitleStyle = {
   width: '100%',
@@ -29,6 +30,7 @@ export function EventsSelector({
   enteredEventIds,
   setEnteredEventIds,
   isMainEventLocked,
+  maxSlots,
 }: EventsSelectorProps): JSX.Element {
   function buildEventsTable(
     events: ShootingEvent[],
@@ -51,7 +53,7 @@ export function EventsSelector({
           <TableBody>
             {events.map((event) => (
               <TableRow key={event.id}>
-                {getEventActionButton(event.id, showAddRemove)}
+                {getEventActionButton(event.id, showAddRemove, event.slots)}
                 <TableCell style={eventTitleStyle}>{event.title}</TableCell>
                 <TableCell align="center">{event.slots}</TableCell>
                 {showCost && (
@@ -69,9 +71,15 @@ export function EventsSelector({
 
   const excludedEventIds = findExcludedEventIds(enteredEventIds);
 
+  const eventsEntered = AllEvents.filter((event) =>
+    enteredEventIds.includes(event.id)
+  );
+  const slotsUsed = sumSlots(eventsEntered);
+
   function getEventActionButton(
     eventId: string,
-    showAddRemove: boolean
+    showAddRemove: boolean,
+    slotCount: number
   ): JSX.Element {
     const isEventEntered = enteredEventIds.includes(eventId);
     const isEventExcluded = excludedEventIds.includes(eventId);
@@ -96,6 +104,7 @@ export function EventsSelector({
       );
     }
 
+    const willExceedMaxSlots = slotsUsed + slotCount > maxSlots;
     if (!isEventEntered && showAddRemove) {
       return (
         <TableCell component="th" scope="row">
@@ -103,7 +112,7 @@ export function EventsSelector({
             size="small"
             color="secondary"
             startIcon={<AddIcon />}
-            disabled={isEventExcluded}
+            disabled={isEventExcluded || willExceedMaxSlots}
             onClick={() => {
               const newEnteredEventIds = enteredEventIds.concat(eventId);
               setEnteredEventIds(newEnteredEventIds);
