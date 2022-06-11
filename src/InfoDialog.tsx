@@ -30,7 +30,9 @@ export function InfoDialog({
             {title}
           </Typography>
           {paragraphs.map((paragraph) => (
-            <Typography paragraph>{paragraph}</Typography>
+            <Typography key={hashCode(paragraph)} paragraph>
+              {paragraph}
+            </Typography>
           ))}
         </DialogContentText>
       </DialogContent>
@@ -41,4 +43,17 @@ export function InfoDialog({
       </DialogActions>
     </Dialog>
   );
+}
+
+function hashCode(text: string) {
+  let hash = 0;
+  let i;
+  let chr;
+  if (text.length === 0) return hash;
+  for (i = 0; i < text.length; i += 1) {
+    chr = text.charCodeAt(i);
+    hash = hash * 31 + chr;
+    // hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
 }
