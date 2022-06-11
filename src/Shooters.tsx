@@ -188,7 +188,6 @@ export function Shooters({
         open={isAddShooterOpen}
         handleClose={() => {
           setIsAddShooterOpen(false);
-          resetDialogs();
         }}
         shooter={shooter}
         setShooter={setShooter}
@@ -200,7 +199,6 @@ export function Shooters({
         open={isEventsSelectorOpen}
         handleClose={() => {
           setIsEventsSelectorOpen(false);
-          resetDialogs();
         }}
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
@@ -213,7 +211,6 @@ export function Shooters({
         open={isEditShooterOpen}
         handleClose={() => {
           setIsEditShooterOpen(false);
-          resetDialogs();
         }}
         shooter={shooter}
         setShooter={(newShooter) => setShooter(newShooter)}
@@ -226,8 +223,7 @@ export function Shooters({
       <EventsSelectorDialog
         open={isEditEventsSelectorOpen}
         handleClose={() => {
-          setIsEventsSelectorOpen(false);
-          resetDialogs();
+          setIsEditEventsSelectorOpen(false);
         }}
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
