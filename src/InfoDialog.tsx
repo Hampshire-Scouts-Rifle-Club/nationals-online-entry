@@ -30,9 +30,7 @@ export function InfoDialog({
             {title}
           </Typography>
           {paragraphs.map((paragraph) => (
-            <Typography key={paragraph} paragraph>
-              {paragraph}
-            </Typography>
+            <Typography paragraph>{paragraph}</Typography>
           ))}
         </DialogContentText>
       </DialogContent>

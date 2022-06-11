@@ -191,7 +191,7 @@ export const turningTarget: ShootingEvent = {
   id: 'turningTarget',
   title: 'Turning target - 30 shot live fire',
   summary: '',
-  description: ['Description for Full bore rifle experience'],
+  description: ['Description for the turning target event'],
   slots: 2,
   cost: 14.5,
 };
