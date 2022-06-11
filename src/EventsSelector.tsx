@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import { ShootingEvent } from './ShootingEvent';
-import { AllEventsInCategories } from './AllEvents';
+import { AllEvents, AllEventsInCategories } from './AllEvents';
 import { getCostString } from './EventsSummaryBuilder';
 
 type EventsSelectorProps = {
@@ -67,11 +67,14 @@ export function EventsSelector({
     );
   }
 
+  const excludedEventIds = findExcludedEventIds(enteredEventIds);
+
   function getEventActionButton(
     eventId: string,
     showAddRemove: boolean
   ): JSX.Element {
     const isEventEntered = enteredEventIds.includes(eventId);
+    const isEventExcluded = excludedEventIds.includes(eventId);
 
     if (isEventEntered && showAddRemove) {
       return (
@@ -100,6 +103,7 @@ export function EventsSelector({
             size="small"
             color="secondary"
             startIcon={<AddIcon />}
+            disabled={isEventExcluded}
             onClick={() => {
               const newEnteredEventIds = enteredEventIds.concat(eventId);
               setEnteredEventIds(newEnteredEventIds);
@@ -112,29 +116,29 @@ export function EventsSelector({
     }
 
     return (
-      <TableCell>
-        <CheckIcon fontSize="small" />
+      <TableCell component="th" scope="row">
+        <CheckIcon fontSize="small" color="info" />
       </TableCell>
     );
   }
 
-  function sortEventsEnteredFirst(events: ShootingEvent[]): ShootingEvent[] {
-    const sortGreater = 1;
-    const sortEqual = 0;
-    const sortLess = -1;
+  // function sortEventsEnteredFirst(events: ShootingEvent[]): ShootingEvent[] {
+  //   const sortGreater = 1;
+  //   const sortEqual = 0;
+  //   const sortLess = -1;
 
-    return events.sort((eventA, eventB) => {
-      const isEventAEntered = enteredEventIds.includes(eventA.id);
-      const isEventBEntered = enteredEventIds.includes(eventB.id);
-      if (isEventAEntered && !isEventBEntered) {
-        return sortLess;
-      }
-      if (!isEventAEntered && isEventBEntered) {
-        return sortGreater;
-      }
-      return sortEqual;
-    });
-  }
+  //   return events.sort((eventA, eventB) => {
+  //     const isEventAEntered = enteredEventIds.includes(eventA.id);
+  //     const isEventBEntered = enteredEventIds.includes(eventB.id);
+  //     if (isEventAEntered && !isEventBEntered) {
+  //       return sortLess;
+  //     }
+  //     if (!isEventAEntered && isEventBEntered) {
+  //       return sortGreater;
+  //     }
+  //     return sortEqual;
+  //   });
+  // }
 
   const categorisedEventElements: JSX.Element[] = [];
   AllEventsInCategories.forEach((eventsInCategory, categoryName) => {
@@ -152,7 +156,7 @@ export function EventsSelector({
 
     categorisedEventElements.push(
       buildEventsTable(
-        sortEventsEnteredFirst(eventsInCategory),
+        eventsInCategory, // sortEventsEnteredFirst(eventsInCategory),
         showCost,
         showAddRemoveButton,
         tableKey
@@ -164,4 +168,13 @@ export function EventsSelector({
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>{categorisedEventElements}</>
   );
+}
+function findExcludedEventIds(enteredEventIds: string[]) {
+  const enteredEventIdsWithExclusions = enteredEventIds.filter((eventId) =>
+    Boolean(AllEvents.find((event) => event.id === eventId)?.excludes)
+  );
+  const excludedEventIds = enteredEventIdsWithExclusions.map(
+    (eventId) => AllEvents.find((event) => event.id === eventId)?.excludes
+  );
+  return excludedEventIds;
 }
