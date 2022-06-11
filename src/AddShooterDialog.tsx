@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   TextField,
   useTheme,
@@ -22,12 +22,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { FormikErrors, useFormik } from 'formik';
 import { DatePicker } from '@mui/lab';
-import { Shooter } from './Shooter';
+import { EmptyShooter, Shooter } from './Shooter';
 import { ConfirmDialog } from './ConfirmDialog';
 import { calculateAge } from './AgeUtils';
 import { CompetitionDate, RoDiscount } from './CompetitionConstants';
 
-type ShooterPropsType = {
+interface ShooterProps {
   open: boolean;
   handleClose: () => void;
   setShooter: (shooter: Shooter) => void;
@@ -37,7 +37,7 @@ type ShooterPropsType = {
   title: string;
   showDelete?: boolean;
   deleteShooter?: (shooter: Shooter) => void;
-};
+}
 
 export function AddShooterDialog({
   open,
@@ -49,7 +49,9 @@ export function AddShooterDialog({
   title,
   showDelete = false,
   deleteShooter,
-}: ShooterPropsType): JSX.Element {
+}: ShooterProps): JSX.Element {
+  const canSubmit = useRef(false);
+
   const formik = useFormik({
     initialValues: {
       firstName: shooter.firstName,
@@ -76,13 +78,15 @@ export function AddShooterDialog({
       };
       setShooter(newShooter);
       submitHandler(newShooter);
-      formik.resetForm();
+      formik.resetForm({ values: EmptyShooter });
     },
     validate: (values) => {
       const errors: FormikErrors<Shooter> = {};
       const hasFirstName = values.firstName.trim().length > 0;
       const hasLastName = values.lastName.trim().length > 0;
       const hasScoutGroup = values.scoutGroup.trim().length > 0;
+
+      canSubmit.current = hasFirstName && hasLastName && hasScoutGroup;
 
       if (!hasFirstName) {
         errors.firstName = 'Required';
@@ -96,7 +100,6 @@ export function AddShooterDialog({
 
       return errors;
     },
-    validateOnMount: true,
   });
 
   React.useEffect(() => {
@@ -110,6 +113,11 @@ export function AddShooterDialog({
         scoutGroup: shooter.scoutGroup,
       },
     });
+    canSubmit.current = isValid(
+      shooter.firstName,
+      shooter.lastName,
+      shooter.scoutGroup
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shooter]);
 
@@ -278,7 +286,7 @@ export function AddShooterDialog({
               variant="contained"
               onClick={handleClose}
               color="primary"
-              disabled={!formik.isValid}
+              disabled={!canSubmit.current}
             >
               {actionButtonTitle}
             </Button>
@@ -295,4 +303,12 @@ export function AddShooterDialog({
       />
     </>
   );
+}
+
+function isValid(firstName: string, lastName: string, scoutGroup: string) {
+  const hasFirstName = firstName.trim().length > 0;
+  const hasLastName = lastName.trim().length > 0;
+  const hasScoutGroup = scoutGroup.trim().length > 0;
+
+  return hasFirstName && hasLastName && hasScoutGroup;
 }

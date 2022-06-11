@@ -186,7 +186,10 @@ export function Shooters({
 
       <AddShooterDialog
         open={isAddShooterOpen}
-        handleClose={() => setIsAddShooterOpen(false)}
+        handleClose={() => {
+          setIsAddShooterOpen(false);
+          resetDialogs();
+        }}
         shooter={shooter}
         setShooter={setShooter}
         actionButtonTitle="Choose Events"
@@ -195,7 +198,10 @@ export function Shooters({
       />
       <EventsSelectorDialog
         open={isEventsSelectorOpen}
-        handleClose={() => setIsEventsSelectorOpen(false)}
+        handleClose={() => {
+          setIsEventsSelectorOpen(false);
+          resetDialogs();
+        }}
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
@@ -205,7 +211,10 @@ export function Shooters({
 
       <AddShooterDialog
         open={isEditShooterOpen}
-        handleClose={() => setIsEditShooterOpen(false)}
+        handleClose={() => {
+          setIsEditShooterOpen(false);
+          resetDialogs();
+        }}
         shooter={shooter}
         setShooter={(newShooter) => setShooter(newShooter)}
         actionButtonTitle="Choose Events"
@@ -216,7 +225,10 @@ export function Shooters({
       />
       <EventsSelectorDialog
         open={isEditEventsSelectorOpen}
-        handleClose={() => setIsEditEventsSelectorOpen(false)}
+        handleClose={() => {
+          setIsEventsSelectorOpen(false);
+          resetDialogs();
+        }}
         isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={editEntrantWithEventIds}
