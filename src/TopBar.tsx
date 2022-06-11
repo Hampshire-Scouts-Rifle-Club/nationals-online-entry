@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'react-router-dom';
-import { Divider, Menu, MenuItem } from '@mui/material';
+import { Container, Divider, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getSignInOut } from './SignInSignOut';
 
@@ -71,60 +71,62 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {titleBarText}
-          </Typography>
-          {userData && (
-            <Button
-              variant="text"
-              color="inherit"
-              // size="small"
-              sx={{ textTransform: 'none' }}
-              onClick={handleShowMenu}
-              endIcon={<ExpandMoreIcon />}
-            >
-              {email}
-            </Button>
-          )}
-          {!userData && (
-            <Button
-              variant="outlined"
-              size="small"
-              color="inherit"
-              className={classes.button}
-              href={signInUrl}
-            >
-              Sign In
-            </Button>
-          )}
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleCloseMenu}
-          >
-            {showDevControls && devMenuItems}
-            <MenuItem
-              key="signout"
-              onClick={() => {
-                signOut();
-                handleCloseMenu();
+        <Container maxWidth="md">
+          <Toolbar disableGutters>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              {titleBarText}
+            </Typography>
+            {userData && (
+              <Button
+                variant="text"
+                color="inherit"
+                // size="small"
+                sx={{ textTransform: 'none' }}
+                onClick={handleShowMenu}
+                endIcon={<ExpandMoreIcon />}
+              >
+                {email}
+              </Button>
+            )}
+            {!userData && (
+              <Button
+                variant="outlined"
+                size="small"
+                color="inherit"
+                className={classes.button}
+                href={signInUrl}
+              >
+                Sign In
+              </Button>
+            )}
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
             >
-              Sign Out
-            </MenuItem>
-          </Menu>
-        </Toolbar>
+              {showDevControls && devMenuItems}
+              <MenuItem
+                key="signout"
+                onClick={() => {
+                  signOut();
+                  handleCloseMenu();
+                }}
+              >
+                Sign Out
+              </MenuItem>
+            </Menu>
+          </Toolbar>
+        </Container>
       </AppBar>
     </div>
   );

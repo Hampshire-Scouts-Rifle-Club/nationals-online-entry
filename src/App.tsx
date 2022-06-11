@@ -322,8 +322,8 @@ export function App(): JSX.Element {
   return (
     <div className="App">
       <CodeParamRemover />
+      <TopBar resetHandler={handleReset} userData={authUserData} />
       <Container maxWidth="md">
-        <TopBar resetHandler={handleReset} userData={authUserData} />
         <Box textAlign="center">
           <img
             src={logoImage}
