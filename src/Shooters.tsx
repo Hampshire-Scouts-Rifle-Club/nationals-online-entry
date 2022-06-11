@@ -10,6 +10,7 @@ import { IndividualEntry } from './IndividualEntry';
 import { EventsSelectorDialog } from './EventsSelectorDialog';
 import { MainEventIds } from './AllEvents';
 import { calculateAge } from './AgeUtils';
+import { CompetitionDate } from './CompetitionConstants';
 
 const EmptyEntry = {
   shooter: EmptyShooter,
@@ -59,7 +60,7 @@ export function Shooters({
   const [isEditShooterOpen, setIsEditShooterOpen] = React.useState(false);
   const [isEditEventsSelectorOpen, setIsEditEventsSelectorOpen] =
     React.useState(false);
-  const [isMainEventLocked, setIsMainEventLocked] = React.useState(true);
+  const isMainEventLocked = React.useRef(true);
 
   const [shooter, setShooter] = React.useState(EmptyShooter);
   const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
@@ -85,20 +86,21 @@ export function Shooters({
     setIsAddShooterOpen(true);
   }, [resetDialogs]);
 
-  const lockOrUnlockMainEvents = useCallback(() => {
-    const isAdult = calculateAge(new Date(shooter.dateOfBirth)) >= 18;
-    setIsMainEventLocked(!isAdult);
-  }, [shooter.dateOfBirth]);
+  const lockOrUnlockMainEvents = (shooterToAdd: Shooter) => {
+    const isAdult =
+      calculateAge(new Date(shooterToAdd.dateOfBirth), CompetitionDate) >= 18;
+    isMainEventLocked.current = !isAdult;
+  };
 
-  const handleAddShooterSubmit = useCallback(() => {
-    lockOrUnlockMainEvents();
+  const handleAddShooterSubmit = useCallback((shooterToAdd: Shooter) => {
+    lockOrUnlockMainEvents(shooterToAdd);
     setIsEventsSelectorOpen(true);
-  }, [lockOrUnlockMainEvents]);
+  }, []);
 
-  const handleEditShooterSubmit = useCallback(() => {
-    lockOrUnlockMainEvents();
+  const handleEditShooterSubmit = useCallback((shooterToAdd: Shooter) => {
+    lockOrUnlockMainEvents(shooterToAdd);
     setIsEditEventsSelectorOpen(true);
-  }, [lockOrUnlockMainEvents]);
+  }, []);
 
   const addNewEntrant = useCallback(
     (newEntry: IndividualEntry) => {
@@ -189,7 +191,7 @@ export function Shooters({
       <EventsSelectorDialog
         open={isEventsSelectorOpen}
         handleClose={() => setIsEventsSelectorOpen(false)}
-        isMainEventLocked={isMainEventLocked}
+        isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
       />
@@ -208,7 +210,7 @@ export function Shooters({
       <EventsSelectorDialog
         open={isEditEventsSelectorOpen}
         handleClose={() => setIsEditEventsSelectorOpen(false)}
-        isMainEventLocked={isMainEventLocked}
+        isMainEventLocked={isMainEventLocked.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={editEntrantWithEventIds}
       />

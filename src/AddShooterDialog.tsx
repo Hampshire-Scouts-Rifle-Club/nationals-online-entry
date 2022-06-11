@@ -20,10 +20,12 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { useFormik } from 'formik';
+import { FormikErrors, useFormik } from 'formik';
 import { DatePicker } from '@mui/lab';
 import { Shooter } from './Shooter';
 import { ConfirmDialog } from './ConfirmDialog';
+import { calculateAge } from './AgeUtils';
+import { CompetitionDate } from './CompetitionConstants';
 
 type ShooterPropsType = {
   open: boolean;
@@ -58,6 +60,9 @@ export function AddShooterDialog({
       scoutGroup: shooter.scoutGroup,
     },
     onSubmit: (values) => {
+      const isAdultOnCompetitionDate =
+        calculateAge(new Date(formik.values.dateOfBirth), CompetitionDate) >=
+        18;
       const newShooter: Shooter = {
         id: `${values.firstName}-${values.lastName}-${values.scoutGroup}`,
         firstName: values.firstName,
@@ -66,13 +71,32 @@ export function AddShooterDialog({
         dateOfBirth: values.dateOfBirth,
         scoutGroup: values.scoutGroup,
         county: '',
-        isRangeOfficer: values.isRangeOfficer,
+        isRangeOfficer: isAdultOnCompetitionDate && values.isRangeOfficer,
         rangeOfficerProofUrl: '',
       };
       setShooter(newShooter);
       submitHandler(newShooter);
       formik.resetForm();
     },
+    validate: (values) => {
+      const errors: FormikErrors<Shooter> = {};
+      const hasFirstName = values.firstName.trim().length > 0;
+      const hasLastName = values.lastName.trim().length > 0;
+      const hasScoutGroup = values.scoutGroup.trim().length > 0;
+
+      if (!hasFirstName) {
+        errors.firstName = 'Required';
+      }
+      if (!hasLastName) {
+        errors.lastName = 'Required';
+      }
+      if (!hasScoutGroup) {
+        errors.scoutGroup = 'Required';
+      }
+
+      return errors;
+    },
+    validateOnMount: true,
   });
 
   React.useEffect(() => {
@@ -110,6 +134,17 @@ export function AddShooterDialog({
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  let isAdultOnCompetitionDate = true;
+  try {
+    const ageOnCompetitionDate = calculateAge(
+      new Date(formik.values.dateOfBirth),
+      CompetitionDate
+    );
+    isAdultOnCompetitionDate = ageOnCompetitionDate >= 18;
+  } catch {
+    // Ignoring errors parsing incomplete date strings
+  }
 
   return (
     <>
@@ -199,7 +234,11 @@ export function AddShooterDialog({
                     control={
                       <Checkbox
                         name="isRangeOfficer"
-                        checked={formik.values.isRangeOfficer}
+                        disabled={!isAdultOnCompetitionDate}
+                        checked={
+                          isAdultOnCompetitionDate &&
+                          formik.values.isRangeOfficer
+                        }
                         onChange={formik.handleChange}
                       />
                     }
@@ -239,6 +278,7 @@ export function AddShooterDialog({
               variant="contained"
               onClick={handleClose}
               color="primary"
+              disabled={!formik.isValid}
             >
               {actionButtonTitle}
             </Button>

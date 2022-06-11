@@ -30,6 +30,7 @@ import { SubmitEntry } from './SubmitEntry';
 import { useInterval } from './useInterval';
 import { SubmittedInfoAlert } from './SubmittedInfoAlert';
 import { AmendingInfoAlert } from './AmendingInfoAlert';
+import { logoImage, logoImageAltText } from './CompetitionConstants';
 
 const abortController = new AbortController();
 const isDev = () =>
@@ -325,8 +326,8 @@ export function App(): JSX.Element {
         <TopBar resetHandler={handleReset} userData={authUserData} />
         <Box textAlign="center">
           <img
-            src="NSRC 2022 Logo.svg"
-            alt="National Scout Rifle Competition 15-16 October 2022"
+            src={logoImage}
+            alt={logoImageAltText}
             style={{ width: '192px' }}
           />
         </Box>

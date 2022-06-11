@@ -1,3 +1,4 @@
+import { CurrentCompetitionYear } from './CompetitionConstants';
 import { TeamEntry } from './TeamEntry';
 
 export type EntryState = 'draft' | 'submitted' | 'amending' | 'superseded';
@@ -9,8 +10,6 @@ export interface EntryDatabaseRecord {
   updated?: Date; // This is populated by the server
   teamEntry: TeamEntry;
 }
-
-export const currentCompetitionYear = '2022';
 
 export function buildEntryRecord(
   email: string,
@@ -31,7 +30,7 @@ export function buildEntryRecord(
 export function buildEntryId(
   email: string,
   state: EntryState,
-  year = currentCompetitionYear
+  year = CurrentCompetitionYear
 ) {
   return `${email}-${state}-${year}`;
 }
