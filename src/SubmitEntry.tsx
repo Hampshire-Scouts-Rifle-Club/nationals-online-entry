@@ -38,7 +38,9 @@ export function SubmitEntry({
   const hasEntrants = teamEntry.allEntries.length > 0;
   const hasEmergencyContactDetails =
     teamEntry.offSiteEmergencyContact.name.trim().length > 0 &&
-    teamEntry.onSiteEmergencyContact.name.trim().length > 0;
+    teamEntry.offSiteEmergencyContact.contactNumber.trim().length > 0 &&
+    teamEntry.onSiteEmergencyContact.name.trim().length > 0 &&
+    teamEntry.onSiteEmergencyContact.contactNumber.trim().length > 0;
   const isEntryValid =
     hasEntrants && hasEmergencyContactDetails && allPermissionChecked;
 

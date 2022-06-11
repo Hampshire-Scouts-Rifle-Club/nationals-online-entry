@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   TextField,
   useTheme,
@@ -11,7 +11,7 @@ import {
   Grid,
   Stack,
 } from '@mui/material';
-import { useFormik } from 'formik';
+import { FormikErrors, useFormik } from 'formik';
 import { EmergencyContact } from './EmergencyContact';
 
 type EmergencyContactPropsType = {
@@ -27,6 +27,8 @@ export function AddEmergencyContactDialog({
   emergencyContact,
   addEmergencyContact,
 }: EmergencyContactPropsType): JSX.Element {
+  const canSubmit = useRef(false);
+
   const formik = useFormik({
     initialValues: {
       name: emergencyContact.name,
@@ -39,7 +41,37 @@ export function AddEmergencyContactDialog({
       };
       addEmergencyContact(newEmergencyContact);
     },
+    validate: (values) => {
+      const hasName = values.name.trim().length > 0;
+      const hasContactNumber = values.contactNumber.trim().length > 0;
+
+      canSubmit.current = hasName && hasContactNumber;
+
+      const errors: FormikErrors<EmergencyContact> = {};
+      if (!hasName) {
+        errors.name = 'Required';
+      }
+      if (!hasContactNumber) {
+        errors.contactNumber = 'Required';
+      }
+
+      return errors;
+    },
   });
+
+  React.useEffect(() => {
+    formik.resetForm({
+      values: {
+        name: emergencyContact.name,
+        contactNumber: emergencyContact.contactNumber,
+      },
+    });
+    const hasName = emergencyContact.name.trim().length > 0;
+    const hasContactNumber = emergencyContact.contactNumber.trim().length > 0;
+
+    canSubmit.current = hasName && hasContactNumber;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [emergencyContact]);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -84,6 +116,7 @@ export function AddEmergencyContactDialog({
             variant="contained"
             onClick={handleClose}
             color="primary"
+            disabled={!canSubmit.current}
           >
             Save
           </Button>
