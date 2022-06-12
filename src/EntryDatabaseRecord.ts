@@ -1,7 +1,12 @@
 import { CurrentCompetitionYear } from './CompetitionConstants';
 import { TeamEntry } from './TeamEntry';
 
-export type EntryState = 'draft' | 'submitted' | 'amending' | 'superseded';
+export type EntryState =
+  | 'unsaved'
+  | 'draft'
+  | 'submitted'
+  | 'amending'
+  | 'superseded';
 
 export interface EntryDatabaseRecord {
   id: string;

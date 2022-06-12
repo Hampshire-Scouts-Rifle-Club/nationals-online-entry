@@ -57,7 +57,7 @@ export function SaveState({
   );
   const initialServerEntryRecordJson = buildEntryRecord(
     ownerEmail ?? '',
-    initialServerEntryStatus ?? 'draft',
+    initialServerEntryStatus ?? 'unsaved',
     initialServerState
   );
   const savedEntryRecord = useRef(initialServerEntryRecordJson);

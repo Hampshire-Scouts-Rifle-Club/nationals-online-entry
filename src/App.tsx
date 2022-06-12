@@ -155,17 +155,17 @@ export function App(): JSX.Element {
           abortSignal
         );
 
-        const emptyTeamEntry: TeamEntry = {
-          allEntries: [],
-          campBooking: EmptyCampBooking,
-          onSiteEmergencyContact: EmptyEmergencyContact,
-          offSiteEmergencyContact: EmptyEmergencyContact,
+        const teamEntryInLocalStorage: TeamEntry = {
+          allEntries,
+          campBooking,
+          onSiteEmergencyContact,
+          offSiteEmergencyContact,
         };
         const initialTeamEntry =
           amendingTeamEntry ??
           submittedTeamEntry ??
           draftTeamEntry ??
-          emptyTeamEntry;
+          teamEntryInLocalStorage;
         setInitialServerTeamEntry(initialTeamEntry);
 
         let newEntryStatus: EntryState = 'draft';
@@ -186,7 +186,7 @@ export function App(): JSX.Element {
         }
       }
     },
-    []
+    [allEntries, campBooking, offSiteEmergencyContact, onSiteEmergencyContact]
   );
 
   const populateInitialState = useCallback(
