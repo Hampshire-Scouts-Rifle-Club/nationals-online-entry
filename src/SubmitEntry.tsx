@@ -10,13 +10,16 @@ interface SubmitEntryProps {
   onAmendEntry: () => void;
   onDiscardChanges: () => void;
   teamEntry: TeamEntry;
+  isSignedIn: boolean;
 }
 
-const baseErrorMessage = 'Please correct the following issues:';
+const baseErrorMessage = 'To allow the entry to be submitted please:';
 const noEntrantsMessage = 'Enter at least one competitor';
 const incompleteEmergencyContactsMessage =
   'Give details of both on-site and off-site emergency contacts';
 const allPermissionNotCheckedMessage = 'Agree to all the permissions';
+const notSignedInMessage = 'Sign in';
+const readyToSubmitMessage = 'This entry can be submitted';
 
 export function SubmitEntry({
   entryStatus,
@@ -24,6 +27,7 @@ export function SubmitEntry({
   onAmendEntry,
   onDiscardChanges,
   teamEntry,
+  isSignedIn,
 }: SubmitEntryProps) {
   const [permissionsState, setPermissionsState] = useState({
     haveSection21Permission: false,
@@ -42,12 +46,16 @@ export function SubmitEntry({
     teamEntry.onSiteEmergencyContact.name.trim().length > 0 &&
     teamEntry.onSiteEmergencyContact.contactNumber.trim().length > 0;
   const isEntryValid =
-    hasEntrants && hasEmergencyContactDetails && allPermissionChecked;
+    hasEntrants &&
+    hasEmergencyContactDetails &&
+    allPermissionChecked &&
+    isSignedIn;
 
   const errorMessageElement = buildErrorMessage(
     hasEntrants,
     hasEmergencyContactDetails,
-    allPermissionChecked
+    allPermissionChecked,
+    isSignedIn
   );
 
   const actionElement = buildActionElement(
@@ -70,6 +78,9 @@ export function SubmitEntry({
       )}
       {isEditing && !isEntryValid && (
         <Alert severity="warning">{errorMessageElement}</Alert>
+      )}
+      {isEditing && isEntryValid && (
+        <Alert severity="success">{readyToSubmitMessage}</Alert>
       )}
       {actionElement}
     </Stack>
@@ -122,29 +133,30 @@ function buildActionElement(
 function buildErrorMessage(
   hasEntrants: boolean,
   hasEmergencyContactDetails: boolean,
-  allPermissionChecked: Boolean
+  allPermissionChecked: boolean,
+  isSignedIn: boolean
 ) {
-  const noEntrantsElement = hasEntrants ? (
-    <div />
-  ) : (
-    <li>{noEntrantsMessage}</li>
+  const buildErrorElement = (hideMessage: boolean, message: string) =>
+    hideMessage ? <div /> : <li>{message}</li>;
+
+  const noEntrantsElement = buildErrorElement(hasEntrants, noEntrantsMessage);
+  const isSignedInElement = buildErrorElement(isSignedIn, notSignedInMessage);
+  const incompleteEmergencyContactsElement = buildErrorElement(
+    hasEmergencyContactDetails,
+    incompleteEmergencyContactsMessage
   );
-  const incompleteEmergencyContactsElement = hasEmergencyContactDetails ? (
-    <div />
-  ) : (
-    <li>{incompleteEmergencyContactsMessage}</li>
+  const allPermissionNotCheckedElement = buildErrorElement(
+    allPermissionChecked,
+    allPermissionNotCheckedMessage
   );
-  const allPermissionNotCheckedElement = allPermissionChecked ? (
-    <div />
-  ) : (
-    <li>{allPermissionNotCheckedMessage}</li>
-  );
+
   const errorMessageElement = (
     <>
       {baseErrorMessage}
       <ul>
         {noEntrantsElement}
         {incompleteEmergencyContactsElement}
+        {isSignedInElement}
         {allPermissionNotCheckedElement}
       </ul>
     </>

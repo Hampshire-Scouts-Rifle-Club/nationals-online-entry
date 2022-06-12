@@ -388,6 +388,7 @@ export function App(): JSX.Element {
             onSiteEmergencyContact,
             offSiteEmergencyContact,
           }}
+          isSignedIn={!isNotAuthenticated}
         />
         {isReadyToSaveState && initialServerTeamEntry && (
           <SaveState
