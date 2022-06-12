@@ -51,11 +51,16 @@ export function Camping({
       );
     }
 
+    const hasAdditionalInfo = campBooking.anyOtherInfo.trim().length > 0;
+    const summaryAdditionalInfo = hasAdditionalInfo
+      ? campBooking.anyOtherInfo
+      : 'None';
+
     return (
       <div key="campbooking">
         <Typography variant="body2">{`Number of campers: ${campBooking.numberOfCampers}`}</Typography>
         <Typography variant="body2">{`Estimated arrival time ${campBooking.estimatedArrivalTime}`}</Typography>
-        <Typography variant="body2">{`Other info: ${campBooking.anyOtherInfo}`}</Typography>
+        <Typography variant="body2">{`Other info: ${summaryAdditionalInfo}`}</Typography>
         {!isEntryLocked && (
           <Button
             variant="contained"

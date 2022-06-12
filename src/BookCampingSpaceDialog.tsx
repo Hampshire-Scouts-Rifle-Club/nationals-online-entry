@@ -11,8 +11,8 @@ import {
   Stack,
   Box,
 } from '@mui/material';
-import React from 'react';
-import { useFormik } from 'formik';
+import React, { useRef } from 'react';
+import { FormikErrors, useFormik } from 'formik';
 import { CampBooking } from './CampBooking';
 
 type BookCampingSpaceDialogProps = {
@@ -28,6 +28,8 @@ export function BookCampingSpaceDialog({
   campBooking,
   setCampBooking,
 }: BookCampingSpaceDialogProps): JSX.Element {
+  const canSubmit = useRef(false);
+
   const formik = useFormik({
     initialValues: {
       numberOfPeopleCamping: campBooking.numberOfCampers,
@@ -41,6 +43,23 @@ export function BookCampingSpaceDialog({
         anyOtherInfo: values.otherInformation,
       };
       setCampBooking(newCampBooking);
+    },
+    validate: (values) => {
+      const hasNumberOfPeopleCamping = values.numberOfPeopleCamping > 0;
+      const hasEstimatedArrivalTime =
+        values.estimatedArrivalTime.trim().length > 0;
+
+      canSubmit.current = hasNumberOfPeopleCamping && hasEstimatedArrivalTime;
+
+      const errors: FormikErrors<CampBooking> = {};
+      if (!hasNumberOfPeopleCamping) {
+        errors.numberOfCampers = 'Required';
+      }
+      if (!hasEstimatedArrivalTime) {
+        errors.estimatedArrivalTime = 'Required';
+      }
+
+      return errors;
     },
   });
 
@@ -122,6 +141,7 @@ export function BookCampingSpaceDialog({
             type="submit"
             variant="contained"
             onClick={handleClose}
+            disabled={!canSubmit.current}
             color="primary"
           >
             Save
