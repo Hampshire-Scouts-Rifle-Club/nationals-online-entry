@@ -76,6 +76,7 @@ export function EventsSelector({
                     // variant="outlined"
                     color="secondary"
                     // startIcon={<HelpIcon />}
+                    disabled={event.description.length === 0}
                     onClick={() => {
                       setInfoDialogTitle(event.title);
                       setInfoDialogParagraphs(event.description);
