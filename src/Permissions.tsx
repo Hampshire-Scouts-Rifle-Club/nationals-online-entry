@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import './Permissions.css';
 import {
   FormControl,
@@ -14,7 +14,6 @@ import { InfoDialog } from './InfoDialog';
 interface PermissionsState {
   haveSection21Permission: boolean;
   havePorPermission: boolean;
-  haveGdprPermission: boolean;
 }
 
 interface PermissionsProps {
@@ -39,10 +38,7 @@ export function Permissions({
       });
     };
 
-  const { haveSection21Permission, havePorPermission, haveGdprPermission } =
-    permissionsState;
-
-  const preventDefault = (event: SyntheticEvent) => event.preventDefault();
+  const { haveSection21Permission, havePorPermission } = permissionsState;
 
   const section21InfoTitle =
     'Extract from Scouts UK Factsheet FS120004: Target Shooting';
@@ -89,16 +85,6 @@ export function Permissions({
     </Typography>
   );
 
-  const gdprLabel = (
-    <Typography>
-      {'I agree to the '}
-      <Link href="#" onClick={preventDefault}>
-        GDPR policy
-      </Link>
-      .
-    </Typography>
-  );
-
   return (
     <>
       <Typography variant="h5">Permissions</Typography>
@@ -124,16 +110,6 @@ export function Permissions({
               />
             }
             label={porLabel}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={haveGdprPermission}
-                onChange={handleChange('haveGdprPermission')}
-                value="haveGdprPermission"
-              />
-            }
-            label={gdprLabel}
           />
         </FormGroup>
       </FormControl>

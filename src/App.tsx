@@ -3,7 +3,7 @@ import './App.css';
 import Container from '@mui/material/Container';
 import createPersistedState from 'use-persisted-state';
 import { Auth, Hub } from 'aws-amplify';
-import { Alert, Box, Collapse } from '@mui/material';
+import { Alert, Box, Collapse, Link, Typography } from '@mui/material';
 import { Shooters } from './Shooters';
 import { Camping } from './Camping';
 import { EmergencyContacts } from './EmergencyContacts';
@@ -403,6 +403,17 @@ export function App(): JSX.Element {
             initialServerEntryStatus={initialServerEntryStatus}
           />
         )}
+        <Box textAlign="right">
+          <Typography variant="body2" paddingBottom="2rem">
+            <Link
+              href="https://hampshirescouts.org.uk/privacy-policy/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </Link>
+          </Typography>
+        </Box>
       </Container>
     </div>
   );

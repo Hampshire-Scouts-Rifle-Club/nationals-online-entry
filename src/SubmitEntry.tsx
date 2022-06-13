@@ -17,7 +17,7 @@ const baseErrorMessage = 'To allow the entry to be submitted please:';
 const noEntrantsMessage = 'Enter at least one competitor';
 const incompleteEmergencyContactsMessage =
   'Give details of both on-site and off-site emergency contacts';
-const allPermissionNotCheckedMessage = 'Agree to all the permissions';
+const allPermissionNotCheckedMessage = 'Agree to the permissions';
 const notSignedInMessage = 'Sign in';
 const readyToSubmitMessage = 'This entry can be submitted';
 
@@ -32,13 +32,11 @@ export function SubmitEntry({
   const [permissionsState, setPermissionsState] = useState({
     haveSection21Permission: false,
     havePorPermission: false,
-    haveGdprPermission: false,
   });
 
   const allPermissionChecked =
     permissionsState.haveSection21Permission &&
-    permissionsState.havePorPermission &&
-    permissionsState.haveGdprPermission;
+    permissionsState.havePorPermission;
   const hasEntrants = teamEntry.allEntries.length > 0;
   const hasEmergencyContactDetails =
     teamEntry.offSiteEmergencyContact.name.trim().length > 0 &&
