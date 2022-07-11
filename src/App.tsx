@@ -325,11 +325,13 @@ export function App(): JSX.Element {
       <TopBar resetHandler={handleReset} userData={authUserData} />
       <Container maxWidth="md">
         <Box textAlign="center">
-          <img
-            src={logoImage}
-            alt={logoImageAltText}
-            style={{ width: '192px' }}
-          />
+          <Link href="https://www.nationalscoutriflechampionships.org.uk">
+            <img
+              src={logoImage}
+              alt={logoImageAltText}
+              style={{ width: '192px' }}
+            />
+          </Link>
         </Box>
         {isDev() && error !== undefined && (
           <Alert severity="error" onClose={() => setError(undefined)}>
