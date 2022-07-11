@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { EntryState } from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
 import { Permissions } from './Permissions';
+import { EntryClosingDate } from './CompetitionConstants';
 
 interface SubmitEntryProps {
   entryStatus: EntryState;
@@ -92,6 +93,8 @@ function buildActionElement(
   onAmendEntry: () => void,
   onDiscardChanges: () => void
 ) {
+  const closingDateString = EntryClosingDate.toLocaleDateString();
+
   switch (entryStatus) {
     case 'draft':
       return (
@@ -104,7 +107,10 @@ function buildActionElement(
             Submit Entry
           </Button>
           <Typography align="center">
-            <em>You can amend your entry up to the closing date.</em>
+            <em>
+              You can amend your entry up to the closing date (
+              {closingDateString}).
+            </em>
           </Typography>
         </>
       );

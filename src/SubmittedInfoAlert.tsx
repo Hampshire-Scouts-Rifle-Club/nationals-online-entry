@@ -1,4 +1,5 @@
 import { Alert, Button } from '@mui/material';
+import { EntryClosingDate } from './CompetitionConstants';
 
 interface SubmittedInfoAlertProps {
   date?: Date;
@@ -13,7 +14,11 @@ export function SubmittedInfoAlert({ date, onAmend }: SubmittedInfoAlertProps) {
     day: 'numeric',
   } as const;
   const dateString = date?.toLocaleDateString(undefined, dateOptions);
-  const alertMessage = `You submitted the following entry on ${dateString}. You can amend the entry until the closing date.`;
+  const closingDateString = EntryClosingDate.toLocaleDateString(
+    undefined,
+    dateOptions
+  );
+  const alertMessage = `You submitted the following entry on ${dateString}. You can amend the entry until the closing date (${closingDateString}).`;
 
   return (
     <Alert
