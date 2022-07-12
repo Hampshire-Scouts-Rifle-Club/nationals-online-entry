@@ -416,6 +416,12 @@ export function App(): JSX.Element {
             </Link>
           </Typography>
         </Box>
+        <Typography variant="body2" paddingBottom="2rem">
+          {'For support with this site please email John Holcroft: '}
+          <Link href="mailto:john-nsrc@montreux.co.uk">
+            john-nsrc@montreux.co.uk
+          </Link>
+        </Typography>
       </Container>
     </div>
   );
