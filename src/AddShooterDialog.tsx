@@ -26,6 +26,7 @@ import { EmptyShooter, Shooter } from './Shooter';
 import { ConfirmDialog } from './ConfirmDialog';
 import { calculateAge } from './AgeUtils';
 import { CompetitionDate, RoDiscount } from './CompetitionConstants';
+import { InfoDialog } from './InfoDialog';
 
 interface ShooterProps {
   open: boolean;
@@ -39,6 +40,13 @@ interface ShooterProps {
   deleteShooter?: (shooter: Shooter) => void;
 }
 
+const rangeOfficerInfoTitle = 'Range Officers';
+const rangeOfficerInfoParagraphs = [
+  'There is a substantial requirement for Range Officer support in order to operate all of the activities, and all qualified adults will be expected to support that requirement by serving allocated periods on a range.',
+  'To encourage this, a £10 reduction in entry fees can be claimed for all range-officer-qualified adults who provide that level of support.',
+  'The reduction cannot be claimed for any individual if they do not support the requirement for assistance on the ranges.',
+];
+
 export function AddShooterDialog({
   open,
   handleClose,
@@ -51,6 +59,9 @@ export function AddShooterDialog({
   deleteShooter,
 }: ShooterProps): JSX.Element {
   const canSubmit = useRef(false);
+
+  const [isRangeOfficerInfoDialogOpen, setIsRangeOfficerInfoDialogOpen] =
+    useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -259,9 +270,7 @@ export function AddShooterDialog({
                 <Button
                   size="small"
                   color="secondary"
-                  target="_blank"
-                  component="a"
-                  href="https://www.nationalscoutriflechampionships.org.uk/rangeofficer"
+                  onClick={() => setIsRangeOfficerInfoDialogOpen(true)}
                 >
                   Learn more
                 </Button>
@@ -300,6 +309,14 @@ export function AddShooterDialog({
         open={isDeleteConfirmationDialogOpen}
         handleClose={() => setIsDeleteConfirmationDialogOpen(false)}
         onConfirm={handleDeleteShooter}
+      />
+      <InfoDialog
+        title={rangeOfficerInfoTitle}
+        paragraphs={rangeOfficerInfoParagraphs}
+        isOpen={isRangeOfficerInfoDialogOpen}
+        handleClose={() => {
+          setIsRangeOfficerInfoDialogOpen(false);
+        }}
       />
     </>
   );

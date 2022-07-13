@@ -11,9 +11,10 @@ import {
   Stack,
   Box,
 } from '@mui/material';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormikErrors, useFormik } from 'formik';
 import { CampBooking } from './CampBooking';
+import { InfoDialog } from './InfoDialog';
 
 type BookCampingSpaceDialogProps = {
   open: boolean;
@@ -22,6 +23,14 @@ type BookCampingSpaceDialogProps = {
   setCampBooking: (campBooking: CampBooking) => void;
 };
 
+const campingInfoTitle = 'On-Site Camping';
+const campingInfoParagraphs = [
+  'For Groups (teams) wishing to camp, all camping fees are included in entries into the main event.',
+  'There is no additional fee for non-shooting adults who provide camp support (such as admin or catering), although such adults must have DBS clearance and be included in the approval obtained from your GSL or DC as part of the Nights Away Notification.',
+  'You will be allocated camping space based on the number of people camping. So please enter the total number of people camping, including supporting adults.',
+  `If you have any special requirements or requests, please put these in 'Any other information?'`,
+];
+
 export function BookCampingSpaceDialog({
   open,
   handleClose,
@@ -29,6 +38,8 @@ export function BookCampingSpaceDialog({
   setCampBooking,
 }: BookCampingSpaceDialogProps): JSX.Element {
   const canSubmit = useRef(false);
+
+  const [isCampingInfoDialogOpen, setIsCampingInfoDialogOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -126,10 +137,8 @@ export function BookCampingSpaceDialog({
         </DialogContent>
         <DialogActions>
           <Button
-            target="_blank"
-            component="a"
             color="secondary"
-            href="https://www.nationalscoutriflechampionships.org.uk/competitioneventshttps://www.nationalscoutriflechampionships.org.uk/camping"
+            onClick={() => setIsCampingInfoDialogOpen(true)}
           >
             About camping
           </Button>
@@ -148,6 +157,14 @@ export function BookCampingSpaceDialog({
           </Button>
         </DialogActions>
       </form>
+      <InfoDialog
+        title={campingInfoTitle}
+        paragraphs={campingInfoParagraphs}
+        isOpen={isCampingInfoDialogOpen}
+        handleClose={() => {
+          setIsCampingInfoDialogOpen(false);
+        }}
+      />
     </Dialog>
   );
 }
