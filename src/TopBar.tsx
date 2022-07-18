@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Divider, Menu, MenuItem } from '@mui/material';
+import { Container, Divider, Menu, MenuItem, Snackbar } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getSignInOut } from './SignInSignOut';
 
@@ -41,6 +41,8 @@ type TopBarProps = {
 export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [isScrolinInfoDialogOpen, setIsScrolinInfoDialogOpen] =
+    React.useState(false);
 
   const { signInUrl, signOut } = getSignInOut();
 
@@ -52,6 +54,16 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
     : 'Competition Entry';
 
   const email = userData ? extractUserEmail(userData) : '';
+  const isScrolin =
+    email === 'chris@scrolin.org.uk' ||
+    email === 'john.holcroft@montreux.co.uk';
+
+  const copyGetAllEntriesCommandToClipboard = useCallback(() => {
+    const authToken = userData?.signInUserSession?.idToken?.jwtToken;
+    const curlCommand = `curl -v https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries2/2022/submitted -H "Authorization: Bearer ${authToken}"`;
+    navigator.clipboard.writeText(curlCommand);
+    setIsScrolinInfoDialogOpen(true);
+  }, [userData]);
 
   const handleShowMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -60,6 +72,13 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
+  const scrolinMenuItems = [
+    <MenuItem key="scrolin" onClick={copyGetAllEntriesCommandToClipboard}>
+      Scrolin
+    </MenuItem>,
+    <Divider />,
+  ];
 
   const devMenuItems = [
     <MenuItem key="reset" onClick={() => resetHandler()}>
@@ -115,6 +134,7 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
               onClose={handleCloseMenu}
             >
               {showDevControls && devMenuItems}
+              {isScrolin && scrolinMenuItems}
               <MenuItem
                 key="signout"
                 onClick={() => {
@@ -128,6 +148,12 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
           </Toolbar>
         </Container>
       </AppBar>
+      <Snackbar
+        open={isScrolinInfoDialogOpen}
+        autoHideDuration={3000}
+        onClose={() => setIsScrolinInfoDialogOpen(false)}
+        message="curl command copied to clipboard"
+      />
     </div>
   );
 }
