@@ -209,7 +209,7 @@ export const turningTarget: ShootingEvent = {
   title: 'Turning target - 30 shot live fire',
   summary: '',
   description: [],
-  slots: 2,
+  slots: 1,
   cost: 14.5,
 };
 
