@@ -156,3 +156,43 @@ export async function deleteEntry(
     throw new Error(`Delete of entry failed: ${response.statusText}`);
   }
 }
+
+export async function readAllEntries(
+  authorizationToken: string,
+  abortSignal: AbortSignal
+): Promise<EntryDatabaseRecord[] | undefined> {
+  const baseUrl =
+    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries/2022/submitted';
+  const getUrl = `${baseUrl}`;
+
+  const headers = {
+    Authorization: authorizationToken,
+  };
+
+  const response = await axios.get(getUrl, {
+    headers,
+    signal: abortSignal,
+    timeout: 5000,
+  });
+
+  if (response.status === 400) {
+    return undefined;
+  }
+
+  const hasReturnedEntryRecord = Boolean(response.data.Item);
+  if (!hasReturnedEntryRecord) {
+    return undefined;
+  }
+
+  const entryRecords = response.data.Item as ServerEntryDatabaseRecord[];
+  const allEntries = entryRecords.map((entryRecord) => {
+    const teamEntry = JSON.parse(entryRecord.teamEntryJson);
+    const entryDatabaseRecord = {
+      ...entryRecord,
+      teamEntry,
+    } as EntryDatabaseRecord;
+    return entryDatabaseRecord;
+  });
+
+  return allEntries;
+}
