@@ -179,12 +179,12 @@ export async function readAllEntries(
     return undefined;
   }
 
-  const hasReturnedEntryRecord = Boolean(response.data.Item);
+  const hasReturnedEntryRecord = Boolean(response.data.Items);
   if (!hasReturnedEntryRecord) {
     return undefined;
   }
 
-  const entryRecords = response.data.Item as ServerEntryDatabaseRecord[];
+  const entryRecords = response.data.Items as ServerEntryDatabaseRecord[];
   const allEntries = entryRecords.map((entryRecord) => {
     const teamEntry = JSON.parse(entryRecord.teamEntryJson);
     const entryDatabaseRecord = {

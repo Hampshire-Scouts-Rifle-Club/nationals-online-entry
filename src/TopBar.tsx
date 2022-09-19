@@ -4,10 +4,24 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import DownloadIcon from '@mui/icons-material/Download';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Divider, Menu, MenuItem, Snackbar } from '@mui/material';
+import {
+  Container,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Snackbar,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getSignInOut } from './SignInSignOut';
+import { readAllEntries } from './ServerState';
+import {
+  flattenAllEntriesToCsv,
+  getTeamDetailsCsv,
+} from './AllEntriesProcessing';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
 }));
+
+const abortController = new AbortController();
 
 function extractUserEmail(userData: any): string {
   const email =
@@ -54,15 +70,29 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
     : 'Competition Entry';
 
   const email = userData ? extractUserEmail(userData) : '';
-  const isScrolin =
-    email === 'chris@scrolin.org.uk' ||
-    email === 'john.holcroft@montreux.co.uk';
+  const isJohn = email === 'john.holcroft@montreux.co.uk';
 
-  const copyGetAllEntriesCommandToClipboard = useCallback(() => {
-    const authToken = userData?.signInUserSession?.idToken?.jwtToken;
-    const curlCommand = `curl -v https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries2/2022/submitted -H "Authorization: Bearer ${authToken}"`;
-    navigator.clipboard.writeText(curlCommand);
-    setIsScrolinInfoDialogOpen(true);
+  const downloadAllEntrantsCsv = useCallback(async () => {
+    const allEntryRecords =
+      (await readAllEntries(userData, abortController.signal)) ?? [];
+
+    const allEntriesCsv = flattenAllEntriesToCsv(allEntryRecords);
+    const allEntrantsUrl = window.URL.createObjectURL(
+      new Blob([allEntriesCsv])
+    );
+    const allEntrantsLink = document.createElement('a');
+    allEntrantsLink.download = 'AllEntrants.csv';
+    allEntrantsLink.href = allEntrantsUrl;
+    allEntrantsLink.click();
+
+    const teamDetailsCsv = getTeamDetailsCsv(allEntryRecords);
+    const teamDetailsUrl = window.URL.createObjectURL(
+      new Blob([teamDetailsCsv])
+    );
+    const teamDetailsLink = document.createElement('a');
+    teamDetailsLink.download = 'TeamDetails.csv';
+    teamDetailsLink.href = teamDetailsUrl;
+    teamDetailsLink.click();
   }, [userData]);
 
   const handleShowMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -73,14 +103,13 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
     setAnchorEl(null);
   };
 
-  const scrolinMenuItems = [
-    <MenuItem key="scrolin" onClick={copyGetAllEntriesCommandToClipboard}>
-      Scrolin
-    </MenuItem>,
-    <Divider />,
-  ];
-
   const devMenuItems = [
+    <MenuItem key="allEntrantCsv" onClick={downloadAllEntrantsCsv}>
+      <ListItemIcon>
+        <DownloadIcon fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>Download All Entrants</ListItemText>
+    </MenuItem>,
     <MenuItem key="reset" onClick={() => resetHandler()}>
       Reset
     </MenuItem>,
@@ -133,8 +162,7 @@ export function TopBar({ userData, resetHandler }: TopBarProps): JSX.Element {
               open={Boolean(anchorEl)}
               onClose={handleCloseMenu}
             >
-              {showDevControls && devMenuItems}
-              {isScrolin && scrolinMenuItems}
+              {isJohn && devMenuItems}
               <MenuItem
                 key="signout"
                 onClick={() => {
