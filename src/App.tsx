@@ -35,6 +35,7 @@ import { logoImage, logoImageAltText } from './CompetitionConstants';
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const isEntryOpen = false;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -84,7 +85,7 @@ export function App(): JSX.Element {
     useState<EntryState>();
   const [submittedEntryDate, setSubmittedEntryDate] = useState<Date>();
 
-  const isEntryLocked = entryStatus === 'submitted';
+  const isEntryLocked = !isEntryOpen || entryStatus === 'submitted';
 
   const getUser = useCallback(async () => {
     try {
@@ -161,17 +162,18 @@ export function App(): JSX.Element {
           onSiteEmergencyContact,
           offSiteEmergencyContact,
         };
-        const initialTeamEntry =
-          amendingTeamEntry ??
-          submittedTeamEntry ??
-          draftTeamEntry ??
-          teamEntryInLocalStorage;
+        const initialTeamEntry = isEntryOpen
+          ? amendingTeamEntry
+          : null ??
+            submittedTeamEntry ??
+            draftTeamEntry ??
+            teamEntryInLocalStorage;
         setInitialServerTeamEntry(initialTeamEntry);
 
         let newEntryStatus: EntryState = 'draft';
         const isSubmitted = Boolean(submittedTeamEntry);
         newEntryStatus = isSubmitted ? 'submitted' : newEntryStatus;
-        const isAmending = Boolean(amendingTeamEntry);
+        const isAmending = Boolean(amendingTeamEntry) && isEntryOpen;
         newEntryStatus = isAmending ? 'amending' : newEntryStatus;
 
         setEntryStatus(newEntryStatus);
@@ -347,6 +349,7 @@ export function App(): JSX.Element {
           <SubmittedInfoAlert
             date={submittedEntryDate}
             onAmend={() => setEntryStatus('amending')}
+            areEntriesClosed={!isEntryOpen}
           />
         )}
         {entryStatus === 'amending' && (
