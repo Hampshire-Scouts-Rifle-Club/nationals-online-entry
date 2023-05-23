@@ -1,7 +1,6 @@
 import { Shooter } from './Shooter';
 import {
   advancedFieldTarget,
-  fullBore,
   knockout,
   airRifle6yd,
   airPistol6yd,
@@ -57,7 +56,6 @@ export const entryJohnHolcroft: IndividualEntry = {
     ownRifle10mSporter.id,
     ownPistol.id,
     targetSprint.id,
-    fullBore.id,
   ],
 };
 export const shooterJonCulshaw: Shooter = {

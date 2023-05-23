@@ -43,7 +43,7 @@ interface ShooterProps {
 const rangeOfficerInfoTitle = 'Range Officers';
 const rangeOfficerInfoParagraphs = [
   'There is a substantial requirement for Range Officer support in order to operate all of the activities, and all qualified adults will be expected to support that requirement by serving allocated periods on a range.',
-  'To encourage this, a £10 reduction in entry fees can be claimed for all range-officer-qualified adults who provide that level of support.',
+  'To encourage this, a £12 reduction in entry fees can be claimed for all range-officer-qualified adults who provide that level of support.',
   'The reduction cannot be claimed for any individual if they do not support the requirement for assistance on the ranges.',
 ];
 
@@ -235,7 +235,7 @@ export function AddShooterDialog({
               </LocalizationProvider>
               <TextField
                 id="previousCompetitorNumber"
-                label="2019 Competitor Number"
+                label="Last Year's Competitor Number"
                 value={formik.values.previousCompetitorNumber}
                 onChange={numbersOnlyTextChangeHandler}
                 helperText="For 'most improved' prize"

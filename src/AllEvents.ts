@@ -68,7 +68,7 @@ export const ownRifle6yd: ShootingEvent = {
     ownAirgunRule2,
   ],
   slots: 1,
-  cost: 4,
+  cost: 5,
 };
 
 const ownCylinderRule =
@@ -99,7 +99,7 @@ export const ownRifle10mOpen: ShootingEvent = {
     ownAirgunRule2,
   ],
   slots: 1,
-  cost: 6.5,
+  cost: 8,
 };
 
 export const ownRifle10mSporter: ShootingEvent = {
@@ -117,7 +117,7 @@ export const ownRifle10mSporter: ShootingEvent = {
     ownAirgunRule2,
   ],
   slots: 1,
-  cost: 6.5,
+  cost: 8,
 };
 
 export const ownPistol: ShootingEvent = {
@@ -126,7 +126,7 @@ export const ownPistol: ShootingEvent = {
   summary: '',
   description: [],
   slots: 1,
-  cost: 4,
+  cost: 5,
 };
 
 export const vintageRifle: ShootingEvent = {
@@ -135,7 +135,7 @@ export const vintageRifle: ShootingEvent = {
   summary: '',
   description: [],
   slots: 1,
-  cost: 4,
+  cost: 5,
 };
 
 export const beginnersSmallBore: ShootingEvent = {
@@ -149,7 +149,7 @@ export const beginnersSmallBore: ShootingEvent = {
     'Competitors will shoot two five-shot groups at 25 yards within one 15-minute detail. All equipment supplied. Medals will be awarded to the top three competitors aged under 18, assessed by the smallest 5-shot group.',
   ],
   slots: 1,
-  cost: 8,
+  cost: 9.5,
   excludes: 'smallbore',
 };
 
@@ -159,7 +159,7 @@ export const smallBore: ShootingEvent = {
   summary: '',
   description: [],
   slots: 1,
-  cost: 9.5,
+  cost: 11.5,
   excludes: 'beginnerssmallbore',
 };
 
@@ -175,7 +175,7 @@ export const beginnersTargetSprint: ShootingEvent = {
     'Class A and X will use the ISSF standard targets (discs behind a 35 mm diameter hole). Class B will use the 45mm diameter free standing targets. In all other respects the format of the event will be the same.],',
   ],
   slots: 1,
-  cost: 4,
+  cost: 5,
   excludes: 'targetsprint',
 };
 
@@ -191,17 +191,8 @@ export const targetSprint: ShootingEvent = {
     'Class A and X will use the ISSF standard targets (discs behind a 35 mm diameter hole). Class B will use the 45mm diameter free standing targets. In all other respects the format of the event will be the same.],',
   ],
   slots: 1,
-  cost: 4,
+  cost: 5,
   excludes: 'beginnerstargetsprint',
-};
-
-export const fullBore: ShootingEvent = {
-  id: 'fullbore',
-  title: 'Full bore rifle experience',
-  summary: '',
-  description: [],
-  slots: 2,
-  cost: 16.5,
 };
 
 export const turningTarget: ShootingEvent = {
@@ -230,7 +221,7 @@ export const advancedFieldTarget: ShootingEvent = {
   summary: '',
   description: [],
   slots: 2,
-  cost: 4,
+  cost: 5,
 };
 
 export const threePositionOpen: ShootingEvent = {
@@ -239,7 +230,7 @@ export const threePositionOpen: ShootingEvent = {
   summary: '',
   description: [],
   slots: 2,
-  cost: 10,
+  cost: 12,
 };
 
 export const threePositionSporter: ShootingEvent = {
@@ -248,7 +239,7 @@ export const threePositionSporter: ShootingEvent = {
   summary: '',
   description: [],
   slots: 2,
-  cost: 10,
+  cost: 12,
 };
 
 export const MainEvents = [knockout, airRifle6yd, airPistol6yd, fieldTarget];
