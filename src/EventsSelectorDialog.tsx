@@ -62,15 +62,11 @@ export function EventsSelectorDialog({
     setWorkingEnteredEventIds(enteredEventIds);
   }, [enteredEventIds, handleClose]);
 
-  const ageAppropriateEvents = AllEvents.filter((event) => {
-    const eventHasMinAge = event.minAge !== undefined;
-    return eventHasMinAge || ageOfShooter >= event.minAge!;
-  });
-
-  const eventsEntered = ageAppropriateEvents.filter(
+  const eventsEntered = AllEvents.filter(
     (event) => workingEnteredEventIds.includes(event.id)
     // eslint-disable-next-line function-paren-newline
   );
+
   const totalSlots = sumSlots(eventsEntered);
 
   function buildSummary() {
