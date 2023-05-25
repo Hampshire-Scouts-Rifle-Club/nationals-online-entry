@@ -121,8 +121,9 @@ export function Shooters({
   const addNewEntrant = useCallback(
     (newEntry: IndividualEntry) => {
       setAllEntries(allEntries.concat(newEntry));
+      resetDialogs();
     },
-    [allEntries, setAllEntries]
+    [allEntries, resetDialogs, setAllEntries]
   );
 
   const editEntrant = useCallback(
@@ -132,8 +133,9 @@ export function Shooters({
       );
       const newAllEntries = allEntriesWithoutChanged.concat(newEntry);
       setAllEntries(newAllEntries);
+      resetDialogs();
     },
-    [allEntries, entryToEdit, setAllEntries]
+    [allEntries, entryToEdit, resetDialogs, setAllEntries]
   );
 
   const addNewEntrantWithEventIds = useCallback(
@@ -170,8 +172,9 @@ export function Shooters({
         (entry) => entry.shooter !== shooterToDelete
       );
       setAllEntries(allEntriesWithoutPassedShooter);
+      resetDialogs();
     },
-    [allEntries, setAllEntries]
+    [allEntries, resetDialogs, setAllEntries]
   );
 
   return (
@@ -210,6 +213,7 @@ export function Shooters({
         open={isEventsSelectorOpen}
         handleClose={() => {
           setIsEventsSelectorOpen(false);
+          resetDialogs();
         }}
         isMainEventLocked={isMainEventLocked.current}
         ageOfShooter={ageInYears.current}
@@ -236,6 +240,7 @@ export function Shooters({
         open={isEditEventsSelectorOpen}
         handleClose={() => {
           setIsEditEventsSelectorOpen(false);
+          resetDialogs();
         }}
         isMainEventLocked={isMainEventLocked.current}
         ageOfShooter={ageInYears.current}
