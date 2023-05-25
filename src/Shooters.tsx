@@ -66,6 +66,7 @@ export function Shooters({
   const [isEditEventsSelectorOpen, setIsEditEventsSelectorOpen] =
     React.useState(false);
   const isMainEventLocked = React.useRef(true);
+  const ageInYears = React.useRef(0);
 
   const [shooter, setShooter] = React.useState(EmptyShooter);
   const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
@@ -97,13 +98,23 @@ export function Shooters({
     isMainEventLocked.current = !isAdult;
   };
 
+  const setAgeDuringCompetition = (shooterToAdd: Shooter) => {
+    const ageOnCompetitionDate = calculateAge(
+      new Date(shooterToAdd.dateOfBirth),
+      CompetitionDate
+    );
+    ageInYears.current = ageOnCompetitionDate;
+  };
+
   const handleAddShooterSubmit = useCallback((shooterToAdd: Shooter) => {
     lockOrUnlockMainEvents(shooterToAdd);
+    setAgeDuringCompetition(shooterToAdd);
     setIsEventsSelectorOpen(true);
   }, []);
 
   const handleEditShooterSubmit = useCallback((shooterToAdd: Shooter) => {
     lockOrUnlockMainEvents(shooterToAdd);
+    setAgeDuringCompetition(shooterToAdd);
     setIsEditEventsSelectorOpen(true);
   }, []);
 
@@ -201,6 +212,7 @@ export function Shooters({
           setIsEventsSelectorOpen(false);
         }}
         isMainEventLocked={isMainEventLocked.current}
+        ageOfShooter={ageInYears.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={addNewEntrantWithEventIds}
         maxSlots={shooter.isRangeOfficer ? MaxRoEventSlots : MaxEventSlots}
@@ -226,6 +238,7 @@ export function Shooters({
           setIsEditEventsSelectorOpen(false);
         }}
         isMainEventLocked={isMainEventLocked.current}
+        ageOfShooter={ageInYears.current}
         enteredEventIds={enteredEventIds}
         setEnteredEventIds={editEntrantWithEventIds}
         maxSlots={shooter.isRangeOfficer ? MaxRoEventSlots : MaxEventSlots}

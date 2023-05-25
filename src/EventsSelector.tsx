@@ -21,6 +21,7 @@ interface EventsSelectorProps {
   setEnteredEventIds: (eventIds: string[]) => void;
   isMainEventLocked: boolean;
   maxSlots: number;
+  ageOfShooter: number;
 }
 
 const eventTitleStyle = {
@@ -33,6 +34,7 @@ export function EventsSelector({
   setEnteredEventIds,
   isMainEventLocked,
   maxSlots,
+  ageOfShooter,
 }: EventsSelectorProps): JSX.Element {
   const [infoDialogTitle, setInfoDialogTitle] = useState('');
   const [infoDialogParagraphs, setInfoDialogParagraphs] = useState(['']);
@@ -95,6 +97,12 @@ export function EventsSelector({
   }
 
   const excludedEventIds = findExcludedEventIds(enteredEventIds);
+
+  const ageExcludedEvents = AllEvents.filter(
+    (event) => event.minAge && ageOfShooter < event.minAge
+  );
+
+  excludedEventIds.push(...ageExcludedEvents.map((event) => event.id));
 
   const eventsEntered = AllEvents.filter((event) =>
     enteredEventIds.includes(event.id)

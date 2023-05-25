@@ -6,4 +6,5 @@ export interface ShootingEvent {
   slots: number;
   cost: number;
   excludes?: string;
+  minAge?: number;
 }

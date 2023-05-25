@@ -23,6 +23,7 @@ type EventSelectorDialogProps = {
   isMainEventLocked: boolean;
   maxSlots: number;
   discount: number;
+  ageOfShooter: number;
 };
 
 export function EventsSelectorDialog({
@@ -33,6 +34,7 @@ export function EventsSelectorDialog({
   isMainEventLocked,
   maxSlots,
   discount,
+  ageOfShooter,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -60,7 +62,12 @@ export function EventsSelectorDialog({
     setWorkingEnteredEventIds(enteredEventIds);
   }, [enteredEventIds, handleClose]);
 
-  const eventsEntered = AllEvents.filter(
+  const ageAppropriateEvents = AllEvents.filter((event) => {
+    const eventHasMinAge = event.minAge !== undefined;
+    return eventHasMinAge || ageOfShooter >= event.minAge!;
+  });
+
+  const eventsEntered = ageAppropriateEvents.filter(
     (event) => workingEnteredEventIds.includes(event.id)
     // eslint-disable-next-line function-paren-newline
   );
@@ -93,6 +100,7 @@ export function EventsSelectorDialog({
           setEnteredEventIds={setWorkingEnteredEventIds}
           isMainEventLocked={isMainEventLocked}
           maxSlots={maxSlots}
+          ageOfShooter={ageOfShooter}
         />
       </DialogContent>
       <DialogActions>

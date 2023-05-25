@@ -151,6 +151,7 @@ export const beginnersSmallBore: ShootingEvent = {
   slots: 1,
   cost: 9.5,
   excludes: 'smallbore',
+  minAge: 12,
 };
 
 export const smallBore: ShootingEvent = {
@@ -161,6 +162,7 @@ export const smallBore: ShootingEvent = {
   slots: 1,
   cost: 11.5,
   excludes: 'beginnerssmallbore',
+  minAge: 12,
 };
 
 export const beginnersTargetSprint: ShootingEvent = {
@@ -213,6 +215,7 @@ export const turningTarget: ShootingEvent = {
   ],
   slots: 1,
   cost: 14.5,
+  minAge: 12,
 };
 
 export const advancedFieldTarget: ShootingEvent = {
