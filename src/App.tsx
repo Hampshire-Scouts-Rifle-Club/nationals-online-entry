@@ -35,22 +35,22 @@ import { logoImage, logoImageAltText } from './CompetitionConstants';
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-const isEntryOpen = false;
+const isEntryOpen = true;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
-    'scoutnationalsentries'
+    'scoutnationalsentries2023'
   );
   const usePersistedCampBookingState = createPersistedState<CampBooking>(
-    'scoutnationalscampbooking'
+    'scoutnationalscampbooking2023'
   );
   const usePersistedOnSiteEmergencyContactState =
     createPersistedState<EmergencyContact>(
-      'scoutnationalsonsitemergencycontact'
+      'scoutnationalsonsitemergencycontact2023'
     );
   const usePersistedOffSiteEmergencyContactState =
     createPersistedState<EmergencyContact>(
-      'scoutnationalsoffsitemergencycontact'
+      'scoutnationalsoffsitemergencycontact2023'
     );
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
