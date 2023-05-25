@@ -162,12 +162,19 @@ export function App(): JSX.Element {
           onSiteEmergencyContact,
           offSiteEmergencyContact,
         };
+
+        const teamEntryIfModificationAllowed =
+          amendingTeamEntry ??
+          submittedTeamEntry ??
+          draftTeamEntry ??
+          teamEntryInLocalStorage;
+
+        const teamEntryIfEntriesClosed =
+          submittedTeamEntry ?? draftTeamEntry ?? teamEntryInLocalStorage;
+
         const initialTeamEntry = isEntryOpen
-          ? amendingTeamEntry
-          : null ??
-            submittedTeamEntry ??
-            draftTeamEntry ??
-            teamEntryInLocalStorage;
+          ? teamEntryIfModificationAllowed
+          : teamEntryIfEntriesClosed;
         setInitialServerTeamEntry(initialTeamEntry);
 
         let newEntryStatus: EntryState = 'draft';
