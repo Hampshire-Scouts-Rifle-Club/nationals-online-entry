@@ -4,3 +4,12 @@ export function calculateAge(dateOfBirth: Date, onDate = Date.now()): number {
 
   return Math.abs(ageAsDate.getUTCFullYear() - 1970);
 }
+
+export function earliestDateOfBirthForAge(
+  age: number,
+  onDate = Date.now()
+): Date {
+  const earliestDate = new Date(onDate);
+  earliestDate.setFullYear(earliestDate.getFullYear() - age);
+  return earliestDate;
+}

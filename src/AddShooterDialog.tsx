@@ -24,7 +24,7 @@ import { FormikErrors, useFormik } from 'formik';
 import { DatePicker } from '@mui/lab';
 import { EmptyShooter, Shooter } from './Shooter';
 import { ConfirmDialog } from './ConfirmDialog';
-import { calculateAge } from './AgeUtils';
+import { calculateAge, earliestDateOfBirthForAge } from './AgeUtils';
 import { CompetitionDate, RoDiscount } from './CompetitionConstants';
 import { InfoDialog } from './InfoDialog';
 
@@ -68,6 +68,7 @@ export function AddShooterDialog({
       firstName: shooter.firstName,
       lastName: shooter.lastName,
       dateOfBirth: shooter.dateOfBirth,
+      isOver18: shooter.isOver18,
       previousCompetitorNumber: shooter.previousCompetitorNumber,
       isRangeOfficer: shooter.isRangeOfficer,
       scoutGroup: shooter.scoutGroup,
@@ -82,6 +83,7 @@ export function AddShooterDialog({
         lastName: values.lastName,
         previousCompetitorNumber: values.previousCompetitorNumber,
         dateOfBirth: values.dateOfBirth,
+        isOver18: values.isOver18,
         scoutGroup: values.scoutGroup,
         county: '',
         isRangeOfficer: isAdultOnCompetitionDate && values.isRangeOfficer,
@@ -93,11 +95,20 @@ export function AddShooterDialog({
     },
     validate: (values) => {
       const errors: FormikErrors<Shooter> = {};
+
+      canSubmit.current = isValid(
+        values.firstName,
+        values.lastName,
+        values.scoutGroup,
+        values.isOver18,
+        values.dateOfBirth
+      );
+
       const hasFirstName = values.firstName.trim().length > 0;
       const hasLastName = values.lastName.trim().length > 0;
       const hasScoutGroup = values.scoutGroup.trim().length > 0;
-
-      canSubmit.current = hasFirstName && hasLastName && hasScoutGroup;
+      const hasValidDateOfBirth =
+        values.isOver18 || !isAdultDuringCompetiton(values.dateOfBirth);
 
       if (!hasFirstName) {
         errors.firstName = 'Required';
@@ -107,6 +118,11 @@ export function AddShooterDialog({
       }
       if (!hasScoutGroup) {
         errors.scoutGroup = 'Required';
+      }
+      if (!hasValidDateOfBirth) {
+        errors.dateOfBirth = `Must be under 18 on ${new Date(
+          CompetitionDate
+        ).toLocaleDateString()}`;
       }
 
       return errors;
@@ -119,6 +135,7 @@ export function AddShooterDialog({
         firstName: shooter.firstName,
         lastName: shooter.lastName,
         dateOfBirth: shooter.dateOfBirth,
+        isOver18: shooter.isOver18,
         previousCompetitorNumber: shooter.previousCompetitorNumber,
         isRangeOfficer: shooter.isRangeOfficer,
         scoutGroup: shooter.scoutGroup,
@@ -127,7 +144,9 @@ export function AddShooterDialog({
     canSubmit.current = isValid(
       shooter.firstName,
       shooter.lastName,
-      shooter.scoutGroup
+      shooter.scoutGroup,
+      shooter.isOver18,
+      shooter.dateOfBirth
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shooter]);
@@ -154,16 +173,9 @@ export function AddShooterDialog({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  let isAdultOnCompetitionDate = true;
-  try {
-    const ageOnCompetitionDate = calculateAge(
-      new Date(formik.values.dateOfBirth),
-      CompetitionDate
-    );
-    isAdultOnCompetitionDate = ageOnCompetitionDate >= 18;
-  } catch {
-    // Ignoring errors parsing incomplete date strings
-  }
+  const isAdultOnCompetitionDate = isAdultDuringCompetiton(
+    formik.values.dateOfBirth
+  );
 
   return (
     <>
@@ -210,71 +222,92 @@ export function AddShooterDialog({
                   onChange={formik.handleChange}
                 />
               </Grid>
-              <div>
-                <Typography variant="subtitle1">
-                  <strong>Under 18</strong>
-                </Typography>
-                <Divider />
-              </div>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  renderInput={(props) => <TextField {...props} />}
-                  className="date-of-birth"
-                  disableFuture
-                  inputFormat="dd/MM/yyyy"
-                  label="Date of birth"
-                  views={['year', 'month', 'day']}
-                  value={
-                    formik.values.dateOfBirth &&
-                    new Date(formik.values.dateOfBirth)
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="isOver18"
+                      checked={formik.values.isOver18}
+                      onChange={formik.handleChange}
+                    />
                   }
-                  onChange={(date) => {
-                    formik.setFieldValue('dateOfBirth', date);
-                  }}
+                  label={`Over 18 on ${new Date(
+                    CompetitionDate
+                  ).toLocaleDateString()}`}
                 />
-              </LocalizationProvider>
-              <TextField
-                id="previousCompetitorNumber"
-                label="Last Year's Competitor Number"
-                value={formik.values.previousCompetitorNumber}
-                onChange={numbersOnlyTextChangeHandler}
-                helperText="For 'most improved' prize"
-                inputProps={{ inputMode: 'numeric', maxLength: '4' }}
-              />
-              <div>
-                <Typography variant="subtitle1">
-                  <strong>Over 18</strong>
-                </Typography>
-                <Divider />
-              </div>
-              <div>
-                <Grid item>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="isRangeOfficer"
-                        disabled={!isAdultOnCompetitionDate}
-                        checked={
-                          isAdultOnCompetitionDate &&
-                          formik.values.isRangeOfficer
-                        }
-                        onChange={formik.handleChange}
-                      />
-                    }
-                    label={`Range officer (£${RoDiscount} discount)`}
+              </Grid>
+              {!formik.values.isOver18 && (
+                <>
+                  <div>
+                    <Typography variant="subtitle1">
+                      <strong>Under 18</strong>
+                    </Typography>
+                    <Divider />
+                  </div>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      renderInput={(props) => <TextField {...props} />}
+                      className="date-of-birth"
+                      disableFuture
+                      minDate={earliestDateOfBirthForAge(18, CompetitionDate)}
+                      inputFormat="dd/MM/yyyy"
+                      label="Date of birth"
+                      views={['year', 'month', 'day']}
+                      value={
+                        formik.values.dateOfBirth &&
+                        new Date(formik.values.dateOfBirth)
+                      }
+                      onChange={(date) => {
+                        formik.setFieldValue('dateOfBirth', date);
+                      }}
+                    />
+                  </LocalizationProvider>
+                  <TextField
+                    id="previousCompetitorNumber"
+                    label="Last Year's Competitor Number"
+                    value={formik.values.previousCompetitorNumber}
+                    onChange={numbersOnlyTextChangeHandler}
+                    helperText="For 'most improved' prize"
+                    inputProps={{ inputMode: 'numeric', maxLength: '4' }}
                   />
-                </Grid>
-                <Typography variant="caption" maxWidth="sm">
-                  We need range officers to be able to run the competition.
-                </Typography>
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => setIsRangeOfficerInfoDialogOpen(true)}
-                >
-                  Learn more
-                </Button>
-              </div>
+                </>
+              )}
+              {formik.values.isOver18 && (
+                <>
+                  <Typography variant="subtitle1">
+                    <strong>Over 18</strong>
+                  </Typography>
+                  <Divider />
+                  <div>
+                    <Grid item>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            name="isRangeOfficer"
+                            disabled={!isAdultOnCompetitionDate}
+                            checked={
+                              isAdultOnCompetitionDate &&
+                              formik.values.isRangeOfficer
+                            }
+                            onChange={formik.handleChange}
+                          />
+                        }
+                        label={`Range officer (£${RoDiscount} discount)`}
+                      />
+                    </Grid>
+                    <Typography variant="caption" maxWidth="sm">
+                      We need range officers to be able to run the competition.
+                    </Typography>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      onClick={() => setIsRangeOfficerInfoDialogOpen(true)}
+                    >
+                      Learn more
+                    </Button>
+                  </div>
+                </>
+              )}
             </Stack>
           </DialogContent>
           <DialogActions>
@@ -322,10 +355,31 @@ export function AddShooterDialog({
   );
 }
 
-function isValid(firstName: string, lastName: string, scoutGroup: string) {
+function isAdultDuringCompetiton(dateOfBirthText: string) {
+  let isAdultOnCompetitionDate = true;
+  try {
+    const ageOnCompetitionDate = calculateAge(
+      new Date(dateOfBirthText),
+      CompetitionDate
+    );
+    isAdultOnCompetitionDate = ageOnCompetitionDate >= 18;
+  } catch {
+    // Ignoring errors parsing incomplete date strings
+  }
+  return isAdultOnCompetitionDate;
+}
+
+function isValid(
+  firstName: string,
+  lastName: string,
+  scoutGroup: string,
+  isOver18: boolean,
+  dateOfBirth: string
+) {
   const hasFirstName = firstName.trim().length > 0;
   const hasLastName = lastName.trim().length > 0;
   const hasScoutGroup = scoutGroup.trim().length > 0;
+  const hasValidDateOfBirth = isOver18 || !isAdultDuringCompetiton(dateOfBirth);
 
-  return hasFirstName && hasLastName && hasScoutGroup;
+  return hasFirstName && hasLastName && hasScoutGroup && hasValidDateOfBirth;
 }

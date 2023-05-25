@@ -3,6 +3,7 @@ export type Shooter = {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
+  isOver18: boolean;
   scoutGroup: string;
   county: string;
   previousCompetitorNumber: string;
@@ -15,6 +16,7 @@ export const EmptyShooter: Shooter = {
   firstName: '',
   lastName: '',
   dateOfBirth: new Date('January 1, 1900 00:00:01').toISOString(),
+  isOver18: false,
   scoutGroup: '',
   county: '',
   previousCompetitorNumber: '',

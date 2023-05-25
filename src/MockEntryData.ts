@@ -24,6 +24,7 @@ export const shooterBillyBloggs: Shooter = {
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: false,
 };
 export const entryBillyBloggs: IndividualEntry = {
   shooter: shooterBillyBloggs,
@@ -44,6 +45,7 @@ export const shooterJohnHolcroft: Shooter = {
   isRangeOfficer: true,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: true,
 };
 export const entryJohnHolcroft: IndividualEntry = {
   shooter: shooterJohnHolcroft,
@@ -68,6 +70,7 @@ export const shooterJonCulshaw: Shooter = {
   isRangeOfficer: true,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: true,
 };
 export const entryJonCulshaw: IndividualEntry = {
   shooter: shooterJonCulshaw,
@@ -92,6 +95,7 @@ export const shooterJamesWest: Shooter = {
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: false,
 };
 export const entryJamesWest: IndividualEntry = {
   shooter: shooterJamesWest,
@@ -115,6 +119,7 @@ export const shooterLukeHolcroft: Shooter = {
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: false,
 };
 export const entryLukeHolcroft: IndividualEntry = {
   shooter: shooterLukeHolcroft,
@@ -140,6 +145,7 @@ export const shooterJennaCulshaw: Shooter = {
   isRangeOfficer: false,
   rangeOfficerProofUrl: '',
   county: 'Surrey',
+  isOver18: true,
 };
 export const entryJennaCulshaw: IndividualEntry = {
   shooter: shooterJennaCulshaw,
