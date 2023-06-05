@@ -209,7 +209,7 @@ export const turningTarget: ShootingEvent = {
     '\n\nCategories',
     '• Junior - under 14s (Hand-held, bench rested)',
     '• Senior- 14 and under 18 (Shooting from the standing position)',
-    '• Adults- 18 and over (Shooting from the standing position',
+    '• Adults- 18 and over (Shooting from the standing position)',
     '\n\nClothing',
     '• Only normal clothing is required i.e. Scout uniform or typical Scout camp gear.  No clothing that can give a shooter additional support can be worn.',
     '\nA physically handicapped person may use individual support if authorised by the range officer.',
