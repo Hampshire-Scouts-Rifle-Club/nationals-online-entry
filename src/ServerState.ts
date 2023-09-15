@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { EntryDatabaseRecord, EntryState } from './EntryDatabaseRecord';
+import { CurrentCompetitionYear } from './CompetitionConstants';
 
 interface ServerEntryDatabaseRecord extends EntryDatabaseRecord {
   teamEntryJson: string;
@@ -161,8 +162,7 @@ export async function readAllEntries(
   authorizationToken: string,
   abortSignal: AbortSignal
 ): Promise<EntryDatabaseRecord[] | undefined> {
-  const baseUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries/2022/submitted';
+  const baseUrl = `https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries/${CurrentCompetitionYear}/submitted`;
   const getUrl = `${baseUrl}`;
 
   const headers = {

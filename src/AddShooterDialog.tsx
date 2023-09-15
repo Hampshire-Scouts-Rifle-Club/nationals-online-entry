@@ -78,13 +78,13 @@ export function AddShooterDialog({
         calculateAge(new Date(formik.values.dateOfBirth), CompetitionDate) >=
         18;
       const newShooter: Shooter = {
-        id: `${values.firstName}-${values.lastName}-${values.scoutGroup}`,
-        firstName: values.firstName,
-        lastName: values.lastName,
+        id: `${values.firstName.trim()}-${values.lastName.trim()}-${values.scoutGroup.trim()}`,
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim(),
         previousCompetitorNumber: values.previousCompetitorNumber,
         dateOfBirth: values.dateOfBirth,
         isOver18: values.isOver18,
-        scoutGroup: values.scoutGroup,
+        scoutGroup: values.scoutGroup.trim(),
         county: '',
         isRangeOfficer: isAdultOnCompetitionDate && values.isRangeOfficer,
         rangeOfficerProofUrl: '',
