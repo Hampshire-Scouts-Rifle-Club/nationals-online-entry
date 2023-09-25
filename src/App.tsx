@@ -106,8 +106,8 @@ export function App(): JSX.Element {
       setUserData(userData);
 
       const ownerEmail = userData?.signInUserSession?.idToken?.payload?.email;
-      // setIsEntryOpen(ownerEmail === 'harley.raine191@gmail.com');
-      setIsEntryOpen(ownerEmail === 'john.holcroft@montreux.co.uk');
+      setIsEntryOpen(ownerEmail === 'harley.raine191@gmail.com');
+      // setIsEntryOpen(ownerEmail === 'john.holcroft@montreux.co.uk');
     } catch (reason: any) {
       setError(reason);
     }
