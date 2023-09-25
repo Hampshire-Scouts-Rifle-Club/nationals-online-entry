@@ -35,7 +35,7 @@ import { logoImage, logoImageAltText } from './CompetitionConstants';
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-const isEntryOpen = true;
+const isEntryOpen = false;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -232,6 +232,21 @@ export function App(): JSX.Element {
 
   const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
   const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
+  const givenName =
+    authUserData?.signInUserSession?.idToken?.payload?.given_name;
+  const familyName =
+    authUserData?.signInUserSession?.idToken?.payload?.family_name;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const fullName = authUserData?.signInUserSession?.idToken?.payload?.name;
+  if (givenName || familyName || fullName) {
+    console.log(`User is ${givenName} ${familyName} (${fullName})`);
+  } else if (ownerEmail) {
+    console.log(`User is ${ownerEmail}`);
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const fullName2 =
+    givenName && familyName ? `${givenName} ${familyName}` : null;
+
   const isNotAuthenticated =
     !ownerEmail ||
     !authToken ||
