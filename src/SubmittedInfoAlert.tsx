@@ -17,13 +17,16 @@ export function SubmittedInfoAlert({
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'Europe/London',
   } as const;
   const dateString = date?.toLocaleDateString(undefined, dateOptions);
-  const closingDateString = EntryClosingDate.toLocaleDateString(
+  const closingDate = new Date(EntryClosingDate.getTime());
+  closingDate.setHours(closingDate.getHours() - 1);
+  const closingDateString = closingDate.toLocaleDateString(
     undefined,
     dateOptions
   );
-  const entriesOpenAlertMessage = `You submitted the following entry on ${dateString}. You can amend the entry until the closing date (${closingDateString}).`;
+  const entriesOpenAlertMessage = `You submitted the following entry on ${dateString}. You can amend the entry until midnight on the closing date (${closingDateString}).`;
   const entriesClosedAlertMessage = `You submitted the following entry on ${dateString}.`;
 
   const alertMessage = areEntriesClosed
