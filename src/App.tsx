@@ -35,7 +35,7 @@ import { logoImage, logoImageAltText } from './CompetitionConstants';
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-const isEntryOpen = false;
+// const isEntryOpen = true;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -52,6 +52,8 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact2023'
     );
+
+  const [isEntryOpen, setIsEntryOpen] = useState(false);
 
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
@@ -100,7 +102,12 @@ export function App(): JSX.Element {
 
   const initialiseUser = useCallback(async () => {
     try {
-      setUserData(await getUser());
+      const userData = await getUser();
+      setUserData(userData);
+
+      const ownerEmail = userData?.signInUserSession?.idToken?.payload?.email;
+      // setIsEntryOpen(ownerEmail === 'harley.raine191@gmail.com');
+      setIsEntryOpen(ownerEmail === 'john.holcroft@montreux.co.uk');
     } catch (reason: any) {
       setError(reason);
     }
@@ -195,7 +202,13 @@ export function App(): JSX.Element {
         }
       }
     },
-    [allEntries, campBooking, offSiteEmergencyContact, onSiteEmergencyContact]
+    [
+      allEntries,
+      campBooking,
+      isEntryOpen,
+      offSiteEmergencyContact,
+      onSiteEmergencyContact,
+    ]
   );
 
   const populateInitialState = useCallback(
