@@ -31,7 +31,7 @@ import { useInterval } from './useInterval';
 import { SubmittedInfoAlert } from './SubmittedInfoAlert';
 import { AmendingInfoAlert } from './AmendingInfoAlert';
 import {
-  EntryClosingDate,
+  // EntryClosingDate,
   logoImage,
   logoImageAltText,
 } from './CompetitionConstants';
@@ -39,8 +39,8 @@ import {
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-const currentUTCDate = new Date(Date.now());
-const isEntryOpen = currentUTCDate < EntryClosingDate;
+// const currentUTCDate = new Date(Date.now());
+// const isEntryOpen = currentUTCDate < EntryClosingDate;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -57,7 +57,7 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact2023'
     );
-
+  const [isEntryOpen, setIsEntryOpen] = useState(false);
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
   );
@@ -107,6 +107,8 @@ export function App(): JSX.Element {
     try {
       const userData = await getUser();
       setUserData(userData);
+      const ownerEmail = userData?.signInUserSession?.idToken?.payload?.email;
+      setIsEntryOpen(ownerEmail === 'julie_plumpton@yahoo.co.uk');
     } catch (reason: any) {
       setError(reason);
     }
@@ -201,7 +203,13 @@ export function App(): JSX.Element {
         }
       }
     },
-    [allEntries, campBooking, offSiteEmergencyContact, onSiteEmergencyContact]
+    [
+      allEntries,
+      campBooking,
+      isEntryOpen,
+      offSiteEmergencyContact,
+      onSiteEmergencyContact,
+    ]
   );
 
   const populateInitialState = useCallback(
