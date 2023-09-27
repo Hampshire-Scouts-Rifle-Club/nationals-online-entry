@@ -28,10 +28,16 @@ export function SubmittedInfoAlert({
   );
   const entriesOpenAlertMessage = `You submitted the following entry on ${dateString}. You can amend the entry until midnight on the closing date (${closingDateString}).`;
   const entriesClosedAlertMessage = `You submitted the following entry on ${dateString}.`;
+  const entriesOpenAfterCloseAlertMessage = `You submitted the following entry on ${dateString}. Entries have officially closed but you are being allowed to modify your entry.`;
+
+  const isClosingDatePassed = new Date() > closingDate;
+  const entriesOpenAlertMessage2 = isClosingDatePassed
+    ? entriesOpenAfterCloseAlertMessage
+    : entriesOpenAlertMessage;
 
   const alertMessage = areEntriesClosed
     ? entriesClosedAlertMessage
-    : entriesOpenAlertMessage;
+    : entriesOpenAlertMessage2;
 
   const action = areEntriesClosed ? null : (
     <Button color="inherit" size="small" onClick={onAmend}>

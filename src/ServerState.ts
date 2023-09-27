@@ -196,3 +196,28 @@ export async function readAllEntries(
 
   return allEntries;
 }
+
+export async function getIfClosingDateOverrideAllowed(
+  ownerEmail: string,
+  abortSignal: AbortSignal
+): Promise<boolean> {
+  const baseUrl =
+    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/canOverrideClosingDate';
+  const safeOwnerEmail = encodeURIComponent(ownerEmail);
+  const getUrl = `${baseUrl}/${safeOwnerEmail}`;
+
+  // const headers = {
+  //   Authorization: authorizationToken,
+  // };
+
+  const response = await axios.get(getUrl, {
+    signal: abortSignal,
+    timeout: 5000,
+  });
+
+  if (response.status === 400) {
+    return false;
+  }
+
+  return Boolean(response.data.canOverride);
+}

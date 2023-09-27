@@ -16,6 +16,7 @@ import { CodeParamRemover } from './CodeParamRemover';
 import {
   amendSubmittedEntry,
   deleteEntry,
+  getIfClosingDateOverrideAllowed,
   readEntry,
   writeEntry,
 } from './ServerState';
@@ -31,6 +32,7 @@ import { useInterval } from './useInterval';
 import { SubmittedInfoAlert } from './SubmittedInfoAlert';
 import { AmendingInfoAlert } from './AmendingInfoAlert';
 import {
+  EntryClosingDate,
   // EntryClosingDate,
   logoImage,
   logoImageAltText,
@@ -39,8 +41,6 @@ import {
 const abortController = new AbortController();
 const isDev = () =>
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-// const currentUTCDate = new Date(Date.now());
-// const isEntryOpen = currentUTCDate < EntryClosingDate;
 
 export function App(): JSX.Element {
   const usePersistedEntriesState = createPersistedState<IndividualEntry[]>(
@@ -57,7 +57,10 @@ export function App(): JSX.Element {
     createPersistedState<EmergencyContact>(
       'scoutnationalsoffsitemergencycontact2023'
     );
-  const [isEntryOpen, setIsEntryOpen] = useState(false);
+
+  const currentUTCDate = new Date(Date.now());
+  const shouldEntryBeOpen = currentUTCDate < EntryClosingDate;
+  const [isEntryOpen, setIsEntryOpen] = useState(shouldEntryBeOpen);
   const [allEntries, setAllEntries] = usePersistedEntriesState(
     [] as IndividualEntry[]
   );
@@ -244,6 +247,19 @@ export function App(): JSX.Element {
     ]
   );
 
+  const unlockClosedEntriesForSpecificUsers = useCallback(
+    async (ownerEmail: string, abortSignal: AbortSignal) => {
+      if (!isEntryOpen) {
+        const isUserAllowedToAmend = await getIfClosingDateOverrideAllowed(
+          ownerEmail,
+          abortSignal
+        );
+        setIsEntryOpen(isUserAllowedToAmend);
+      }
+    },
+    [isEntryOpen]
+  );
+
   const ownerEmail = authUserData?.signInUserSession?.idToken?.payload?.email;
   const authToken = authUserData?.signInUserSession?.idToken?.jwtToken;
   const givenName =
@@ -338,6 +354,8 @@ export function App(): JSX.Element {
     // effect, which is calling setInitialServerTeamEntry, which
     // calling will prevent this effect from running again.
     readInitialState(ownerEmail, authToken, abortController.signal);
+
+    unlockClosedEntriesForSpecificUsers(ownerEmail, abortController.signal);
 
     // We are not returning a clean-up function that allows readInitialState to be aborted.
     // The initialisation goes wrong when we do.
