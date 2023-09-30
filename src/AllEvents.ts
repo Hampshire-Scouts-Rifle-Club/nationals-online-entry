@@ -252,6 +252,7 @@ export const MainEvents = [knockout, airRifle6yd, airPistol6yd, fieldTarget];
 export const MainEventIds = MainEvents.map((event) => event.id);
 export const OptionalEventsRifleSupplied = [
   turningTarget,
+  advancedFieldTarget,
   beginnersSmallBore,
   smallBore,
   beginnersTargetSprint,
@@ -263,7 +264,6 @@ export const OptionalEventsOwnRifle = [
   ownRifle10mSporter,
   ownPistol,
   vintageRifle,
-  advancedFieldTarget,
   threePositionOpen,
   threePositionSporter,
 ];
