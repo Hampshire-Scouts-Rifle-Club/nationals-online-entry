@@ -18,6 +18,7 @@ import {
   deleteEntry,
   getIfClosingDateOverrideAllowed,
   readEntry,
+  withdrawSubmittedEntry,
   writeEntry,
 } from './ServerState';
 import {
@@ -341,6 +342,33 @@ export function App(): JSX.Element {
     ownerEmail,
   ]);
 
+  const withdrawEntry = useCallback(async () => {
+    const teamEntry: TeamEntry = {
+      allEntries,
+      campBooking,
+      onSiteEmergencyContact,
+      offSiteEmergencyContact,
+    };
+    const entryRecord = buildEntryRecord(ownerEmail, 'draft', teamEntry);
+    try {
+      await withdrawSubmittedEntry(
+        entryRecord,
+        authToken,
+        abortController.signal
+      );
+      window.location.reload();
+    } catch (amendEntryError: any) {
+      setError(amendEntryError);
+    }
+  }, [
+    allEntries,
+    authToken,
+    campBooking,
+    offSiteEmergencyContact,
+    onSiteEmergencyContact,
+    ownerEmail,
+  ]);
+
   /**
    * Gets the initial data from the server. Will run on every render,
    * so exits early if not authenticated or we've already got the data.
@@ -441,6 +469,7 @@ export function App(): JSX.Element {
           onSubmitEntry={submitEntry}
           onAmendEntry={amendEntry}
           onDiscardChanges={discardEntryChanges}
+          onWithdrawEntry={withdrawEntry}
           teamEntry={{
             allEntries,
             campBooking,

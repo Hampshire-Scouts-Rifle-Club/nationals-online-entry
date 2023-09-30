@@ -5,14 +5,15 @@ import { TeamEntry } from './TeamEntry';
 import { Permissions } from './Permissions';
 import { EntryClosingDate } from './CompetitionConstants';
 
-interface SubmitEntryProps {
+type SubmitEntryProps = {
   entryStatus: EntryState;
   onSubmitEntry: () => void;
   onAmendEntry: () => void;
   onDiscardChanges: () => void;
+  onWithdrawEntry: () => void;
   teamEntry: TeamEntry;
   isSignedIn: boolean;
-}
+};
 
 const baseErrorMessage = 'To allow the entry to be submitted please:';
 const noEntrantsMessage = 'Enter at least one competitor';
@@ -27,6 +28,7 @@ export function SubmitEntry({
   onSubmitEntry,
   onAmendEntry,
   onDiscardChanges,
+  onWithdrawEntry,
   teamEntry,
   isSignedIn,
 }: SubmitEntryProps) {
@@ -62,7 +64,8 @@ export function SubmitEntry({
     isEntryValid,
     onSubmitEntry,
     onAmendEntry,
-    onDiscardChanges
+    onDiscardChanges,
+    onWithdrawEntry
   );
 
   const isEditing = entryStatus === 'draft' || entryStatus === 'amending';
@@ -91,7 +94,8 @@ function buildActionElement(
   isEntryValid: Boolean,
   onSubmitEntry: () => void,
   onAmendEntry: () => void,
-  onDiscardChanges: () => void
+  onDiscardChanges: () => void,
+  onWithdrawEntry: () => void
 ) {
   const closingDateString = EntryClosingDate.toLocaleDateString();
 
@@ -126,6 +130,9 @@ function buildActionElement(
           </Button>
           <Button variant="text" onClick={onDiscardChanges}>
             Discard Changes
+          </Button>
+          <Button variant="text" onClick={onWithdrawEntry}>
+            Withdraw Entry
           </Button>
         </Stack>
       );

@@ -55,6 +55,28 @@ export async function amendSubmittedEntry(
   return response.status === 200;
 }
 
+export async function withdrawSubmittedEntry(
+  entryRecordJson: string,
+  authorizationToken: string,
+  abortSignal: AbortSignal
+): Promise<boolean> {
+  const putUrl =
+    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/withdrawentry';
+
+  const headers = {
+    Authorization: authorizationToken,
+    'Content-Type': 'application/json',
+  };
+
+  const response = await axios.put(putUrl, entryRecordJson, {
+    headers,
+    signal: abortSignal,
+    timeout: 3000,
+  });
+
+  return response.status === 200;
+}
+
 /**
  * Get an entry from the server for the passed ID.
  *
