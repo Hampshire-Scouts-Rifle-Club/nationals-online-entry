@@ -2,7 +2,7 @@ import { ShootingEvent } from './ShootingEvent';
 
 export const airRifle6ydPcp: ShootingEvent = {
   id: 'airrifle6ydPcp',
-  title: 'Sporter Air Rifle 6yd - Pre-charged',
+  title: '6yd PCP Air Rifle',
   summary: '6yd Sporter Air Rifle using Pre-charged Air Rifles',
   description: [
     '20 shots; 5 at each of four Air 7 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). Rifles to have dioptre or open sights.',
@@ -15,7 +15,7 @@ export const airRifle6ydPcp: ShootingEvent = {
 
 export const airRifle6ydSpringer: ShootingEvent = {
   id: 'airrifle6ydSpringer',
-  title: 'Sporter Air Rifle 6yd - Springer',
+  title: '6yd Springer Air Rifle',
   summary: '6yd Sporter Air Rifle using Springer Air Rifles',
   description: [
     '20 shots; 5 at each of four Air 7 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). Rifles to have dioptre or open sights.',
@@ -28,7 +28,7 @@ export const airRifle6ydSpringer: ShootingEvent = {
 
 export const airPistol6ydPcp: ShootingEvent = {
   id: 'airPistol6ydPcp',
-  title: 'Sporter Air Pistol 6yd - Pre-charged',
+  title: '6yd PCP Air Pistol',
   summary: '6yd Sporter Air Pistol using Pre-charged Air Pistols',
   description: [
     '20 shots; 5 at each of four Air 8 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). In all Pistol events competitors aged 13 and over shall shoot using only one hand. Those aged under 13 may support the pistol with two hands.',
@@ -41,7 +41,7 @@ export const airPistol6ydPcp: ShootingEvent = {
 
 export const airPistol6ydSpringer: ShootingEvent = {
   id: 'airPistol6ydSpringer',
-  title: 'Sporter Air Pistol 6yd - Springer',
+  title: '6yd Springer Air Pistol',
   summary: '6yd Sporter Air Pistol using Springer Air Pistols',
   description: [
     '20 shots; 5 at each of four Air 8 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). In all Pistol events competitors aged 13 and over shall shoot using only one hand. Those aged under 13 may support the pistol with two hands.',
@@ -54,7 +54,7 @@ export const airPistol6ydSpringer: ShootingEvent = {
 
 export const airRifle10mPcp: ShootingEvent = {
   id: 'airrifle10mPcp',
-  title: 'Sporter Air Rifle 10m - Pre-charged',
+  title: '10m PCP Air Rifle',
   summary: '10m Sporter Air Rifle using Pre-charged Air Rifles',
   description: [
     '20 shots; 5 at each of four Air 2 or Air 3 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). Rifles to have dioptre or open sights.',
@@ -67,7 +67,7 @@ export const airRifle10mPcp: ShootingEvent = {
 
 export const airRifle10mSpringer: ShootingEvent = {
   id: 'airrifle10mSpringer',
-  title: 'Sporter Air Rifle 10m - Springer',
+  title: '10m Springer Air Rifle',
   summary: '10m Sporter Air Rifle using Springer Air Rifles',
   description: [
     '20 shots; 5 at each of four Air 2 or Air 3 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). Rifles to have dioptre or open sights.',
@@ -80,7 +80,7 @@ export const airRifle10mSpringer: ShootingEvent = {
 
 export const airPistol10mPcp: ShootingEvent = {
   id: 'airPistol10mPcp',
-  title: 'Sporter Air Pistol 10m - Pre-charged',
+  title: '10m PCP Air Pistol',
   summary: '10m Sporter Air Pistol using Pre-charged Air Pistols',
   description: [
     '20 shots; 5 at each of four Air 8 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). In all Pistol events competitors aged 13 and over shall shoot using only one hand. Those aged under 13 may support the pistol with two hands.',
@@ -93,7 +93,7 @@ export const airPistol10mPcp: ShootingEvent = {
 
 export const airPistol10mSpringer: ShootingEvent = {
   id: 'airPistol10mSpringer',
-  title: 'Sporter Air Pistol 10m - Springer',
+  title: '10m Springer Air Pistol',
   summary: '10m Sporter Air Pistol using Springer Air Pistols',
   description: [
     '20 shots; 5 at each of four Air 8 cards. The best 2 cards will be taken for the competition score (i.e. ex-100). In all Pistol events competitors aged 13 and over shall shoot using only one hand. Those aged under 13 may support the pistol with two hands.',

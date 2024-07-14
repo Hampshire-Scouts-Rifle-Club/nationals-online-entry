@@ -8,12 +8,12 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import React, { useCallback } from "react";
-import { AllEvents } from "./AllEvents";
-import { BaseEntryCost } from "./CompetitionConstants";
-import { EventsSelector } from "./EventsSelectorPostal";
-import { getCostString, sumCost } from "./EventsSummaryBuilder";
+} from '@mui/material';
+import React, { useCallback } from 'react';
+import { AllEvents } from './AllEventsPostal';
+import { BaseEntryCost } from './CompetitionConstants';
+import { EventsSelector } from './EventsSelectorPostal';
+import { getCostString, sumCost } from './EventsSummaryBuilder';
 
 type EventSelectorDialogProps = {
   open: boolean;
@@ -36,7 +36,7 @@ export function EventsSelectorDialog({
   ageOfShooter,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   const [workingEnteredEventIds, setWorkingEnteredEventIds] =
     React.useState(enteredEventIds);
@@ -62,7 +62,7 @@ export function EventsSelectorDialog({
   }, [enteredEventIds, handleClose]);
 
   const eventsEntered = AllEvents.filter(
-    (event) => workingEnteredEventIds.includes(event.id)
+    (event) => workingEnteredEventIds.includes(event.id),
     // eslint-disable-next-line function-paren-newline
   );
 
