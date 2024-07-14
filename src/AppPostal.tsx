@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useEffect, useState } from "react";
-import "./App.css";
-import Container from "@mui/material/Container";
-import useLocalStorageState from "use-local-storage-state";
+import { useCallback, useEffect, useState } from 'react';
+import './App.css';
+import Container from '@mui/material/Container';
+import useLocalStorageState from 'use-local-storage-state';
 import {
   FetchUserAttributesOutput,
   fetchUserAttributes,
   getCurrentUser,
-} from "aws-amplify/auth";
-import { Hub } from "aws-amplify/utils";
-import { Alert, Box, Collapse, Link, Typography } from "@mui/material";
-import { Shooters } from "./Shooters";
-import { TopBar } from "./TopBar";
-import { CampBooking, EmptyCampBooking } from "./CampBooking";
-import { EmergencyContact, EmptyEmergencyContact } from "./EmergencyContact";
-import { IndividualEntry } from "./IndividualEntry";
-import { SaveState } from "./SaveState";
-import { CodeParamRemover } from "./CodeParamRemover";
+} from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
+import { Alert, Box, Collapse, Link, Typography } from '@mui/material';
+import { Shooters } from './Shooters';
+import { TopBar } from './TopBar';
+import { CampBooking, EmptyCampBooking } from './CampBooking';
+import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
+import { IndividualEntry } from './IndividualEntry';
+import { SaveState } from './SaveState';
+import { CodeParamRemover } from './CodeParamRemover';
 import {
   amendSubmittedEntry,
   deleteEntry,
@@ -24,45 +24,45 @@ import {
   readEntry,
   withdrawSubmittedEntry,
   writeEntry,
-} from "./ServerState";
+} from './ServerState';
 import {
   buildEntryId,
   buildEntryRecord,
   EntryState,
-} from "./EntryDatabaseRecord";
-import { TeamEntry } from "./TeamEntry";
-import { SignInPrompt } from "./SignInPrompt";
-import { SubmitEntry } from "./SubmitEntryPostal";
-import { useInterval } from "./useInterval";
-import { SubmittedInfoAlert } from "./SubmittedInfoAlert";
-import { AmendingInfoAlert } from "./AmendingInfoAlert";
+} from './EntryDatabaseRecord';
+import { TeamEntry } from './TeamEntry';
+import { SignInPrompt } from './SignInPrompt';
+import { SubmitEntry } from './SubmitEntryPostal';
+import { useInterval } from './useInterval';
+import { SubmittedInfoAlert } from './SubmittedInfoAlert';
+import { AmendingInfoAlert } from './AmendingInfoAlert';
 import {
   EntryClosingDate,
   logoImage,
   logoImageAltText,
-} from "./CompetitionConstants";
+} from './CompetitionConstants';
 
 const abortController = new AbortController();
 const isDev = import.meta.env.DEV;
 
 export function App(): JSX.Element {
   const [allEntries, setAllEntries] = useLocalStorageState<IndividualEntry[]>(
-    "scoutnationalsentries2024",
-    { defaultValue: [] }
+    'scoutnationalsentries2024',
+    { defaultValue: [] },
   );
   const [campBooking, setCampBooking] = useLocalStorageState<CampBooking>(
-    "scoutnationalscampbooking2024",
-    { defaultValue: EmptyCampBooking }
+    'scoutnationalscampbooking2024',
+    { defaultValue: EmptyCampBooking },
   );
   const [onSiteEmergencyContact, setOnSiteEmergencyContact] =
     useLocalStorageState<EmergencyContact>(
-      "scoutnationalsonsitemergencycontact2024",
-      { defaultValue: EmptyEmergencyContact }
+      'scoutnationalsonsitemergencycontact2024',
+      { defaultValue: EmptyEmergencyContact },
     );
   const [offSiteEmergencyContact, setOffSiteEmergencyContact] =
     useLocalStorageState<EmergencyContact>(
-      "scoutnationalsoffsitemergencycontact2024",
-      { defaultValue: EmptyEmergencyContact }
+      'scoutnationalsoffsitemergencycontact2024',
+      { defaultValue: EmptyEmergencyContact },
     );
 
   const currentUTCDate = new Date(Date.now());
@@ -87,12 +87,12 @@ export function App(): JSX.Element {
   const [isReadyToSaveState, setIsReadyToSaveState] = useState(false);
   const [initialServerTeamEntry, setInitialServerTeamEntry] =
     useState<TeamEntry>();
-  const [entryStatus, setEntryStatus] = useState<EntryState>("draft");
+  const [entryStatus, setEntryStatus] = useState<EntryState>('draft');
   const [initialServerEntryStatus, setInitialServerEntryStatus] =
     useState<EntryState>();
   const [submittedEntryDate, setSubmittedEntryDate] = useState<Date>();
 
-  const isEntryLocked = !isEntryOpen || entryStatus === "submitted";
+  const isEntryLocked = !isEntryOpen || entryStatus === 'submitted';
 
   const getUser = useCallback(async () => {
     try {
@@ -115,29 +115,29 @@ export function App(): JSX.Element {
 
   useEffect(() => {
     Hub.listen(
-      "auth",
+      'auth',
       async ({
         payload: { event, data },
       }: {
         payload: { event: string; data: any };
       }) => {
         switch (event) {
-          case "signIn":
-          case "cognitoHostedUI":
-          case "tokenRefresh":
+          case 'signIn':
+          case 'cognitoHostedUI':
+          case 'tokenRefresh':
             await getUser();
             break;
-          case "signOut":
-          case "oAuthSignOut":
+          case 'signOut':
+          case 'oAuthSignOut':
             setUserAtttributes(undefined);
             break;
-          case "signIn_failure":
-          case "cognitoHostedUI_failure":
+          case 'signIn_failure':
+          case 'cognitoHostedUI_failure':
           default:
             setError(data);
             break;
         }
-      }
+      },
     );
 
     initialiseUser();
@@ -152,15 +152,15 @@ export function App(): JSX.Element {
       try {
         const [amendingTeamEntry] = await getEntryFromServer(
           ownerEmail,
-          "amending",
-          abortSignal
+          'amending',
+          abortSignal,
         );
         const [submittedTeamEntry, submittedDateUpdated] =
-          await getEntryFromServer(ownerEmail, "submitted", abortSignal);
+          await getEntryFromServer(ownerEmail, 'submitted', abortSignal);
         const [draftTeamEntry] = await getEntryFromServer(
           ownerEmail,
-          "draft",
-          abortSignal
+          'draft',
+          abortSignal,
         );
 
         const teamEntryInLocalStorage: TeamEntry = {
@@ -184,19 +184,19 @@ export function App(): JSX.Element {
           : teamEntryIfEntriesClosed;
         setInitialServerTeamEntry(initialTeamEntry);
 
-        let newEntryStatus: EntryState = "draft";
+        let newEntryStatus: EntryState = 'draft';
         const isSubmitted = Boolean(submittedTeamEntry);
-        newEntryStatus = isSubmitted ? "submitted" : newEntryStatus;
+        newEntryStatus = isSubmitted ? 'submitted' : newEntryStatus;
         const isAmending = Boolean(amendingTeamEntry) && isEntryOpen;
-        newEntryStatus = isAmending ? "amending" : newEntryStatus;
+        newEntryStatus = isAmending ? 'amending' : newEntryStatus;
 
         setEntryStatus(newEntryStatus);
         setInitialServerEntryStatus(newEntryStatus);
         setSubmittedEntryDate(submittedDateUpdated);
       } catch (readError: any) {
-        if (readError.message !== "canceled") {
+        if (readError.message !== 'canceled') {
           const moreDescriptiveError = new Error(
-            `getInitialState: ${readError.message}`
+            `getInitialState: ${readError.message}`,
           );
           setError(moreDescriptiveError);
         }
@@ -208,7 +208,7 @@ export function App(): JSX.Element {
       isEntryOpen,
       offSiteEmergencyContact,
       onSiteEmergencyContact,
-    ]
+    ],
   );
 
   const populateInitialState = useCallback(
@@ -240,7 +240,7 @@ export function App(): JSX.Element {
       setCampBooking,
       setOffSiteEmergencyContact,
       setOnSiteEmergencyContact,
-    ]
+    ],
   );
 
   const unlockClosedEntriesForSpecificUsers = useCallback(
@@ -248,12 +248,12 @@ export function App(): JSX.Element {
       if (!isEntryOpen) {
         const isUserAllowedToAmend = await getIfClosingDateOverrideAllowed(
           ownerEmail,
-          abortSignal
+          abortSignal,
         );
         setIsEntryOpen(isUserAllowedToAmend);
       }
     },
-    [isEntryOpen]
+    [isEntryOpen],
   );
 
   const ownerEmail = userAttributes?.email;
@@ -276,7 +276,7 @@ export function App(): JSX.Element {
       if (!ownerEmail) {
         return;
       }
-      const amendingEntryId = buildEntryId(ownerEmail, "amending");
+      const amendingEntryId = buildEntryId(ownerEmail, 'amending');
       await deleteEntry(amendingEntryId);
       window.location.reload();
     } catch (deleteError: any) {
@@ -294,7 +294,7 @@ export function App(): JSX.Element {
       onSiteEmergencyContact,
       offSiteEmergencyContact,
     };
-    const entryRecord = buildEntryRecord(ownerEmail, "submitted", teamEntry);
+    const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
     try {
       await amendSubmittedEntry(entryRecord, abortController.signal);
       window.location.reload();
@@ -319,7 +319,7 @@ export function App(): JSX.Element {
       onSiteEmergencyContact,
       offSiteEmergencyContact,
     };
-    const entryRecord = buildEntryRecord(ownerEmail, "submitted", teamEntry);
+    const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
     try {
       await writeEntry(entryRecord, abortController.signal);
       window.location.reload();
@@ -344,7 +344,7 @@ export function App(): JSX.Element {
       onSiteEmergencyContact,
       offSiteEmergencyContact,
     };
-    const entryRecord = buildEntryRecord(ownerEmail, "draft", teamEntry);
+    const entryRecord = buildEntryRecord(ownerEmail, 'draft', teamEntry);
     try {
       await withdrawSubmittedEntry(entryRecord, abortController.signal);
       window.location.reload();
@@ -403,7 +403,7 @@ export function App(): JSX.Element {
             <img
               src={logoImage}
               alt={logoImageAltText}
-              style={{ width: "192px" }}
+              style={{ width: '192px' }}
             />
           </Link>
         </Box>
@@ -413,18 +413,18 @@ export function App(): JSX.Element {
           </Alert>
         )}
         <Collapse
-          in={error && error.message === "The user is not authenticated"}
+          in={error && error.message === 'The user is not authenticated'}
         >
           <SignInPrompt />
         </Collapse>
-        {entryStatus === "submitted" && (
+        {entryStatus === 'submitted' && (
           <SubmittedInfoAlert
             date={submittedEntryDate}
-            onAmend={() => setEntryStatus("amending")}
+            onAmend={() => setEntryStatus('amending')}
             areEntriesClosed={!isEntryOpen}
           />
         )}
-        {entryStatus === "amending" && (
+        {entryStatus === 'amending' && (
           <AmendingInfoAlert
             date={submittedEntryDate}
             onDiscardChanges={discardEntryChanges}
@@ -474,7 +474,7 @@ export function App(): JSX.Element {
           </Typography>
         </Box>
         <Typography variant="body2">
-          {"For support with this site please email John Holcroft: "}
+          {'For support with this site please email John Holcroft: '}
           <Link href="mailto:john-nsrc@montreux.co.uk">
             john-nsrc@montreux.co.uk
           </Link>
@@ -493,7 +493,7 @@ export function App(): JSX.Element {
 async function getEntryFromServer(
   ownerEmail: string,
   state: EntryState,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
 ): Promise<[TeamEntry, Date] | [undefined, undefined]> {
   try {
     const id = buildEntryId(ownerEmail, state);
@@ -505,7 +505,7 @@ async function getEntryFromServer(
     }
   } catch (error: any) {
     const isBadRequest = error.response.status === 400;
-    const wasCancelled = error.message === "canceled";
+    const wasCancelled = error.message === 'canceled';
     const shouldIgnoreError = isBadRequest || wasCancelled;
     if (!shouldIgnoreError) {
       throw error;

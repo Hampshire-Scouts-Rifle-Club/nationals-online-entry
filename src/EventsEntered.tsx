@@ -1,30 +1,30 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Button from "@mui/material/Button";
-import { Card, CardContent, Typography } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { ShootingEvent } from "./ShootingEvent";
-import { AllEvents } from "./AllEvents";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
+import { Card, CardContent, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ShootingEvent } from './ShootingEvent';
+import { AllEvents } from './AllEventsPostal';
 
 type EventPropsType = {
   enteredEventIds: string[];
   lockedEventIds: string[];
 };
 
-const noDecimalsFormatter = new Intl.NumberFormat("en-GB", {
-  style: "currency",
-  currency: "GBP",
+const noDecimalsFormatter = new Intl.NumberFormat('en-GB', {
+  style: 'currency',
+  currency: 'GBP',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
-const decimalsFormatter = new Intl.NumberFormat("en-GB", {
-  style: "currency",
-  currency: "GBP",
+const decimalsFormatter = new Intl.NumberFormat('en-GB', {
+  style: 'currency',
+  currency: 'GBP',
   minimumFractionDigits: 2,
 });
 
@@ -33,12 +33,12 @@ const totalsStyle = {
 };
 
 const eventTitleStyle = {
-  width: "100%",
+  width: '100%',
 };
 
 function getRemoveButton(
   eventId: string,
-  lockedEventIds: string[]
+  lockedEventIds: string[],
 ): JSX.Element {
   const isEventLocked = lockedEventIds.includes(eventId);
   if (isEventLocked) {
@@ -53,7 +53,7 @@ function getRemoveButton(
         startIcon={<DeleteIcon />}
         onClick={() => {
           // eslint-disable-next-line no-alert
-          alert("clicked");
+          alert('clicked');
         }}
       >
         Remove
@@ -81,7 +81,7 @@ export function EventsEntered({
   lockedEventIds,
 }: EventPropsType): JSX.Element {
   const eventsEntered = AllEvents.filter((event) =>
-    enteredEventIds.includes(event.id)
+    enteredEventIds.includes(event.id),
   );
   return (
     <Card>

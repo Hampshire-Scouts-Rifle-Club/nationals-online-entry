@@ -1,21 +1,21 @@
-import { useCallback, useRef, useState } from "react";
-import "./Shooters.css";
-import { Skeleton, Stack } from "@mui/material";
-import { HeadedSection } from "./HeadedSection";
-import { AddButton } from "./AddButton";
-import { ShootersList } from "./ShootersList";
-import { AddShooterDialog } from "./AddShooterDialogPostal";
-import { EmptyShooter, Shooter } from "./Shooter";
-import { IndividualEntry } from "./IndividualEntry";
-import { EventsSelectorDialog } from "./EventsSelectorDialogPostal";
-import { MainEventIds } from "./AllEvents";
-import { calculateAge } from "./AgeUtils";
+import { useCallback, useRef, useState } from 'react';
+import './Shooters.css';
+import { Skeleton, Stack } from '@mui/material';
+import { HeadedSection } from './HeadedSection';
+import { AddButton } from './AddButton';
+import { ShootersList } from './ShootersList';
+import { AddShooterDialog } from './AddShooterDialogPostal';
+import { EmptyShooter, Shooter } from './Shooter';
+import { IndividualEntry } from './IndividualEntry';
+import { EventsSelectorDialog } from './EventsSelectorDialogPostal';
+import { MainEventIds } from './AllEventsPostal';
+import { calculateAge } from './AgeUtils';
 import {
   CompetitionDate,
   MaxEventSlots,
   MaxRoEventSlots,
   RoDiscount,
-} from "./CompetitionConstants";
+} from './CompetitionConstants';
 
 const EmptyEntry = {
   shooter: EmptyShooter,
@@ -36,16 +36,16 @@ const placeholderShooter = (
       width="auto"
       height={32}
       style={{
-        marginLeft: "-0.5rem",
-        marginRight: "-0.5rem",
-        marginBottom: "1rem",
+        marginLeft: '-0.5rem',
+        marginRight: '-0.5rem',
+        marginBottom: '1rem',
       }}
     />
     <Skeleton
       variant="rectangular"
       width={125}
       height={24}
-      style={{ marginBottom: "0.6rem" }}
+      style={{ marginBottom: '0.6rem' }}
     />
     <>
       <Skeleton variant="text" width="80%" />
@@ -84,7 +84,7 @@ export function Shooters({
       resetDialogs(entry);
       setIsEditShooterOpen(true);
     },
-    [resetDialogs]
+    [resetDialogs],
   );
 
   const handleClickAddShooter = useCallback(() => {
@@ -101,7 +101,7 @@ export function Shooters({
   const setAgeDuringCompetition = (shooterToAdd: Shooter) => {
     const ageOnCompetitionDate = calculateAge(
       new Date(shooterToAdd.dateOfBirth),
-      CompetitionDate
+      CompetitionDate,
     );
     ageInYears.current = ageOnCompetitionDate;
   };
@@ -123,19 +123,19 @@ export function Shooters({
       setAllEntries(allEntries.concat(newEntry));
       resetDialogs();
     },
-    [allEntries, resetDialogs, setAllEntries]
+    [allEntries, resetDialogs, setAllEntries],
   );
 
   const editEntrant = useCallback(
     (newEntry: IndividualEntry) => {
       const allEntriesWithoutChanged = allEntries.filter(
-        (entry) => entry !== entryToEdit
+        (entry) => entry !== entryToEdit,
       );
       const newAllEntries = allEntriesWithoutChanged.concat(newEntry);
       setAllEntries(newAllEntries);
       resetDialogs();
     },
-    [allEntries, entryToEdit, resetDialogs, setAllEntries]
+    [allEntries, entryToEdit, resetDialogs, setAllEntries],
   );
 
   const addNewEntrantWithEventIds = useCallback(
@@ -149,7 +149,7 @@ export function Shooters({
         enteredEventIds: newEnteredEventIds,
       });
     },
-    [addNewEntrant, shooter]
+    [addNewEntrant, shooter],
   );
 
   const editEntrantWithEventIds = useCallback(
@@ -163,18 +163,18 @@ export function Shooters({
         enteredEventIds: newEnteredEventIds,
       });
     },
-    [editEntrant, shooter]
+    [editEntrant, shooter],
   );
 
   const handleDeleteShooter = useCallback(
     (shooterToDelete: Shooter) => {
       const allEntriesWithoutPassedShooter = allEntries.filter(
-        (entry) => entry.shooter !== shooterToDelete
+        (entry) => entry.shooter !== shooterToDelete,
       );
       setAllEntries(allEntriesWithoutPassedShooter);
       resetDialogs();
     },
-    [allEntries, resetDialogs, setAllEntries]
+    [allEntries, resetDialogs, setAllEntries],
   );
 
   return (
