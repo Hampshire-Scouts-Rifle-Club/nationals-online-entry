@@ -1,16 +1,15 @@
-import React from 'react';
-import { Skeleton, Typography } from '@mui/material';
-import { HeadedSection } from './HeadedSection';
-import { EmergencyContact } from './EmergencyContact';
-import { EmergencyContactField } from './EmergencyContactField';
+import { Skeleton, Typography } from "@mui/material";
+import { HeadedSection } from "./HeadedSection";
+import { EmergencyContact } from "./EmergencyContact";
+import { EmergencyContactField } from "./EmergencyContactField";
 
 interface EmergencyContactsPropsType {
   onSiteEmergencyContact: EmergencyContact;
   setOnSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
   offSiteEmergencyContact: EmergencyContact;
   setOffSiteEmergencyContact: (emergencyContact: EmergencyContact) => void;
-  showPlaceHolder: Boolean;
-  isEntryLocked: Boolean;
+  showPlaceHolder: boolean;
+  isEntryLocked: boolean;
 }
 
 export function EmergencyContacts({

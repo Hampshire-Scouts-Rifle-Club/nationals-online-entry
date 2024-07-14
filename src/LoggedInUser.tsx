@@ -1,7 +1,5 @@
-import React from 'react';
-import { Auth } from 'aws-amplify';
-import { Button } from '@mui/material';
-import { useUserContext } from './UserContext';
+import { signInWithRedirect } from "aws-amplify/auth";
+import { Button } from "@mui/material";
 
 export function LoggedInUser(): JSX.Element {
   // const { user } = useUserContext();
@@ -11,22 +9,22 @@ export function LoggedInUser(): JSX.Element {
       variant="outlined"
       size="small"
       color="inherit"
-      onClick={() => Auth.federatedSignIn()}
+      onClick={() => signInWithRedirect()}
     >
       Sign-In
     </Button>
   );
-  const signOut = (
-    <Button
-      variant="outlined"
-      size="small"
-      color="inherit"
-      //   className={classes.button}
-      onClick={() => Auth.signOut()}
-    >
-      Sign-Out
-    </Button>
-  );
+  // const signOut = (
+  //   <Button
+  //     variant="outlined"
+  //     size="small"
+  //     color="inherit"
+  //     //   className={classes.button}
+  //     onClick={() => authSignOut()}
+  //   >
+  //     Sign-Out
+  //   </Button>
+  // );
 
   const uiElement = signIn;
 

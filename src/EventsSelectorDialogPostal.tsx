@@ -8,12 +8,12 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from '@mui/material';
-import React, { useCallback } from 'react';
-import { AllEvents } from './AllEvents';
-import { BaseEntryCost } from './CompetitionConstants';
-import { EventsSelector } from './EventsSelector';
-import { getCostString, sumCost, sumSlots } from './EventsSummaryBuilder';
+} from "@mui/material";
+import React, { useCallback } from "react";
+import { AllEvents } from "./AllEvents";
+import { BaseEntryCost } from "./CompetitionConstants";
+import { EventsSelector } from "./EventsSelectorPostal";
+import { getCostString, sumCost } from "./EventsSummaryBuilder";
 
 type EventSelectorDialogProps = {
   open: boolean;
@@ -32,12 +32,11 @@ export function EventsSelectorDialog({
   enteredEventIds,
   setEnteredEventIds,
   isMainEventLocked,
-  maxSlots,
   discount,
   ageOfShooter,
 }: EventSelectorDialogProps): JSX.Element {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [workingEnteredEventIds, setWorkingEnteredEventIds] =
     React.useState(enteredEventIds);
@@ -67,8 +66,6 @@ export function EventsSelectorDialog({
     // eslint-disable-next-line function-paren-newline
   );
 
-  const totalSlots = sumSlots(eventsEntered);
-
   function buildSummary() {
     const extrasCost = sumCost(eventsEntered) - discount;
     const totalCostString = `${getCostString(BaseEntryCost + extrasCost)}`;
@@ -76,7 +73,6 @@ export function EventsSelectorDialog({
     return (
       <>
         <Typography variant="subtitle2">{totalCostString}</Typography>
-        <Typography variant="subtitle2">{`(${totalSlots} slots of ${maxSlots})`}</Typography>
       </>
     );
   }
@@ -95,7 +91,6 @@ export function EventsSelectorDialog({
           enteredEventIds={workingEnteredEventIds}
           setEnteredEventIds={setWorkingEnteredEventIds}
           isMainEventLocked={isMainEventLocked}
-          maxSlots={maxSlots}
           ageOfShooter={ageOfShooter}
         />
       </DialogContent>

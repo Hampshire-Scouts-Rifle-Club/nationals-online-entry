@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import './CampHelpers.css';
-import { HeadedSection } from './HeadedSection';
-import { AddButton } from './AddButton';
-import { CampHelper, EmptyCampHelper } from './CampHelper';
-import { CampHelpersList } from './CampHelpersList';
-import { AddCampHelperDialog } from './AddCampHelperDialog';
+import { useCallback, useState } from "react";
+import "./CampHelpers.css";
+import { HeadedSection } from "./HeadedSection";
+import { AddButton } from "./AddButton";
+import { CampHelper, EmptyCampHelper } from "./CampHelper";
+import { CampHelpersList } from "./CampHelpersList";
+import { AddCampHelperDialog } from "./AddCampHelperDialog";
 
 type CampHelperProps = {
   campHelpers: CampHelper[];
@@ -15,7 +15,7 @@ export function CampHelpers({
   campHelpers,
   setCampHelpers,
 }: CampHelperProps): JSX.Element {
-  const [isAddCampHelperOpen, setIsAddCampHelperOpen] = React.useState(false);
+  const [isAddCampHelperOpen, setIsAddCampHelperOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
     setIsAddCampHelperOpen(true);

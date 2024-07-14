@@ -1,6 +1,5 @@
-import { Divider, Typography } from '@mui/material';
-import * as React from 'react';
-import { CampHelper } from './CampHelper';
+import { Divider, Typography } from "@mui/material";
+import { CampHelper } from "./CampHelper";
 
 type CampHelpersListProps = {
   campHelpers: CampHelper[];
@@ -46,7 +45,7 @@ export function CampHelpersList({
   return (
     <>
       {campHelperElements}
-      <Divider style={{ display: hasCampHelpers ? '' : 'none' }} />
+      <Divider style={{ display: hasCampHelpers ? "" : "none" }} />
       <Typography variant="caption" paragraph color="textSecondary">
         All adult camp helpers must be listed and have a Scout DBS.
       </Typography>

@@ -1,18 +1,16 @@
-/* eslint-disable indent */
-/* eslint-disable react/jsx-indent */
-import React, { useCallback } from 'react';
-import { Button, Skeleton, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import { HeadedSection } from './HeadedSection';
-import { AddButton } from './AddButton';
-import { BookCampingSpaceDialog } from './BookCampingSpaceDialog';
-import { CampBooking } from './CampBooking';
+import { useCallback, useState } from "react";
+import { Button, Skeleton, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { HeadedSection } from "./HeadedSection";
+import { AddButton } from "./AddButton";
+import { BookCampingSpaceDialog } from "./BookCampingSpaceDialog";
+import { CampBooking } from "./CampBooking";
 
 interface CampBookingProps {
   campBooking: CampBooking;
   setCampBooking: (campBooking: CampBooking) => void;
-  showPlaceHolder: Boolean;
-  isEntryLocked: Boolean;
+  showPlaceHolder: boolean;
+  isEntryLocked: boolean;
 }
 
 export function Camping({
@@ -21,7 +19,7 @@ export function Camping({
   showPlaceHolder,
   isEntryLocked,
 }: CampBookingProps): JSX.Element {
-  const [isCampingSpaceOpen, setIsCampingSpaceOpen] = React.useState(false);
+  const [isCampingSpaceOpen, setIsCampingSpaceOpen] = useState(false);
 
   function handleClickOpen() {
     setIsCampingSpaceOpen(true);
@@ -54,7 +52,7 @@ export function Camping({
     const hasAdditionalInfo = campBooking.anyOtherInfo.trim().length > 0;
     const summaryAdditionalInfo = hasAdditionalInfo
       ? campBooking.anyOtherInfo
-      : 'None';
+      : "None";
 
     return (
       <div key="campbooking">

@@ -1,7 +1,8 @@
-import { Button, Typography } from '@mui/material';
-import React from 'react';
-import { InfoDialog } from './InfoDialog';
-import { ShootingEvent } from './ShootingEvent';
+import { Button, Typography } from "@mui/material";
+
+import { InfoDialog } from "./InfoDialog";
+import { ShootingEvent } from "./ShootingEvent";
+import { useState } from "react";
 
 // The content for a card, but not the card.
 // Title: event
@@ -17,16 +18,16 @@ type EventsDescriptionProps = {
   // removeEvent: (event: ShootingEvent) => void;
 };
 
-const noDecimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
+const noDecimalsFormatter = new Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: "GBP",
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
-const decimalsFormatter = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
+const decimalsFormatter = new Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: "GBP",
   minimumFractionDigits: 2,
 });
 
@@ -37,7 +38,7 @@ function getCostString(cost: number): string {
 }
 
 function getSlotsString(slots: number): string {
-  const slotOrSlots = slots === 1 ? 'slot' : 'slots';
+  const slotOrSlots = slots === 1 ? "slot" : "slots";
   return `${slots} ${slotOrSlots}`;
 }
 
@@ -48,24 +49,24 @@ export function EventDescription({
   showRemoveButton,
 }: // removeEvent,
 EventsDescriptionProps): JSX.Element {
-  const [isInfoDialogOpen, setIsInfoDialogOpen] = React.useState(false);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
 
   return (
     <>
       <Typography variant="h6">{event.title}</Typography>
       <Typography>{event.summary}</Typography>
 
-      <div style={{ marginTop: '1rem' }}>
+      <div style={{ marginTop: "1rem" }}>
         <Typography>{getSlotsString(event.slots)}</Typography>
         <Typography>{event.cost > 0 && getCostString(event.cost)}</Typography>
       </div>
 
-      <div style={{ marginTop: '1rem' }}>
+      <div style={{ marginTop: "1rem" }}>
         <Button
           color="primary"
           variant="outlined"
           size="small"
-          style={{ display: showAddButton ? '' : 'none' }}
+          style={{ display: showAddButton ? "" : "none" }}
         >
           Add
         </Button>
@@ -73,7 +74,7 @@ EventsDescriptionProps): JSX.Element {
           color="primary"
           variant="outlined"
           size="small"
-          style={{ display: showRemoveButton ? '' : 'none' }}
+          style={{ display: showRemoveButton ? "" : "none" }}
         >
           Remove
         </Button>

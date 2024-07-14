@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { IndividualEntry } from './IndividualEntry';
-import { ShootersGroup } from './ShootersGroup';
+import { IndividualEntry } from "./IndividualEntry";
+import { ShootersGroup } from "./ShootersGroup";
 
 interface ShootersProps {
   shooters: IndividualEntry[];
   handleEdit: (entry: IndividualEntry) => void;
-  isReadOnly: Boolean;
+  isReadOnly: boolean;
 }
 
 function buildShootersByScoutGroup(shooters: IndividualEntry[]) {
@@ -58,12 +57,11 @@ export function ShootersList({
 
   const elementsToReturnSortedByGroup = elementsToReturn.sort(
     (elementA, elementB) => {
-      const keyA = elementA.key?.toString() ?? '';
-      const keyB = elementB.key?.toString() ?? '';
+      const keyA = elementA.key?.toString() ?? "";
+      const keyB = elementB.key?.toString() ?? "";
       return keyA.localeCompare(keyB);
     }
   );
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{elementsToReturnSortedByGroup}</>;
 }

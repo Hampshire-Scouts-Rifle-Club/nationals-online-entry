@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Typography,
   Button,
@@ -6,7 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-} from '@mui/material';
+} from "@mui/material";
 
 type InfoDialogProps = {
   title: string;

@@ -11,8 +11,6 @@ import {
 import { Hub } from "aws-amplify/utils";
 import { Alert, Box, Collapse, Link, Typography } from "@mui/material";
 import { Shooters } from "./Shooters";
-import { Camping } from "./Camping";
-import { EmergencyContacts } from "./EmergencyContacts";
 import { TopBar } from "./TopBar";
 import { CampBooking, EmptyCampBooking } from "./CampBooking";
 import { EmergencyContact, EmptyEmergencyContact } from "./EmergencyContact";
@@ -34,7 +32,7 @@ import {
 } from "./EntryDatabaseRecord";
 import { TeamEntry } from "./TeamEntry";
 import { SignInPrompt } from "./SignInPrompt";
-import { SubmitEntry } from "./SubmitEntry";
+import { SubmitEntry } from "./SubmitEntryPostal";
 import { useInterval } from "./useInterval";
 import { SubmittedInfoAlert } from "./SubmittedInfoAlert";
 import { AmendingInfoAlert } from "./AmendingInfoAlert";
@@ -435,24 +433,6 @@ export function App(): JSX.Element {
         <Shooters
           allEntries={allEntries}
           setAllEntries={(newAllEntries) => setAllEntries(newAllEntries)}
-          showPlaceHolder={isWaitingForData}
-          isEntryLocked={isEntryLocked}
-        />
-        <Camping
-          campBooking={campBooking}
-          setCampBooking={(newCampBooking) => setCampBooking(newCampBooking)}
-          showPlaceHolder={isWaitingForData}
-          isEntryLocked={isEntryLocked}
-        />
-        <EmergencyContacts
-          onSiteEmergencyContact={onSiteEmergencyContact}
-          setOnSiteEmergencyContact={(newOnSitEmergencyContact) =>
-            setOnSiteEmergencyContact(newOnSitEmergencyContact)
-          }
-          offSiteEmergencyContact={offSiteEmergencyContact}
-          setOffSiteEmergencyContact={(newOffSitEmergencyContact) =>
-            setOffSiteEmergencyContact(newOffSitEmergencyContact)
-          }
           showPlaceHolder={isWaitingForData}
           isEntryLocked={isEntryLocked}
         />

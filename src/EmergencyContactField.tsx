@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import { AddEmergencyContactDialog } from './AddEmergencyContactDialog';
-import { EmergencyContact } from './EmergencyContact';
+import { useCallback, useState } from "react";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import { AddEmergencyContactDialog } from "./AddEmergencyContactDialog";
+import { EmergencyContact } from "./EmergencyContact";
 
 interface EmergencyContactFieldProps {
   emergencyContact: EmergencyContact;
   setEmergencyContact: (emergencyContact: EmergencyContact) => void;
-  isReadOnly: Boolean;
+  isReadOnly: boolean;
 }
 
 export function EmergencyContactField({
@@ -17,7 +17,7 @@ export function EmergencyContactField({
   isReadOnly,
 }: EmergencyContactFieldProps): JSX.Element {
   const [isAddEmergencyContactDialogOpen, setIsAddEmergencyContactDialogOpen] =
-    React.useState(false);
+    useState(false);
 
   const handleClose = useCallback(() => {
     setIsAddEmergencyContactDialogOpen(false);
@@ -30,7 +30,7 @@ export function EmergencyContactField({
   if (isReadOnly) {
     return (
       <Box marginLeft="1rem" marginBottom="0.5rem">
-        <Typography variant="body2" style={{ display: 'inline', flex: 1 }}>
+        <Typography variant="body2" style={{ display: "inline", flex: 1 }}>
           {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
         </Typography>
       </Box>
@@ -39,23 +39,23 @@ export function EmergencyContactField({
 
   return (
     <Box marginLeft="1rem">
-      <div style={{ display: hasEmergencyContact ? '' : 'none' }}>
+      <div style={{ display: hasEmergencyContact ? "" : "none" }}>
         <Stack direction="row">
-          <Typography variant="body2" style={{ display: 'inline', flex: 1 }}>
+          <Typography variant="body2" style={{ display: "inline", flex: 1 }}>
             {`${emergencyContact.name} ${emergencyContact.contactNumber}`}
           </Typography>
           <Button
             size="small"
             color="secondary"
             startIcon={<EditIcon />}
-            style={{ marginLeft: '1rem' }}
+            style={{ marginLeft: "1rem" }}
             onClick={() => setIsAddEmergencyContactDialogOpen(true)}
           >
             Edit
           </Button>
         </Stack>
       </div>
-      <div style={{ display: hasEmergencyContact ? 'none' : '' }}>
+      <div style={{ display: hasEmergencyContact ? "none" : "" }}>
         <Button
           variant="contained"
           size="small"

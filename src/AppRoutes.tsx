@@ -1,6 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { App } from './App';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { App } from "./AppPostal";
 
 export function AppRoutes() {
   return (

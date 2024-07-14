@@ -1,6 +1,7 @@
-import axios from 'axios';
-import { EntryDatabaseRecord, EntryState } from './EntryDatabaseRecord';
-import { CurrentCompetitionYear } from './CompetitionConstants';
+import axios from "axios";
+import { EntryDatabaseRecord, EntryState } from "./EntryDatabaseRecord";
+import { CurrentCompetitionYear } from "./CompetitionConstants";
+import { fetchAuthSession } from "@aws-amplify/auth";
 
 interface ServerEntryDatabaseRecord extends EntryDatabaseRecord {
   teamEntryJson: string;
@@ -14,14 +15,15 @@ interface ServerEntryState {
 
 export async function writeEntry(
   entryRecordJson: string,
-  authorizationToken: string,
   abortSignal: AbortSignal
 ): Promise<boolean> {
-  const putUrl = 'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
+  const putUrl = "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry";
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   const response = await axios.put(putUrl, entryRecordJson, {
@@ -35,15 +37,16 @@ export async function writeEntry(
 
 export async function amendSubmittedEntry(
   entryRecordJson: string,
-  authorizationToken: string,
   abortSignal: AbortSignal
 ): Promise<boolean> {
   const putUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/amendentry';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/amendentry";
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   const response = await axios.put(putUrl, entryRecordJson, {
@@ -57,15 +60,16 @@ export async function amendSubmittedEntry(
 
 export async function withdrawSubmittedEntry(
   entryRecordJson: string,
-  authorizationToken: string,
   abortSignal: AbortSignal
 ): Promise<boolean> {
   const putUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/withdrawentry';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/withdrawentry";
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   const response = await axios.put(putUrl, entryRecordJson, {
@@ -87,14 +91,15 @@ export async function withdrawSubmittedEntry(
  * @throws On any response from the server that isn't success
  */
 export async function readEntry(
-  authorizationToken: string,
   id: string,
   abortSignal: AbortSignal
 ): Promise<EntryDatabaseRecord | undefined> {
   const baseUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry";
   const safeId = encodeURIComponent(id);
   const getUrl = `${baseUrl}/${safeId}`;
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
@@ -134,14 +139,15 @@ export async function readEntry(
  * @throws On any response from the server that isn't success
  */
 export async function readEntryState(
-  authorizationToken: string,
   ownerEmail: string,
   abortSignal: AbortSignal
 ): Promise<ServerEntryState> {
   const baseUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entrystate';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entrystate";
   const safeOwnerEmail = encodeURIComponent(ownerEmail);
   const getUrl = `${baseUrl}/${safeOwnerEmail}`;
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
@@ -157,14 +163,13 @@ export async function readEntryState(
   return serverEntryState;
 }
 
-export async function deleteEntry(
-  authorizationToken: string,
-  id: string
-): Promise<void> {
+export async function deleteEntry(id: string): Promise<void> {
   const baseUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/entry";
   const safeId = encodeURIComponent(id);
   const deleteUrl = `${baseUrl}/${safeId}`;
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
@@ -181,11 +186,12 @@ export async function deleteEntry(
 }
 
 export async function readAllEntries(
-  authorizationToken: string,
   abortSignal: AbortSignal
 ): Promise<EntryDatabaseRecord[] | undefined> {
   const baseUrl = `https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/allEntries/${CurrentCompetitionYear}/submitted`;
   const getUrl = `${baseUrl}`;
+  const authorizationToken =
+    (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
   const headers = {
     Authorization: authorizationToken,
@@ -224,7 +230,7 @@ export async function getIfClosingDateOverrideAllowed(
   abortSignal: AbortSignal
 ): Promise<boolean> {
   const baseUrl =
-    'https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/canOverrideClosingDate';
+    "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com/canOverrideClosingDate";
   const safeOwnerEmail = encodeURIComponent(ownerEmail);
   const getUrl = `${baseUrl}/${safeOwnerEmail}`;
 

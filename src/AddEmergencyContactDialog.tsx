@@ -74,7 +74,7 @@ export function AddEmergencyContactDialog({
   }, [emergencyContact]);
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <Dialog

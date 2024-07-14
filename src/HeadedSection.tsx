@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react';
-import { Typography, Box } from '@mui/material';
+import { PropsWithChildren } from "react";
+import { Typography, Box } from "@mui/material";
 
 type HeadedSectionProps = {
   title: string;

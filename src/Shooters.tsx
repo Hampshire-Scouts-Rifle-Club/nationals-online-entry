@@ -1,21 +1,21 @@
-import React, { useCallback } from 'react';
-import './Shooters.css';
-import { Skeleton, Stack } from '@mui/material';
-import { HeadedSection } from './HeadedSection';
-import { AddButton } from './AddButton';
-import { ShootersList } from './ShootersList';
-import { AddShooterDialog } from './AddShooterDialog';
-import { EmptyShooter, Shooter } from './Shooter';
-import { IndividualEntry } from './IndividualEntry';
-import { EventsSelectorDialog } from './EventsSelectorDialog';
-import { MainEventIds } from './AllEvents';
-import { calculateAge } from './AgeUtils';
+import { useCallback, useRef, useState } from "react";
+import "./Shooters.css";
+import { Skeleton, Stack } from "@mui/material";
+import { HeadedSection } from "./HeadedSection";
+import { AddButton } from "./AddButton";
+import { ShootersList } from "./ShootersList";
+import { AddShooterDialog } from "./AddShooterDialogPostal";
+import { EmptyShooter, Shooter } from "./Shooter";
+import { IndividualEntry } from "./IndividualEntry";
+import { EventsSelectorDialog } from "./EventsSelectorDialogPostal";
+import { MainEventIds } from "./AllEvents";
+import { calculateAge } from "./AgeUtils";
 import {
   CompetitionDate,
   MaxEventSlots,
   MaxRoEventSlots,
   RoDiscount,
-} from './CompetitionConstants';
+} from "./CompetitionConstants";
 
 const EmptyEntry = {
   shooter: EmptyShooter,
@@ -25,8 +25,8 @@ const EmptyEntry = {
 interface ShootersProps {
   allEntries: IndividualEntry[];
   setAllEntries: (allEntries: IndividualEntry[]) => void;
-  showPlaceHolder?: Boolean;
-  isEntryLocked?: Boolean;
+  showPlaceHolder?: boolean;
+  isEntryLocked?: boolean;
 }
 
 const placeholderShooter = (
@@ -36,16 +36,16 @@ const placeholderShooter = (
       width="auto"
       height={32}
       style={{
-        marginLeft: '-0.5rem',
-        marginRight: '-0.5rem',
-        marginBottom: '1rem',
+        marginLeft: "-0.5rem",
+        marginRight: "-0.5rem",
+        marginBottom: "1rem",
       }}
     />
     <Skeleton
       variant="rectangular"
       width={125}
       height={24}
-      style={{ marginBottom: '0.6rem' }}
+      style={{ marginBottom: "0.6rem" }}
     />
     <>
       <Skeleton variant="text" width="80%" />
@@ -60,18 +60,18 @@ export function Shooters({
   showPlaceHolder = false,
   isEntryLocked = false,
 }: ShootersProps): JSX.Element {
-  const [isAddShooterOpen, setIsAddShooterOpen] = React.useState(false);
-  const [isEventsSelectorOpen, setIsEventsSelectorOpen] = React.useState(false);
-  const [isEditShooterOpen, setIsEditShooterOpen] = React.useState(false);
+  const [isAddShooterOpen, setIsAddShooterOpen] = useState(false);
+  const [isEventsSelectorOpen, setIsEventsSelectorOpen] = useState(false);
+  const [isEditShooterOpen, setIsEditShooterOpen] = useState(false);
   const [isEditEventsSelectorOpen, setIsEditEventsSelectorOpen] =
-    React.useState(false);
-  const isMainEventLocked = React.useRef(true);
-  const ageInYears = React.useRef(0);
+    useState(false);
+  const isMainEventLocked = useRef(true);
+  const ageInYears = useRef(0);
 
-  const [shooter, setShooter] = React.useState(EmptyShooter);
-  const [enteredEventIds, setEnteredEventIds] = React.useState(MainEventIds);
+  const [shooter, setShooter] = useState(EmptyShooter);
+  const [enteredEventIds, setEnteredEventIds] = useState(MainEventIds);
 
-  const [entryToEdit, setEntryToEdit] = React.useState(EmptyEntry);
+  const [entryToEdit, setEntryToEdit] = useState(EmptyEntry);
 
   const resetDialogs = useCallback((to = EmptyEntry) => {
     setShooter(to.shooter);

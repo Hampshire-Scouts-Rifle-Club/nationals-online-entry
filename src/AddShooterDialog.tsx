@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from "react";
 import {
   TextField,
   useTheme,
@@ -16,17 +16,18 @@ import {
   Typography,
   IconButton,
   Box,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { FormikErrors, useFormik } from 'formik';
-import { DatePicker } from '@mui/lab';
-import { EmptyShooter, Shooter } from './Shooter';
-import { ConfirmDialog } from './ConfirmDialog';
-import { calculateAge, earliestDateOfBirthForAge } from './AgeUtils';
-import { CompetitionDate, RoDiscount } from './CompetitionConstants';
-import { InfoDialog } from './InfoDialog';
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import { enGB } from "date-fns/locale";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { FormikErrors, useFormik } from "formik";
+import { EmptyShooter, Shooter } from "./Shooter";
+import { ConfirmDialog } from "./ConfirmDialog";
+import { calculateAge } from "./AgeUtils";
+import { CompetitionDate, RoDiscount } from "./CompetitionConstants";
+import { InfoDialog } from "./InfoDialog";
+import { DatePicker } from "@mui/x-date-pickers";
 
 interface ShooterProps {
   open: boolean;
@@ -40,11 +41,11 @@ interface ShooterProps {
   deleteShooter?: (shooter: Shooter) => void;
 }
 
-const rangeOfficerInfoTitle = 'Range Officers';
+const rangeOfficerInfoTitle = "Range Officers";
 const rangeOfficerInfoParagraphs = [
-  'There is a substantial requirement for Range Officer support in order to operate all of the activities, and all qualified adults will be expected to support that requirement by serving allocated periods on a range.',
-  'To encourage this, a £12 reduction in entry fees can be claimed for all range-officer-qualified adults who provide that level of support.',
-  'The reduction cannot be claimed for any individual if they do not support the requirement for assistance on the ranges.',
+  "There is a substantial requirement for Range Officer support in order to operate all of the activities, and all qualified adults will be expected to support that requirement by serving allocated periods on a range.",
+  "To encourage this, a £12 reduction in entry fees can be claimed for all range-officer-qualified adults who provide that level of support.",
+  "The reduction cannot be claimed for any individual if they do not support the requirement for assistance on the ranges.",
 ];
 
 export function AddShooterDialog({
@@ -85,9 +86,9 @@ export function AddShooterDialog({
         dateOfBirth: values.dateOfBirth,
         isOver18: values.isOver18,
         scoutGroup: values.scoutGroup.trim(),
-        county: '',
+        county: "",
         isRangeOfficer: isAdultOnCompetitionDate && values.isRangeOfficer,
-        rangeOfficerProofUrl: '',
+        rangeOfficerProofUrl: "",
       };
       setShooter(newShooter);
       submitHandler(newShooter);
@@ -111,13 +112,13 @@ export function AddShooterDialog({
         values.isOver18 || !isAdultDuringCompetiton(values.dateOfBirth);
 
       if (!hasFirstName) {
-        errors.firstName = 'Required';
+        errors.firstName = "Required";
       }
       if (!hasLastName) {
-        errors.lastName = 'Required';
+        errors.lastName = "Required";
       }
       if (!hasScoutGroup) {
-        errors.scoutGroup = 'Required';
+        errors.scoutGroup = "Required";
       }
       if (!hasValidDateOfBirth) {
         errors.dateOfBirth = `Must be under 18 on ${new Date(
@@ -161,17 +162,19 @@ export function AddShooterDialog({
     handleClose();
   }, [deleteShooter, handleClose, shooter]);
 
-  const numbersOnlyTextChangeHandler = useCallback(
+  const numbersOnlyTextChangeHandler: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = useCallback(
     (event) => {
       const target = event.currentTarget;
-      target.value = target.value.replace(/[^0-9]/, '');
+      target.value = target.value.replace(/[^0-9]/, "");
       formik.handleChange(event);
     },
     [formik]
   );
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   const isAdultOnCompetitionDate = isAdultDuringCompetiton(
     formik.values.dateOfBirth
@@ -190,12 +193,14 @@ export function AddShooterDialog({
           <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
           <DialogContent>
             <Stack spacing={2} marginTop={1}>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="baseline"
-                spacing={1}
+              <div
+                style={{
+                  display: "flex",
+                  flexFlow: "row nowrap",
+                  justifyContent: "flex-start",
+                  alignItems: "baseline",
+                  gap: "1rem",
+                }}
               >
                 <Grid item>
                   <TextField
@@ -213,7 +218,7 @@ export function AddShooterDialog({
                     onChange={formik.handleChange}
                   />
                 </Grid>
-              </Grid>
+              </div>
               <Grid item>
                 <TextField
                   id="scoutGroup"
@@ -244,21 +249,22 @@ export function AddShooterDialog({
                     </Typography>
                     <Divider />
                   </div>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDateFns}
+                    adapterLocale={enGB}
+                  >
                     <DatePicker
-                      renderInput={(props) => <TextField {...props} />}
                       className="date-of-birth"
                       disableFuture
-                      minDate={earliestDateOfBirthForAge(18, CompetitionDate)}
-                      inputFormat="dd/MM/yyyy"
                       label="Date of birth"
-                      views={['year', 'month', 'day']}
+                      views={["year", "month", "day"]}
                       value={
-                        formik.values.dateOfBirth &&
-                        new Date(formik.values.dateOfBirth)
+                        formik.values.dateOfBirth
+                          ? new Date(formik.values.dateOfBirth)
+                          : null
                       }
                       onChange={(date) => {
-                        formik.setFieldValue('dateOfBirth', date);
+                        formik.setFieldValue("dateOfBirth", date);
                       }}
                     />
                   </LocalizationProvider>
@@ -268,7 +274,7 @@ export function AddShooterDialog({
                     value={formik.values.previousCompetitorNumber}
                     onChange={numbersOnlyTextChangeHandler}
                     helperText="For 'most improved' prize"
-                    inputProps={{ inputMode: 'numeric', maxLength: '4' }}
+                    inputProps={{ inputMode: "numeric", maxLength: "4" }}
                   />
                 </>
               )}
@@ -315,6 +321,7 @@ export function AddShooterDialog({
               <IconButton
                 color="primary"
                 onClick={() => setIsDeleteConfirmationDialogOpen(true)}
+                size="large"
               >
                 <DeleteIcon />
               </IconButton>

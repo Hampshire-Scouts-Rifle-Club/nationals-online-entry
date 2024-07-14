@@ -1,25 +1,24 @@
-import { Button, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import * as React from 'react';
-import { calculateAge } from './AgeUtils';
-import { AllEvents } from './AllEvents';
-import { getCostString, sumCost } from './EventsSummaryBuilder';
-import { Shooter } from './Shooter';
-import { ShootingEvent } from './ShootingEvent';
-import { BaseEntryCost, RoDiscount } from './CompetitionConstants';
+import { Button, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { calculateAge } from "./AgeUtils";
+import { AllEvents } from "./AllEvents";
+import { getCostString, sumCost } from "./EventsSummaryBuilder";
+import { Shooter } from "./Shooter";
+import { ShootingEvent } from "./ShootingEvent";
+import { BaseEntryCost, RoDiscount } from "./CompetitionConstants";
 
 interface ShooterSummaryProps {
   shooter: Shooter;
   enteredEventIds: string[];
   handleEdit: () => void;
-  isReadOnly: Boolean;
+  isReadOnly: boolean;
 }
 
 function getShooterAgeAndStatusString(shooter: Shooter): string {
   const shooterAge = calculateAge(new Date(shooter.dateOfBirth));
 
   if (shooterAge >= 18) {
-    return shooter.isRangeOfficer ? 'Adult, RO' : 'Adult';
+    return shooter.isRangeOfficer ? "Adult, RO" : "Adult";
   }
 
   return `${shooterAge} years`;
@@ -30,7 +29,7 @@ function getEventsEntered(eventsEntered: ShootingEvent[]): string {
     (shootingEvent) => shootingEvent.title
   );
 
-  return allEventTitles.join(', ');
+  return allEventTitles.join(", ");
 }
 
 export function ShooterSummary({
@@ -50,14 +49,14 @@ export function ShooterSummary({
         gutterBottom
         variant="h6"
         component="h3"
-        style={{ display: 'inline' }}
+        style={{ display: "inline" }}
       >
         {`${shooter.firstName} ${shooter.lastName}`}
       </Typography>
       <Typography
         variant="body2"
         color="textSecondary"
-        style={{ marginLeft: '1rem', display: 'inline' }}
+        style={{ marginLeft: "1rem", display: "inline" }}
       >
         {getShooterAgeAndStatusString(shooter)}
       </Typography>
@@ -66,7 +65,7 @@ export function ShooterSummary({
           color="secondary"
           size="small"
           // variant="outlined"
-          style={{ float: 'right' }}
+          style={{ float: "right" }}
           startIcon={<EditIcon />}
           onClick={() => handleEdit()}
         >

@@ -5,8 +5,7 @@ import {
   DialogActions,
   Button,
   Typography,
-} from '@mui/material';
-import React from 'react';
+} from "@mui/material";
 
 interface ConfirmDialogProps {
   title: string;
@@ -19,7 +18,7 @@ interface ConfirmDialogProps {
 export function ConfirmDialog({
   title,
   description,
-  confirmText = 'OK',
+  confirmText = "OK",
   open,
   handleClose,
   onConfirm,

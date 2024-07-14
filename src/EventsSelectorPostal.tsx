@@ -6,13 +6,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
-import { IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { IconButton, useMediaQuery, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import { ShootingEvent } from "./ShootingEvent";
-import { AllEvents, AllEventsInCategories } from "./AllEvents";
-import { getCostString, sumSlots } from "./EventsSummaryBuilder";
+import { AllEvents, AllEventsInCategories } from "./AllEventsPostal";
+import { getCostString } from "./EventsSummaryBuilder";
 import { InfoDialog } from "./InfoDialog";
 import "./EventsSelector.css";
 
@@ -20,7 +20,6 @@ interface EventsSelectorProps {
   enteredEventIds: string[];
   setEnteredEventIds: (eventIds: string[]) => void;
   isMainEventLocked: boolean;
-  maxSlots: number;
   ageOfShooter: number;
 }
 
@@ -33,7 +32,6 @@ export function EventsSelector({
   enteredEventIds,
   setEnteredEventIds,
   isMainEventLocked,
-  maxSlots,
   ageOfShooter,
 }: EventsSelectorProps): JSX.Element {
   const [infoDialogTitle, setInfoDialogTitle] = useState("");
@@ -56,7 +54,6 @@ export function EventsSelector({
             <TableRow>
               <TableCell />
               <TableCell />
-              <TableCell align="center">Slots</TableCell>
               {showCost && <TableCell align="right">Cost</TableCell>}
               <TableCell />
             </TableRow>
@@ -64,9 +61,8 @@ export function EventsSelector({
           <TableBody>
             {events.map((event) => (
               <TableRow key={event.id}>
-                {getEventActionButton(event.id, showAddRemove, event.slots)}
+                {getEventActionButton(event.id, showAddRemove)}
                 <TableCell style={eventTitleStyle}>{event.title}</TableCell>
-                <TableCell align="center">{event.slots}</TableCell>
                 {showCost && (
                   <TableCell align="right">
                     {getCostString(event.cost)}
@@ -104,18 +100,11 @@ export function EventsSelector({
 
   excludedEventIds.push(...ageExcludedEvents.map((event) => event.id));
 
-  const eventsEntered = AllEvents.filter((event) =>
-    enteredEventIds.includes(event.id)
-  );
-  const slotsUsed = sumSlots(eventsEntered);
-
   function getEventActionButton(
     eventId: string,
-    showAddRemove: boolean,
-    slotCount: number
+    showAddRemove: boolean
   ): JSX.Element {
     const isEventEntered = enteredEventIds.includes(eventId);
-    const isEventExcluded = excludedEventIds.includes(eventId);
 
     const removeButton = isSmall ? (
       <IconButton
@@ -153,7 +142,6 @@ export function EventsSelector({
       );
     }
 
-    const willExceedMaxSlots = slotsUsed + slotCount > maxSlots;
     if (!isEventEntered && showAddRemove) {
       return (
         <TableCell component="th" scope="row">
@@ -161,7 +149,6 @@ export function EventsSelector({
             size="small"
             color="secondary"
             startIcon={<AddIcon />}
-            disabled={isEventExcluded || willExceedMaxSlots}
             onClick={() => {
               const newEnteredEventIds = enteredEventIds.concat(eventId);
               setEnteredEventIds(newEnteredEventIds);
@@ -200,18 +187,18 @@ export function EventsSelector({
 
   const categorisedEventElements: JSX.Element[] = [];
   AllEventsInCategories.forEach((eventsInCategory, categoryName) => {
-    const titleKey = `${categoryName}Title`;
-    categorisedEventElements.push(
-      <Typography
-        gutterBottom
-        variant="h6"
-        component="h2"
-        key={titleKey}
-        paddingX="24px"
-      >
-        {categoryName}
-      </Typography>
-    );
+    // const titleKey = `${categoryName}Title`;
+    // categorisedEventElements.push(
+    //   <Typography
+    //     gutterBottom
+    //     variant="h6"
+    //     component="h2"
+    //     key={titleKey}
+    //     paddingX="24px"
+    //   >
+    //     {categoryName}
+    //   </Typography>
+    // );
     const isMainEvent = categoryName.startsWith("Main");
     const showAddRemoveButton = !(isMainEvent && isMainEventLocked);
     const showCost = !isMainEvent;

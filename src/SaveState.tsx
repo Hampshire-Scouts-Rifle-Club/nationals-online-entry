@@ -1,18 +1,17 @@
-import { Alert, Snackbar, Typography } from '@mui/material';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { CampBooking } from './CampBooking';
-import { EmergencyContact } from './EmergencyContact';
-import { buildEntryRecord, EntryState } from './EntryDatabaseRecord';
-import { IndividualEntry } from './IndividualEntry';
-import { writeEntry } from './ServerState';
-import { TeamEntry } from './TeamEntry';
+import { Alert, Snackbar, Typography } from "@mui/material";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CampBooking } from "./CampBooking";
+import { EmergencyContact } from "./EmergencyContact";
+import { buildEntryRecord, EntryState } from "./EntryDatabaseRecord";
+import { IndividualEntry } from "./IndividualEntry";
+import { writeEntry } from "./ServerState";
+import { TeamEntry } from "./TeamEntry";
 
 interface SaveStateProps {
   allEntries: IndividualEntry[];
   campBooking: CampBooking;
   onSiteEmergencyContact: EmergencyContact;
   offSiteEmergencyContact: EmergencyContact;
-  authToken?: string;
   ownerEmail?: string;
   entryStatus: EntryState;
   initialServerState: TeamEntry;
@@ -26,7 +25,6 @@ export function SaveState({
   campBooking,
   onSiteEmergencyContact,
   offSiteEmergencyContact,
-  authToken,
   ownerEmail,
   initialServerState,
   entryStatus,
@@ -44,33 +42,28 @@ export function SaveState({
   const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
   const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
 
-  const haveAuthToken = authToken !== undefined && authToken.trim().length > 0;
   const haveOwnerEmail =
     ownerEmail !== undefined && ownerEmail.trim().length > 0;
-  const canSaveToApi = haveAuthToken && haveOwnerEmail;
-  const shouldSaveToApi = entryStatus === 'draft' || entryStatus === 'amending';
+  const canSaveToApi = haveOwnerEmail;
+  const shouldSaveToApi = entryStatus === "draft" || entryStatus === "amending";
 
   const newEntryRecordJson = buildEntryRecord(
-    ownerEmail ?? '',
+    ownerEmail ?? "",
     entryStatus,
     teamEntry
   );
   const initialServerEntryRecordJson = buildEntryRecord(
-    ownerEmail ?? '',
-    initialServerEntryStatus ?? 'unsaved',
+    ownerEmail ?? "",
+    initialServerEntryStatus ?? "unsaved",
     initialServerState
   );
   const savedEntryRecord = useRef(initialServerEntryRecordJson);
 
   const writeStateToApi = useCallback(
-    async (
-      entryRecordJson: string,
-      authorizationToken: string
-    ): Promise<void> => {
+    async (entryRecordJson: string): Promise<void> => {
       try {
         const success = await writeEntry(
           entryRecordJson,
-          authorizationToken,
           abortController.signal
         );
 
@@ -79,6 +72,7 @@ export function SaveState({
           errorRef.current = undefined;
           setIsSuccessAlertOpen(true);
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (reason: any) {
         errorRef.current = reason;
         setIsErrorAlertOpen(true);
@@ -94,7 +88,7 @@ export function SaveState({
     if (!canSaveToApi || !shouldSaveToApi || upToDate) return;
 
     const writeOut = async () => {
-      await writeStateToApi(newEntryRecordJson, authToken);
+      await writeStateToApi(newEntryRecordJson);
     };
     writeOut();
   });
@@ -112,7 +106,7 @@ export function SaveState({
         <Alert
           onClose={handleSuccessAlertClose}
           severity="success"
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           Saved
         </Alert>
@@ -125,7 +119,7 @@ export function SaveState({
         <Alert
           onClose={handleErrorAlertClose}
           severity="error"
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           {errorRef.current?.message}
         </Alert>
