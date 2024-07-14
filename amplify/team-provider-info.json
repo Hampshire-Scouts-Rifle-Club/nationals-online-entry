@@ -1,14 +1,14 @@
 {
-  "prod": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-nationalsonlineentry-prod-e1f14-authRole",
-      "UnauthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-prod-e1f14-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-prod-e1f14-authRole",
+      "AuthRoleName": "amplify-nationalsonlineentry-dev-8e986-authRole",
+      "UnauthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-dev-8e986-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::274672405337:role/amplify-nationalsonlineentry-dev-8e986-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-nationalsonlineentry-prod-e1f14-deployment",
-      "UnauthRoleName": "amplify-nationalsonlineentry-prod-e1f14-unauthRole",
-      "StackName": "amplify-nationalsonlineentry-prod-e1f14",
-      "StackId": "arn:aws:cloudformation:eu-west-1:274672405337:stack/amplify-nationalsonlineentry-prod-e1f14/f54736e0-41f6-11ef-96e8-0a735c5148b7",
+      "DeploymentBucketName": "amplify-nationalsonlineentry-dev-8e986-deployment",
+      "UnauthRoleName": "amplify-nationalsonlineentry-dev-8e986-unauthRole",
+      "StackName": "amplify-nationalsonlineentry-dev-8e986",
+      "StackId": "arn:aws:cloudformation:eu-west-1:274672405337:stack/amplify-nationalsonlineentry-dev-8e986/931338a0-41f8-11ef-8def-0692a33721d1",
       "AmplifyAppId": "dd90rqrhlulcl"
     },
     "categories": {
