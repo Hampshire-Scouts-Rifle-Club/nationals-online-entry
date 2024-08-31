@@ -34,7 +34,7 @@ type TopBarProps = {
 export function TopBar({ email }: TopBarProps): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const { signInUrl, signOut } = getSignInOut();
+  const { signOut } = getSignInOut();
 
   const [searchParams] = useSearchParams();
   const showDevControls = searchParams.get('dev') !== null;
