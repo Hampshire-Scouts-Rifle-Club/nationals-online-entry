@@ -1,12 +1,13 @@
-import { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { useSearchParams } from "react-router-dom";
-import { Container, Menu, MenuItem } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { getSignInOut } from "./SignInSignOut";
+import { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { useSearchParams } from 'react-router-dom';
+import { Container, Menu, MenuItem } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getSignInOut } from './SignInSignOut';
+import { signInWithRedirect } from 'aws-amplify/auth';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -36,11 +37,11 @@ export function TopBar({ email }: TopBarProps): JSX.Element {
   const { signInUrl, signOut } = getSignInOut();
 
   const [searchParams] = useSearchParams();
-  const showDevControls = searchParams.get("dev") !== null;
+  const showDevControls = searchParams.get('dev') !== null;
 
   const titleBarText = showDevControls
-    ? "Competition Entry - DEV"
-    : "Competition Entry";
+    ? 'Competition Entry - DEV'
+    : 'Competition Entry';
 
   const handleShowMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -63,7 +64,7 @@ export function TopBar({ email }: TopBarProps): JSX.Element {
                 variant="text"
                 color="inherit"
                 // size="small"
-                sx={{ textTransform: "none" }}
+                sx={{ textTransform: 'none' }}
                 onClick={handleShowMenu}
                 endIcon={<ExpandMoreIcon />}
               >
@@ -75,7 +76,10 @@ export function TopBar({ email }: TopBarProps): JSX.Element {
                 variant="outlined"
                 size="small"
                 color="inherit"
-                href={signInUrl}
+                // href={signInUrl}
+                onClick={() => {
+                  signInWithRedirect();
+                }}
               >
                 Sign In
               </Button>
@@ -84,13 +88,13 @@ export function TopBar({ email }: TopBarProps): JSX.Element {
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               open={Boolean(anchorEl)}
               onClose={handleCloseMenu}
