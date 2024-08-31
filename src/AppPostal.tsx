@@ -65,6 +65,8 @@ export function App(): JSX.Element {
       { defaultValue: EmptyEmergencyContact },
     );
 
+  const [debugInfo, setDebugInfo] = useState('');
+
   const currentUTCDate = new Date(Date.now());
   const shouldEntryBeOpen = currentUTCDate < EntryClosingDate;
   const [isEntryOpen, setIsEntryOpen] = useState(shouldEntryBeOpen);
@@ -105,10 +107,13 @@ export function App(): JSX.Element {
 
   const initialiseUser = useCallback(async () => {
     try {
+      console.log('Initialising user');
+      setDebugInfo('Initialising user');
       const authData = await getUser();
       console.log('User:', JSON.stringify(authData));
       const userAttributes = await fetchUserAttributes();
       console.log('User attributes:', JSON.stringify(userAttributes));
+      setDebugInfo('User attributes: ' + JSON.stringify(userAttributes));
       setUserAtttributes(userAttributes);
     } catch (reason: any) {
       setError(reason);
@@ -397,7 +402,7 @@ export function App(): JSX.Element {
 
   return (
     <div className="App">
-      <CodeParamRemover />
+      {/* <CodeParamRemover /> */}
       <TopBar resetHandler={handleReset} email={userAttributes?.email} />
       <Container maxWidth="md">
         <Box textAlign="center">
@@ -486,6 +491,9 @@ export function App(): JSX.Element {
           <Link href="mailto:championships@hampshirescoutrifleclub.org.uk">
             championships@hampshirescoutrifleclub.org.uk
           </Link>
+        </Typography>
+        <Typography variant="body2" paddingBottom="2rem">
+          {debugInfo}
         </Typography>
       </Container>
     </div>
