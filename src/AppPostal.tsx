@@ -105,8 +105,10 @@ export function App(): JSX.Element {
 
   const initialiseUser = useCallback(async () => {
     try {
-      await getUser();
+      const authData = await getUser();
+      console.log('User:', JSON.stringify(authData));
       const userAttributes = await fetchUserAttributes();
+      console.log('User attributes:', JSON.stringify(userAttributes));
       setUserAtttributes(userAttributes);
     } catch (reason: any) {
       setError(reason);
