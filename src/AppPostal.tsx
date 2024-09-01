@@ -43,7 +43,7 @@ import {
 } from './CompetitionConstants';
 
 const abortController = new AbortController();
-const isDev = import.meta.env.DEV;
+const isDev = true; // import.meta.env.DEV;
 
 export function App(): JSX.Element {
   const [allEntries, setAllEntries] = useLocalStorageState<IndividualEntry[]>(
@@ -414,13 +414,11 @@ export function App(): JSX.Element {
             />
           </Link>
         </Box>
-        {
-          /* isDev && */ error !== undefined && (
-            <Alert severity="error" onClose={() => setError(undefined)}>
-              {error.message}
-            </Alert>
-          )
-        }
+        {isDev && error !== undefined && (
+          <Alert severity="error" onClose={() => setError(undefined)}>
+            {error.message}
+          </Alert>
+        )}
         <Collapse
           in={
             error &&
