@@ -16,7 +16,7 @@ import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
 import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
-// import { CodeParamRemover } from './CodeParamRemover';
+import { CodeParamRemover } from './CodeParamRemover';
 import {
   amendSubmittedEntry,
   deleteEntry,
@@ -43,7 +43,7 @@ import {
 } from './CompetitionConstants';
 
 const abortController = new AbortController();
-const isDev = true; // import.meta.env.DEV;
+const isDev = import.meta.env.DEV;
 
 export function App(): JSX.Element {
   const [allEntries, setAllEntries] = useLocalStorageState<IndividualEntry[]>(
@@ -64,8 +64,6 @@ export function App(): JSX.Element {
       'scoutnationalsoffsitemergencycontact2024',
       { defaultValue: EmptyEmergencyContact },
     );
-
-  const [debugInfo, setDebugInfo] = useState('');
 
   const currentUTCDate = new Date(Date.now());
   const shouldEntryBeOpen = currentUTCDate < EntryClosingDate;
@@ -107,16 +105,11 @@ export function App(): JSX.Element {
 
   const initialiseUser = useCallback(async () => {
     try {
-      // console.log('Initialising user');
-      setDebugInfo('Initialising user');
-      const { username, userId } = await getCurrentUser();
-      setDebugInfo("User's username: " + username + ', userId: ' + userId);
-      const userAttributes = await fetchUserAttributes();
-      setDebugInfo('User attributes: ' + JSON.stringify(userAttributes));
-      setUserAtttributes(userAttributes);
+      await getCurrentUser();
+      const userAttributesData = await fetchUserAttributes();
+      setUserAtttributes(userAttributesData);
     } catch (reason: any) {
       setError(reason);
-      setDebugInfo('Error initialising user: ' + reason);
     }
   }, [getUser]);
 
@@ -402,7 +395,7 @@ export function App(): JSX.Element {
 
   return (
     <div className="App">
-      {/* <CodeParamRemover /> */}
+      <CodeParamRemover />
       <TopBar resetHandler={handleReset} email={userAttributes?.email} />
       <Container maxWidth="md">
         <Box textAlign="center">
@@ -423,7 +416,7 @@ export function App(): JSX.Element {
           in={
             error &&
             (error.message === 'The user is not authenticated' ||
-              error.message.includes('UserUnAuthenticatedException'))
+              error.name === 'UserUnAuthenticatedException')
           }
         >
           <SignInPrompt />
@@ -495,9 +488,6 @@ export function App(): JSX.Element {
           <Link href="mailto:championships@hampshirescoutrifleclub.org.uk">
             championships@hampshirescoutrifleclub.org.uk
           </Link>
-        </Typography>
-        <Typography variant="body2" paddingBottom="2rem">
-          {debugInfo}
         </Typography>
       </Container>
     </div>
