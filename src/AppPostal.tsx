@@ -414,13 +414,19 @@ export function App(): JSX.Element {
             />
           </Link>
         </Box>
-        {isDev && error !== undefined && (
-          <Alert severity="error" onClose={() => setError(undefined)}>
-            {error.message}
-          </Alert>
-        )}
+        {
+          /* isDev && */ error !== undefined && (
+            <Alert severity="error" onClose={() => setError(undefined)}>
+              {error.message}
+            </Alert>
+          )
+        }
         <Collapse
-          in={error && error.message === 'The user is not authenticated'}
+          in={
+            error &&
+            (error.message === 'The user is not authenticated' ||
+              error.message.includes('UserUnAuthenticatedException'))
+          }
         >
           <SignInPrompt />
         </Collapse>
