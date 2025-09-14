@@ -47,21 +47,21 @@ const isDev = import.meta.env.DEV;
 
 export function App(): JSX.Element {
   const [allEntries, setAllEntries] = useLocalStorageState<IndividualEntry[]>(
-    'scoutnationalsentries2024',
+    'scoutnationalsentries2025',
     { defaultValue: [] },
   );
   const [campBooking, setCampBooking] = useLocalStorageState<CampBooking>(
-    'scoutnationalscampbooking2024',
+    'scoutnationalscampbooking2025',
     { defaultValue: EmptyCampBooking },
   );
   const [onSiteEmergencyContact, setOnSiteEmergencyContact] =
     useLocalStorageState<EmergencyContact>(
-      'scoutnationalsonsitemergencycontact2024',
+      'scoutnationalsonsitemergencycontact2025',
       { defaultValue: EmptyEmergencyContact },
     );
   const [offSiteEmergencyContact, setOffSiteEmergencyContact] =
     useLocalStorageState<EmergencyContact>(
-      'scoutnationalsoffsitemergencycontact2024',
+      'scoutnationalsoffsitemergencycontact2025',
       { defaultValue: EmptyEmergencyContact },
     );
 
