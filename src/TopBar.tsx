@@ -76,7 +76,6 @@ export function TopBar({ email }: TopBarProps): JSX.Element {
                 variant="outlined"
                 size="small"
                 color="inherit"
-                // href={signInUrl}
                 onClick={() => {
                   signInWithRedirect();
                 }}

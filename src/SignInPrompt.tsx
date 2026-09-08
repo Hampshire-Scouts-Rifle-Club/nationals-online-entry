@@ -1,13 +1,18 @@
 import { Alert, Button } from '@mui/material';
-import { getSignInOut } from './SignInSignOut';
+import { signInWithRedirect } from 'aws-amplify/auth';
 
 export function SignInPrompt() {
-  const { signInUrl } = getSignInOut();
   return (
     <Alert
       severity="info"
       action={
-        <Button color="inherit" size="small" href={signInUrl}>
+        <Button
+          color="inherit"
+          size="small"
+          onClick={() => {
+            signInWithRedirect();
+          }}
+        >
           Sign in
         </Button>
       }
