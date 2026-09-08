@@ -2,11 +2,12 @@
 // This file contains the API endpoint configuration for the NSRC Entry System
 
 export const API_CONFIG = {
-  // New SAM-managed API Gateway endpoint
-  BASE_URL: "https://c64ult16k5.execute-api.eu-west-1.amazonaws.com/prod",
+  // SAM-managed HTTP API in the HSRC account (274672405337)
+  BASE_URL: "https://wzflfa60ij.execute-api.eu-west-1.amazonaws.com",
 
-  // Legacy endpoint (for reference/rollback)
-  // LEGACY_BASE_URL: "https://hx8lk8jh57.execute-api.eu-west-1.amazonaws.com",
+  // Previous endpoints, both dead:
+  //   hx8lk8jh57 — hand-created HTTP API, its Lambda deleted
+  //   c64ult16k5 — REST API deployed to the wrong account in Sept 2025
 } as const;
 
 // Helper function to construct API URLs
