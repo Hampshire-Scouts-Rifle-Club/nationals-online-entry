@@ -38,6 +38,7 @@ import { SubmittedInfoAlert } from './SubmittedInfoAlert';
 import { AmendingInfoAlert } from './AmendingInfoAlert';
 import {
   EntryClosingDate,
+  EntryOpeningDate,
   logoImage,
   logoImageAltText,
 } from './CompetitionConstants';
@@ -66,7 +67,8 @@ export function App(): JSX.Element {
     );
 
   const currentUTCDate = new Date(Date.now());
-  const shouldEntryBeOpen = currentUTCDate < EntryClosingDate;
+  const shouldEntryBeOpen =
+    currentUTCDate >= EntryOpeningDate && currentUTCDate < EntryClosingDate;
   const [isEntryOpen, setIsEntryOpen] = useState(shouldEntryBeOpen);
 
   const handleReset = useCallback(() => {

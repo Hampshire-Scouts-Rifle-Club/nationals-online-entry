@@ -1,24 +1,39 @@
 export const CurrentCompetitionYear = '2026';
 
-// PROVISIONAL — the organisers have not confirmed the 2026 dates.
-// CompetitionDate is not cosmetic: ages are calculated against it and decide
-// the over-18 / 14-18 / under-14 bands that gate event eligibility, so this
-// must be replaced with the real date before the form is opened.
-export const CompetitionDate = Date.parse('2027-01-30T00:00Z');
+// The competition is on 23 November 2026. Ages are calculated against this
+// date and decide the over-18 / 14-18 / under-14 bands that gate event
+// eligibility, so it is not cosmetic.
+export const CompetitionDate = Date.parse('2026-11-23T00:00Z');
 
-// The form is deliberately CLOSED. AppPostal.tsx opens it on
-// `now < EntryClosingDate` alone, so any future date here opens the form to
-// the public. This sentinel keeps it shut; specific addresses are unlocked
-// through the closing-date-override table instead. Opening the form for real
-// is a one-line change to this date, once the organisers confirm.
-export const EntryClosingDate = new Date('2000-01-01T00:00:00Z');
-export const GracePeriodEntryClosingDate = new Date('2000-01-01T00:00:00Z');
+// The entry window. AppPostal.tsx opens the form on
+// `EntryOpeningDate <= now < EntryClosingDate`, so both ends matter.
+//
+// Both are written as the UTC instant of midnight UK local time, per the
+// convention in docs/annual-rollover.md:
+//   opening — midnight BST on 1 October 2026, which is 23:00Z on 30
+//             September.
+//   closing — the day after the intended close of 21 November 2026, at
+//             01:00:00Z. November is GMT, so this gives entrants an hour
+//             past midnight rather than closing exactly at midnight. That
+//             errs in the entrant's favour and is the existing convention;
+//             do not change it without telling the organisers.
+//
+// Individual addresses can be let in outside this window through the
+// closing-date-override table, which unlocks both ends of it.
+export const EntryOpeningDate = new Date('2026-09-30T23:00:00Z');
+export const EntryClosingDate = new Date('2026-11-22T01:00:00Z');
 
-// Still the 2025 artwork: no 2026 logo exists in public/ yet. This constant
-// and the file in public/ must change together and match byte for byte —
-// that mismatch was B3.
-export const logoImage = 'NSRC 2025 Logo.svg';
-export const logoImageAltText = 'National Scout Rifle Postal Competition 2025';
+// Declared in all four copies of this file and read by nothing — see D9 in
+// docs/backlog.md. Kept aligned with EntryClosingDate for consistency; it
+// does not extend anyone's deadline.
+export const GracePeriodEntryClosingDate = new Date('2026-11-22T01:00:00Z');
+
+// The 2026 artwork is an SVG and is present in both this repository's
+// public/ and the deployed fork's, so both copies of this file now name the
+// same file. This constant and the file must match byte for byte — that
+// mismatch was B3.
+export const logoImage = 'NSRC 2026 Logo.svg';
+export const logoImageAltText = 'National Scout Rifle Postal Competition 2026';
 
 export const BaseEntryCost = 5;
 export const MaxEventSlots = 8;
