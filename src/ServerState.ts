@@ -142,7 +142,7 @@ export async function readEntryState(
 ): Promise<ServerEntryState> {
   const baseUrl = getApiUrl("/entrystate");
   const safeOwnerEmail = encodeURIComponent(ownerEmail);
-  const getUrl = `${baseUrl}/${safeOwnerEmail}`;
+  const getUrl = `${baseUrl}/${CurrentCompetitionYear}/${safeOwnerEmail}`;
   const authorizationToken =
     (await fetchAuthSession()).tokens?.idToken?.toString() ?? "";
 
