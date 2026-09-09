@@ -2,7 +2,10 @@ import { Alert, Button, Stack, Typography } from "@mui/material";
 import { EntryState } from "./EntryDatabaseRecord";
 import { TeamEntry } from "./TeamEntry";
 import { EntryClosingDate } from "./CompetitionConstants";
-import { formatClosingDateTime } from "./EntryClosingDateFormat";
+import {
+  formatClosingInstant,
+  formatIntendedClosingDay,
+} from "./EntryClosingDateFormat";
 
 type SubmitEntryProps = {
   entryStatus: EntryState;
@@ -65,7 +68,8 @@ function buildActionElement(
   onDiscardChanges: () => void,
   onWithdrawEntry: () => void
 ) {
-  const closingDateString = formatClosingDateTime(EntryClosingDate);
+  const closingInstant = formatClosingInstant(EntryClosingDate);
+  const intendedClosingDay = formatIntendedClosingDay(EntryClosingDate);
 
   switch (entryStatus) {
     case "draft":
@@ -80,8 +84,9 @@ function buildActionElement(
           </Button>
           <Typography align="center">
             <em>
-              You can amend your entry up to the closing date (
-              {closingDateString}).
+              Entries close at {closingInstant} — in practice, the end of{" "}
+              {intendedClosingDay}. You can amend your entry any time before
+              then.
             </em>
           </Typography>
         </>
