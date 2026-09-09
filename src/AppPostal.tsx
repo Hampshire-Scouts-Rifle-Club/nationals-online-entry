@@ -14,6 +14,8 @@ import { Shooters } from './Shooters';
 import { TopBar } from './TopBar';
 import { CampBooking, EmptyCampBooking } from './CampBooking';
 import { EmergencyContact, EmptyEmergencyContact } from './EmergencyContact';
+import { EmptyPostalAddress, PostalAddress } from './PostalAddress';
+import { MedalAddress } from './MedalAddress';
 import { IndividualEntry } from './IndividualEntry';
 import { SaveState } from './SaveState';
 import { CodeParamRemover } from './CodeParamRemover';
@@ -65,6 +67,10 @@ export function App(): JSX.Element {
       'scoutnationalsoffsitemergencycontact2025',
       { defaultValue: EmptyEmergencyContact },
     );
+  const [medalPostalAddress, setMedalPostalAddress] =
+    useLocalStorageState<PostalAddress>('scoutnationalsmedaladdress2026', {
+      defaultValue: EmptyPostalAddress,
+    });
 
   const currentUTCDate = new Date(Date.now());
   const shouldEntryBeOpen =
@@ -76,11 +82,13 @@ export function App(): JSX.Element {
     setCampBooking(EmptyCampBooking);
     setOnSiteEmergencyContact(EmptyEmergencyContact);
     setOffSiteEmergencyContact(EmptyEmergencyContact);
+    setMedalPostalAddress(EmptyPostalAddress);
   }, [
     setAllEntries,
     setCampBooking,
     setOnSiteEmergencyContact,
     setOffSiteEmergencyContact,
+    setMedalPostalAddress,
   ]);
 
   const [userAttributes, setUserAtttributes] =
@@ -170,6 +178,7 @@ export function App(): JSX.Element {
           campBooking,
           onSiteEmergencyContact,
           offSiteEmergencyContact,
+          medalPostalAddress,
         };
 
         const teamEntryIfModificationAllowed =
@@ -208,6 +217,7 @@ export function App(): JSX.Element {
       allEntries,
       campBooking,
       isEntryOpen,
+      medalPostalAddress,
       offSiteEmergencyContact,
       onSiteEmergencyContact,
     ],
@@ -220,6 +230,7 @@ export function App(): JSX.Element {
         campBooking: serverCampBooking,
         onSiteEmergencyContact: serverOnSiteEmergencyContact,
         offSiteEmergencyContact: serverOffSiteEmergencyContact,
+        medalPostalAddress: serverMedalPostalAddress,
       } = teamEntry;
 
       if (serverAllEntries) {
@@ -234,12 +245,16 @@ export function App(): JSX.Element {
       if (serverOffSiteEmergencyContact) {
         setOffSiteEmergencyContact(serverOffSiteEmergencyContact);
       }
+      if (serverMedalPostalAddress) {
+        setMedalPostalAddress(serverMedalPostalAddress);
+      }
 
       setIsReadyToSaveState(true);
     },
     [
       setAllEntries,
       setCampBooking,
+      setMedalPostalAddress,
       setOffSiteEmergencyContact,
       setOnSiteEmergencyContact,
     ],
@@ -295,6 +310,7 @@ export function App(): JSX.Element {
       campBooking,
       onSiteEmergencyContact,
       offSiteEmergencyContact,
+      medalPostalAddress,
     };
     const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
     try {
@@ -306,6 +322,7 @@ export function App(): JSX.Element {
   }, [
     allEntries,
     campBooking,
+    medalPostalAddress,
     offSiteEmergencyContact,
     onSiteEmergencyContact,
     ownerEmail,
@@ -320,6 +337,7 @@ export function App(): JSX.Element {
       campBooking,
       onSiteEmergencyContact,
       offSiteEmergencyContact,
+      medalPostalAddress,
     };
     const entryRecord = buildEntryRecord(ownerEmail, 'submitted', teamEntry);
     try {
@@ -331,6 +349,7 @@ export function App(): JSX.Element {
   }, [
     allEntries,
     campBooking,
+    medalPostalAddress,
     offSiteEmergencyContact,
     onSiteEmergencyContact,
     ownerEmail,
@@ -345,6 +364,7 @@ export function App(): JSX.Element {
       campBooking,
       onSiteEmergencyContact,
       offSiteEmergencyContact,
+      medalPostalAddress,
     };
     const entryRecord = buildEntryRecord(ownerEmail, 'draft', teamEntry);
     try {
@@ -356,6 +376,7 @@ export function App(): JSX.Element {
   }, [
     allEntries,
     campBooking,
+    medalPostalAddress,
     offSiteEmergencyContact,
     onSiteEmergencyContact,
     ownerEmail,
@@ -442,6 +463,12 @@ export function App(): JSX.Element {
           showPlaceHolder={isWaitingForData}
           isEntryLocked={isEntryLocked}
         />
+        <MedalAddress
+          medalPostalAddress={medalPostalAddress}
+          setMedalPostalAddress={setMedalPostalAddress}
+          showPlaceHolder={isWaitingForData}
+          isEntryLocked={isEntryLocked}
+        />
         <SubmitEntry
           entryStatus={entryStatus}
           onSubmitEntry={submitEntry}
@@ -453,6 +480,7 @@ export function App(): JSX.Element {
             campBooking,
             onSiteEmergencyContact,
             offSiteEmergencyContact,
+            medalPostalAddress,
           }}
           isSignedIn={!isNotAuthenticated}
         />
@@ -462,6 +490,7 @@ export function App(): JSX.Element {
             campBooking={campBooking}
             onSiteEmergencyContact={onSiteEmergencyContact}
             offSiteEmergencyContact={offSiteEmergencyContact}
+            medalPostalAddress={medalPostalAddress}
             ownerEmail={ownerEmail}
             initialServerState={initialServerTeamEntry}
             entryStatus={entryStatus}

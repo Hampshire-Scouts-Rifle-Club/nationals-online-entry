@@ -4,6 +4,7 @@ import { CampBooking } from "./CampBooking";
 import { EmergencyContact } from "./EmergencyContact";
 import { buildEntryRecord, EntryState } from "./EntryDatabaseRecord";
 import { IndividualEntry } from "./IndividualEntry";
+import { PostalAddress } from "./PostalAddress";
 import { writeEntry } from "./ServerState";
 import { TeamEntry } from "./TeamEntry";
 
@@ -12,6 +13,8 @@ interface SaveStateProps {
   campBooking: CampBooking;
   onSiteEmergencyContact: EmergencyContact;
   offSiteEmergencyContact: EmergencyContact;
+  // Absent in an in-person year, where App.tsx collects no medal address.
+  medalPostalAddress?: PostalAddress;
   ownerEmail?: string;
   entryStatus: EntryState;
   initialServerState: TeamEntry;
@@ -25,6 +28,7 @@ export function SaveState({
   campBooking,
   onSiteEmergencyContact,
   offSiteEmergencyContact,
+  medalPostalAddress,
   ownerEmail,
   initialServerState,
   entryStatus,
@@ -35,6 +39,7 @@ export function SaveState({
     campBooking,
     onSiteEmergencyContact,
     offSiteEmergencyContact,
+    medalPostalAddress,
   };
 
   const errorRef = useRef<Error>();

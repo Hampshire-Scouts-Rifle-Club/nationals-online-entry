@@ -1,6 +1,7 @@
 import { Alert, Button, Stack, Typography } from "@mui/material";
 import { EntryState } from "./EntryDatabaseRecord";
 import { TeamEntry } from "./TeamEntry";
+import { isPostalAddressComplete } from "./PostalAddress";
 import { EntryClosingDate } from "./CompetitionConstants";
 
 type SubmitEntryProps = {
@@ -15,6 +16,7 @@ type SubmitEntryProps = {
 
 const baseErrorMessage = "To allow the entry to be submitted please:";
 const noEntrantsMessage = "Enter at least one competitor";
+const noMedalAddressMessage = "Give an address to post the medals to";
 const notSignedInMessage = "Sign in";
 const readyToSubmitMessage = "This entry can be submitted";
 
@@ -28,9 +30,14 @@ export function SubmitEntry({
   isSignedIn,
 }: SubmitEntryProps) {
   const hasEntrants = teamEntry.allEntries.length > 0;
-  const isEntryValid = hasEntrants && isSignedIn;
+  const hasMedalAddress = isPostalAddressComplete(teamEntry.medalPostalAddress);
+  const isEntryValid = hasEntrants && hasMedalAddress && isSignedIn;
 
-  const errorMessageElement = buildErrorMessage(hasEntrants, isSignedIn);
+  const errorMessageElement = buildErrorMessage(
+    hasEntrants,
+    hasMedalAddress,
+    isSignedIn
+  );
 
   const actionElement = buildActionElement(
     entryStatus,
@@ -110,13 +117,17 @@ function buildActionElement(
 
 function buildErrorMessage(
   hasEntrants: boolean,
-
+  hasMedalAddress: boolean,
   isSignedIn: boolean
 ) {
   const buildErrorElement = (hideMessage: boolean, message: string) =>
     hideMessage ? <div /> : <li>{message}</li>;
 
   const noEntrantsElement = buildErrorElement(hasEntrants, noEntrantsMessage);
+  const noMedalAddressElement = buildErrorElement(
+    hasMedalAddress,
+    noMedalAddressMessage
+  );
   const isSignedInElement = buildErrorElement(isSignedIn, notSignedInMessage);
 
   const errorMessageElement = (
@@ -124,6 +135,7 @@ function buildErrorMessage(
       {baseErrorMessage}
       <ul>
         {noEntrantsElement}
+        {noMedalAddressElement}
         {isSignedInElement}
       </ul>
     </>
