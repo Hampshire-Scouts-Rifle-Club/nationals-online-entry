@@ -4,6 +4,7 @@ import { EntryState } from './EntryDatabaseRecord';
 import { TeamEntry } from './TeamEntry';
 import { Permissions } from './Permissions';
 import { EntryClosingDate } from './CompetitionConstants';
+import { formatClosingDateTime } from './EntryClosingDateFormat';
 
 type SubmitEntryProps = {
   entryStatus: EntryState;
@@ -97,7 +98,7 @@ function buildActionElement(
   onDiscardChanges: () => void,
   onWithdrawEntry: () => void
 ) {
-  const closingDateString = EntryClosingDate.toLocaleDateString();
+  const closingDateString = formatClosingDateTime(EntryClosingDate);
 
   switch (entryStatus) {
     case 'draft':
