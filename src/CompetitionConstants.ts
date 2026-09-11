@@ -10,8 +10,12 @@ export const CompetitionDate = Date.parse('2026-11-23T00:00Z');
 //
 // Both are written as the UTC instant of midnight UK local time, per the
 // convention in docs/annual-rollover.md:
-//   opening — midnight BST on 1 October 2026, which is 23:00Z on 30
-//             September.
+//   opening — TEMPORARILY midnight BST on 11 September 2026 (23:00Z on
+//             10 September) so the form can be tested end to end before
+//             launch. The real opening is midnight BST on 1 October 2026,
+//             which is 23:00Z on 30 September — restore
+//             `2026-09-30T23:00:00Z` before launch; tracked as D36 in
+//             docs/backlog.md.
 //   closing — the day after the intended close of 21 November 2026, at
 //             01:00:00Z. November is GMT, so this gives entrants an hour
 //             past midnight rather than closing exactly at midnight. That
@@ -20,7 +24,7 @@ export const CompetitionDate = Date.parse('2026-11-23T00:00Z');
 //
 // Individual addresses can be let in outside this window through the
 // closing-date-override table, which unlocks both ends of it.
-export const EntryOpeningDate = new Date('2026-09-30T23:00:00Z');
+export const EntryOpeningDate = new Date('2026-09-10T23:00:00Z');
 export const EntryClosingDate = new Date('2026-11-22T01:00:00Z');
 
 // Declared in all four copies of this file and read by nothing — see D9 in
