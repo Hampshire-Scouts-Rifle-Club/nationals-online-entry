@@ -39,7 +39,12 @@ export const GracePeriodEntryClosingDate = new Date('2026-11-22T01:00:00Z');
 export const logoImage = 'NSRC 2026 Logo.svg';
 export const logoImageAltText = 'National Scout Rifle Postal Competition 2026';
 
-export const BaseEntryCost = 5;
+// The published entry fee is £5 including one event, then £1 per further
+// event. That is modelled as a £4 base plus every event's catalogue cost
+// (AllEventsPostal.ts, £1 each), so this is the published fee less the one
+// included event — not the figure printed in the rules. Do not "correct" it
+// to 5: that overcharges every shooter by £1.
+export const BaseEntryCost = 4;
 export const MaxEventSlots = 8;
 export const MaxRoEventSlots = 8;
 export const RoDiscount = 0;
